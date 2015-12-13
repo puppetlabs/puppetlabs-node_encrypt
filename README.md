@@ -11,7 +11,7 @@ visible in the change events?
 
 This module will encrypt values for each node specifically, using their own
 certificates. This means that not only do you not have plain text secrets, but
-each node's can decrypt only its own secrets.
+each node can decrypt only its own secrets.
 
 What precisely does that mean? A resource that looks like this will never have
 the contents of the file in the catalog or in any reports.
