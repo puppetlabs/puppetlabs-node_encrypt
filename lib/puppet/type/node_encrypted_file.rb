@@ -17,13 +17,19 @@ Puppet::Type.newtype(:node_encrypted_file) do
     desc 'The path of the managed file'
     validate do |value|
       unless Puppet::Util.absolute_path?(value)
-        fail Puppet::Error, "Directory tree paths must be fully qualified, not '#{value}'"
+        fail Puppet::ParseError, "Paths must be fully qualified, not '#{value}'"
       end
     end
   end
 
   newproperty(:content) do
     desc 'Content for the file encrypted with the node_encrypt() function.'
+
+    validate do |value|
+      unless Puppet_X::Binford2k::NodeEncrypt.encrypted? value
+        raise Puppet::ParseError, 'Pass only encrypted ciphertext to node_encrypted_file.'
+      end
+    end
 
     munge do |value|
       # This happens on the agent side, so yay?

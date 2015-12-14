@@ -2,6 +2,7 @@
 
 1. [Overview](#overview)
 1. [Usage](#usage)
+1. [Ecosystem](#ecosystem)
 
 ## Overview
 
@@ -47,9 +48,82 @@ encrypted blocks on the CA using the `puppet node encrypt` face.
     * This can be used to generate text to pass to other types if/when they add
       support for this module.
 
+The simplest usage is like the example shown in the [Overview](#overview). This
+defined type accepts most of the standard file parameters and simply encrypts the
+file contents in the catalog.
+
+    # puppet agent -t
+    Info: Using configured environment 'production'
+    Info: Retrieving pluginfacts
+    Info: Retrieving plugin
+    Info: Loading facts
+    Info: Caching catalog for master.puppetlabs.vm
+    Info: Applying configuration version '1450109738'
+    Notice: /Stage[main]/Main/Node[default]/Node_encrypt::File[/tmp/foo]/Node_encrypted_file[/tmp/foo]/ensure: created
+    Notice: Applied catalog in 9.33 seconds
+    # echo blah > /tmp/foo
+    # puppet agent -t
+    Info: Using configured environment 'production'
+    Info: Retrieving pluginfacts
+    Info: Retrieving plugin
+    Info: Loading facts
+    Info: Caching catalog for master.puppetlabs.vm
+    Info: Applying configuration version '1450109821'
+    Notice: /Stage[main]/Main/Node[default]/Node_encrypt::File[/tmp/foo]/Node_encrypted_file[/tmp/foo]/content: content changed '<<encrypted>>' to '<<encrypted>>'
+    Notice: Applied catalog in 7.61 seconds
+
+If you'd like to pre-encrypt your data, you can pass it as the `encrypted_content`
+instead. The ciphertext can be stored directly in your manifest file, in Hiera,
+or anywhere else you'd like. Note that if you choose to do this, the ciphertext
+is encrypted specifically for each node. You cannot share secrets amongst nodes.
+
+```Puppet
+node_encrypt::file { '/tmp/foo':
+  owner             => 'root',
+  group             => 'root',
+  encrypted_content => hiera('encrypted_foo'),
+}
+```
+
+The ciphertext can be generated on the CA using the `puppet node encrypt` command.
+
+    # puppet node encrypt -t testhost.puppetlabs.vm "encrypt some text"
+    -----BEGIN PKCS7-----
+    MIIMqwYJKoZIhvcNAQcDoIIMnDCCDJgCAQAxggJ7MIICdwIBADBfMFoxWDBWBgNV
+    BAMMT1B1cHBldCBDQSBnZW5lcmF0ZWQgb24gcHVwcGV0ZmFjdG9yeS5wdXBwZXRs
+    [...]
+    MbxinAGtO0eF4i8ova9MJykDPe600IY2b9ZY4mIskDqvHS9bVoK4fJGuRWAXiVBY
+    bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
+    ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
+    -----END PKCS7-----
+
+## Ecosystem
+
+#### What about [Hiera eyaml](https://github.com/TomPoulton/hiera-eyaml)?
+
+Does this project replace that tool?
+
+Not at all. They exist in different problem spaces.  Hiera eyaml is intended to
+protect your secrets on-disk and in your repository.  With Hiera eyaml, you can
+add secrets to your codebase without having to secure the entire codebase.
+Having access to the code doesn't mean having access to the secrets in that code.
+
+But the secrets are still exposed in the catalog and in reports. This means you
+should be protecting them instead. `node_encrypt` addresses that problem. The two
+projects happily coexist. You can (and should) use `eyaml` to store your secrets
+on disk, while you use `node_encrypt` to protect the rest of the pipeline.
+
+#### Integration with other tools
+
+This was designed to make it easy to integrate support into other tooling. For
+example, [this pull request](https://github.com/richardc/puppet-datacat/pull/17/files)
+adds transparent encryption support to _rc's popular `datacat` module.
+
 ## Disclaimer
 
-I take no liability for the use of this module. 
+I take no liability for the use of this module. As this uses standard Ruby and
+OpenSSL libraries, it should work anywhere Puppet itself does. I have not yet
+validated on anything other than CentOS, though.
 
 Contact
 -------

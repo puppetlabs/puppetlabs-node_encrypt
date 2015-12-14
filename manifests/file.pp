@@ -19,6 +19,7 @@ define node_encrypt::file (
   $backup                  = undef,
   $checksum                = undef,
   $content                 = undef,
+  $encrypted_content       = undef,
   $force                   = undef,
   $group                   = undef,
   $owner                   = undef,
@@ -33,6 +34,10 @@ define node_encrypt::file (
 ) {
   unless $ensure in [ 'absent', 'present', 'file'] {
     fail("Node_encrypt::File[${title}] invalid value for ensure")
+  }
+
+  if $content and $encrypted_content {
+    fail("Node_encrypt::File[${title}] pass only one of content and encrypted_content")
   }
 
   file { $title:
@@ -53,8 +58,13 @@ define node_encrypt::file (
   }
 
   unless $ensure == 'absent' {
+    $real_content = $content ? {
+      undef   => $encrypted_content,
+      default => node_encrypt($content),
+    }
+
     node_encrypted_file { $title:
-      content => node_encrypt($content),
+      content => $real_content,
       before  => File[$title], # let the File resource do all the work for us
     }
   }

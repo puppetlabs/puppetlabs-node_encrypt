@@ -1,0 +1,7 @@
+0.1.1
+  * Validate that plaintext is not passed to node_encrypted_file.
+  * Add ability to pass pre-encrypted ciphertext to node_encrypt::file.
+  * More docs and better specs.
+
+0.1.0
+  * Initial release.
