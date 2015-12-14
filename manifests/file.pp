@@ -69,4 +69,6 @@ define node_encrypt::file (
     }
   }
 
+  Node_encrypt::File<| title == $title |> { content => '<<encrypted>>' }
+
 }

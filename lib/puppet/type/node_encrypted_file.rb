@@ -36,4 +36,9 @@ Puppet::Type.newtype(:node_encrypted_file) do
       Puppet_X::Binford2k::NodeEncrypt::Value.new(value)
     end
   end
+
+  autobefore(:file) do
+      self[:path]
+  end
+
 end
