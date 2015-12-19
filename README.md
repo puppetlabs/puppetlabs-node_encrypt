@@ -31,7 +31,8 @@ used to programmatically generate the encrypted block.
 
 **Note**: Because it requires access to each node's signed certificates, this is
 only useful on the CA node unless you distribute certificates or generate
-encrypted blocks on the CA using the `puppet node encrypt` face.
+encrypted blocks on the CA using the `puppet node encrypt` face. There is a class
+included to automate the public certificate distribution.
 
 ## Usage
 
@@ -47,6 +48,8 @@ encrypted blocks on the CA using the `puppet node encrypt` face.
       `node_encrypt::file` type.
     * This can be used to generate text to pass to other types if/when they add
       support for this module.
+* `node_encrypt::certificates`
+    * This class will synchronize certificates to all compile masters.
 
 The simplest usage is like the example shown in the [Overview](#overview). This
 defined type accepts most of the standard file parameters and simply encrypts the
@@ -96,6 +99,16 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
     bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
     ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
     -----END PKCS7-----
+
+The `node_encrypt::certificates` class can synchronize certificates across your
+infrastructure so that encryption works from all compile masters. Please be aware
+that **this class will create a filesystem mount on the CA node!**
+
+Classify all your masters, including the CA or Master of Masters, with this class.
+This will ensure that all masters have all agents' public certificates. You can
+limit access to the certificates by passing a comma-separated list of nodes as
+the `$whitelist` parameter. If the auto-detection of the CA node doesn't work,
+you can also pass the certname of the CA node as the `$ca_node` parameter.
 
 ## Ecosystem
 

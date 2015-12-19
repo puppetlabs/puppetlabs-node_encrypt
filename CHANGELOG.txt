@@ -1,3 +1,6 @@
+0.2.0
+  * Allow this to work on nodes that are not the CA. (Requires some setup.)
+
 0.1.2
   * Erm. Actually include the bit that removes the content from the catalog.
   * Added an `autobefore` to ensure this always lets a file resource correct

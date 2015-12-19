@@ -11,10 +11,12 @@ module Puppet_X
         raise ArgumentError, 'Can only encrypt strings' unless data.class == String
         raise ArgumentError, 'Need a node name to encrypt for' unless destination.class == String
 
-        ssldir = Puppet.settings[:ssldir]
-        cert   = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/ca/ca_crt.pem"))
-        key    = OpenSSL::PKey::RSA.new(File.read("#{ssldir}/ca/ca_key.pem"), '')
-        target = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/ca/signed/#{destination}.pem"))
+        ssldir   = Puppet.settings[:ssldir]
+        name     = Puppet.settings[:certname]
+        cert     = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/ca.pem"))
+        key      = OpenSSL::PKey::RSA.new(File.read("#{ssldir}/private_keys/#{name}.pem"), '')
+        target   = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/ca/signed/#{destination}.pem")) rescue nil
+        target ||= OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/#{destination}.pem")) # if using auto distributed certs
 
         signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
         cipher = OpenSSL::Cipher::new("AES-128-CFB")
