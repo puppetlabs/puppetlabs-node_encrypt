@@ -78,7 +78,7 @@ file contents in the catalog.
 If you'd like to pre-encrypt your data, you can pass it as the `encrypted_content`
 instead. The ciphertext can be stored directly in your manifest file, in Hiera,
 or anywhere else you'd like. Note that if you choose to do this, the ciphertext
-is encrypted specifically for each node. You cannot share secrets amongst nodes.
+must be encrypted specifically for each node. You cannot share secrets amongst nodes.
 
 ```Puppet
 node_encrypt::file { '/tmp/foo':
@@ -100,14 +100,30 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
     ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
     -----END PKCS7-----
 
+### Automatically distributing certificates to compile masters
+
 The `node_encrypt::certificates` class can synchronize certificates across your
 infrastructure so that encryption works from all compile masters. Please be aware
-that **this class will create a filesystem mount on the CA node!**
+that **this class will create a filesystem mount on the CA node** making public
+certificates available for download by node listed in the `$whitelist`.
 
 Classify all your masters, including the CA or Master of Masters, with this class.
-This will ensure that all masters have all agents' public certificates. You can
-limit access to the certificates by passing a comma-separated list of nodes as
+This will ensure that all masters have all agents' public certificates. Limit access
+to the certificates by passing a comma-separated list of compile master nodes as
 the `$whitelist` parameter.
+
+**Note**:<br />
+If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
+then all agents will have all public certificates synched. This is not a
+security risk, as public certificates are designed to be shared widely, but it
+is something you should be aware of.
+
+Parameters:
+
+* [*whitelist*]
+    * This is a comma-separated list of all nodes who are authorized to synchronize
+      *all* certificates from the CA node. Defaults to `*`, or all nodes.
+
 
 ## Ecosystem
 
@@ -121,7 +137,7 @@ add secrets to your codebase without having to secure the entire codebase.
 Having access to the code doesn't mean having access to the secrets in that code.
 
 But the secrets are still exposed in the catalog and in reports. This means you
-should be protecting them instead. `node_encrypt` addresses that problem. The two
+should be protecting them as well. `node_encrypt` addresses that problem. The two
 projects happily coexist. You can (and should) use `eyaml` to store your secrets
 on disk, while you use `node_encrypt` to protect the rest of the pipeline.
 

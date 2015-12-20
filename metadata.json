@@ -1,6 +1,6 @@
 {
   "name": "binford2k-node_encrypt",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "author": "binford2k",
   "summary": "Encrypts secrets in the catalog using the agent's certificate.",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
   "project_page": "https://github.com/binford2k/binford2k-node_encrypt",
   "issues_url": "https://github.com/binford2k/binford2k-node_encrypt/issues",
   "dependencies": [
-    {"name":"puppetlabs/inifile","version_requirement":">= 1.4.0 < 5.0.0"},
+    {"name":"puppetlabs/inifile","version_requirement":">= 1.4.0 < 5.0.0"}
   ],
   "operatingsystem_support": [
     {

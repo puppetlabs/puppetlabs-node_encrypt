@@ -11,12 +11,22 @@ module Puppet_X
         raise ArgumentError, 'Can only encrypt strings' unless data.class == String
         raise ArgumentError, 'Need a node name to encrypt for' unless destination.class == String
 
-        ssldir   = Puppet.settings[:ssldir]
-        name     = Puppet.settings[:certname]
-        cert     = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/ca.pem"))
-        key      = OpenSSL::PKey::RSA.new(File.read("#{ssldir}/private_keys/#{name}.pem"), '')
-        target   = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/ca/signed/#{destination}.pem")) rescue nil
-        target ||= OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/#{destination}.pem")) # if using auto distributed certs
+        # encrypt with the CA cert on the CA, and the host cert on compile masters
+        if Facter.value(:fqdn) == Puppet.settings[:ca_server]
+          certpath = Puppet.settings[:cacert]
+          keypath  = Puppet.settings[:cakey]
+          destpath = "#{Puppet.settings[:signeddir]}/#{destination}.pem"
+          Puppet.debug('node_encrypt: Encrypting as the CA')
+        else
+          certpath = Puppet.settings[:hostcert]
+          keypath  = Puppet.settings[:hostprivkey]
+          destpath = "#{Puppet.settings[:certdir]}/#{destination}.pem"
+          Puppet.debug('node_encrypt: Encrypting as a compile master')
+        end
+
+        cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
+        key    = OpenSSL::PKey::RSA.new(File.read(keypath), '')
+        target = OpenSSL::X509::Certificate.new(File.read(destpath))
 
         signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
         cipher = OpenSSL::Cipher::new("AES-128-CFB")
@@ -27,11 +37,9 @@ module Puppet_X
       def self.decrypt(data)
         raise ArgumentError, 'Can only decrypt strings' unless data.class == String
 
-        ssldir = Puppet.settings[:ssldir]
-        name   = Puppet.settings[:certname]
-        cert   = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/#{name}.pem"))
-        key    = OpenSSL::PKey::RSA.new(File.read("#{ssldir}/private_keys/#{name}.pem"), '')
-        source = OpenSSL::X509::Certificate.new(File.read("#{ssldir}/certs/ca.pem"))
+        cert   = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:hostcert]))
+        key    = OpenSSL::PKey::RSA.new(File.read(Puppet.settings[:hostprivkey]), '')
+        source = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:localcacert]))
 
         store = OpenSSL::X509::Store.new
         store.add_cert(source)
@@ -40,7 +48,7 @@ module Puppet_X
         decrypted = blob.decrypt(key, cert)
         verified  = OpenSSL::PKCS7.new(decrypted)
 
-        verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
+        verified.verify(nil, store, nil, OpenSSL::PKCS7::NOCHAIN)
         verified.data
       end
 

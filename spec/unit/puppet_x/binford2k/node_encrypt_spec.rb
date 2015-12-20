@@ -255,17 +255,25 @@ describe Puppet_X::Binford2k::NodeEncrypt do
 
   it "should decrypt values which have been encrypted" do
     # encrypting
+    Facter.expects(:value).with(:fqdn).returns('ca.example.com')
+    Puppet.settings.expects(:[]).with(:ca_server).returns('ca.example.com')
+    Puppet.settings.expects(:[]).with(:cacert).returns('/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem')
+    Puppet.settings.expects(:[]).with(:cakey).returns('/etc/puppetlabs/puppet/ssl/ca/ca_key.pem')
+    Puppet.settings.expects(:[]).with(:signeddir).returns('/etc/puppetlabs/puppet/ssl/ca/signed')
+
     File.expects(:read).with(regexp_matches(/ca_crt\.pem$/)).returns(ca_crt_pem)
     File.expects(:read).with(regexp_matches(/ca_key\.pem$/)).returns(ca_key_pem)
     File.expects(:read).with(regexp_matches(/ca\/signed\/testhost\.example\.com\.pem$/)).returns(cert_pem)
 
-    # decrypting. Cheating and using the same certs
+    # decrypting.
+    Puppet.settings.expects(:[]).with(:hostcert).returns('/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem')
+    Puppet.settings.expects(:[]).with(:hostprivkey).returns('/etc/puppetlabs/puppet/private_keys/testhost.example.com.pem')
+    Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem')
+
     File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
     File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
     File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
 
-    # not sure why this isn't getting set automatically, but eh. This works
-    Puppet.settings[:certname] = 'testhost.example.com'
     data = Puppet_X::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
     expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
   end
