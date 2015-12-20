@@ -107,8 +107,7 @@ that **this class will create a filesystem mount on the CA node!**
 Classify all your masters, including the CA or Master of Masters, with this class.
 This will ensure that all masters have all agents' public certificates. You can
 limit access to the certificates by passing a comma-separated list of nodes as
-the `$whitelist` parameter. If the auto-detection of the CA node doesn't work,
-you can also pass the certname of the CA node as the `$ca_node` parameter.
+the `$whitelist` parameter.
 
 ## Ecosystem
 
