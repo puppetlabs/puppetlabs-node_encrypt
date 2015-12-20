@@ -9,20 +9,15 @@
 #
 # Parameters:
 #
-# [*ca_node*]
-# If the CA autodetection doesn't work for you, then you should put the certname
-# of your CA here.
-#
 # [*whitelist*]
 # This is a comma-separated list of all nodes who are authorized to syncronize
 # certificates from the CA node. Defaults to `*`, or all nodes.
 #
 class node_encrypt::certificates (
-  $ca_node   = undef,
   $whitelist = '*',
 ) {
 
-  if ($ca_node and $ca_node == $::clientcert) or (! $ca_node and $::is_ca_node) {
+  if $::fqdn == $::settings::ca_server {
     ini_setting { 'public certificates mountpoint path':
       ensure            => present,
       path              => "${::settings::confdir}/fileserver.conf",
@@ -47,7 +42,7 @@ class node_encrypt::certificates (
       ensure  => directory,
       recurse => true,
       ignore  => 'pe-internal-*',
-      source  => 'puppet:///public_certificates/',
+      source  => "puppet://${::settings::ca_server}/public_certificates/",
     }
   }
 }
