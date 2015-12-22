@@ -104,7 +104,7 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
 
 The `node_encrypt::certificates` class can synchronize certificates across your
 infrastructure so that encryption works from all compile masters. Please be aware
-that **this class will create a filesystem mount on the CA node** making public
+that **this class will create a fileserver mount on the CA node** making public
 certificates available for download by node listed in the `$whitelist`.
 
 Classify all your masters, including the CA or Master of Masters, with this class.
