@@ -277,6 +277,14 @@ describe Puppet_X::Binford2k::NodeEncrypt do
     data = Puppet_X::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
     expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
   end
+
+  it "should identify an encrypted string" do
+    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted) ).to be true
+  end
+
+  it "should identify a non-encrypted string" do
+    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo') ).to be false
+  end
 end
 
 describe Puppet_X::Binford2k::NodeEncrypt::Value do
@@ -298,10 +306,20 @@ describe Puppet_X::Binford2k::NodeEncrypt::Value do
     expect(data.decrypted_value).to eq 'foo'
   end
 
+  it "should complain about a non-string" do
+    expect { Puppet_X::Binford2k::NodeEncrypt::Value.new(1234) }.to raise_error(ArgumentError)
+  end
+
   it "should test equality" do
     first  = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
     second = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
     expect(first == second).to be true
+  end
+
+  it "should test inequality" do
+    first  = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
+    second = Puppet_X::Binford2k::NodeEncrypt::Value.new('bar')
+    expect(first == second).to be false
   end
 
 end
