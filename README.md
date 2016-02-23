@@ -107,16 +107,17 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
 
 This comes with a Puppet Face that can decrypt ciphertext on the command line,
 using the same agent certs as the encrypted file resource type. You can use this
-in your own scripts by:
+in your own scripts via several methods. Assume that we've set a variable like such:
+
+    # export SECRET=$(puppet node encrypt -t testhost.puppetlabs.vm "your mother was a hamster")
 
 * Passing data directly using the `--data` option:
-    * `puppet node decrypt --data <encrypted blob of text>`
+    * `puppet node decrypt --data "${SECRET}"`
     * On some platforms, this may exceed command length limits!
 * Setting data in an environment variable and passing the name:
-    * `export SECRET=<encrypted blob of text>`
     * `puppet node decrypt --env SECRET`
 * Piping data to STDIN:
-    * `echo <encrypted blob of data> | puppet node decrypt`
+    * `echo "${SECRET}" | puppet node decrypt`
     * `cat /file/with/encrypted/blob.txt | puppet node decrypt`
 
 This can be useful when running `exec resources` with embedded secrets. Note the
