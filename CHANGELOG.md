@@ -1,3 +1,8 @@
+# 0.2.3
+
+* Adds command-line decrypt tool. This can be used in scripts or in `exec`
+  resources.
+
 # 0.2.2
 
 * Synchronize certificates in a more robust way. The CA node will encrypt
