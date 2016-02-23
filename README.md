@@ -113,7 +113,7 @@ in your own scripts by:
     * `puppet node decrypt --data <encrypted blob of text>`
     * On some platforms, this may exceed command length limits!
 * Setting data in an environment variable and passing the name:
-    * `export SECRET="your mother was a hamster"`
+    * `export SECRET=<encrypted blob of text>`
     * `puppet node decrypt --env SECRET`
 * Piping data to STDIN:
     * `echo <encrypted blob of data> | puppet node decrypt`
