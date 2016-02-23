@@ -40,8 +40,11 @@ included to automate the public certificate distribution.
     * This is a defined type that wraps a standard file resource, but allows you
       to encrypt the content in the catalog and reports.
 * `puppet node encrypt`
-    * This is a Puppet Face that generates encrypted on the command line.
+    * This is a Puppet Face that generates encrypted ciphertext on the command line.
     * `puppet node encrypt -t testhost.example.com "encrypt some text"`
+* `puppet node decrypt`
+    * This is a Puppet Face that decrypts ciphertext on the command line. It is
+      useful in command-line scripts, or in `exec` statements.
 * `node_encrypt()`
     * This is a Puppet function used to programmatically generate encrypted text.
       It's used internally so you won't need to call it yourself when using the
@@ -99,6 +102,33 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
     bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
     ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
     -----END PKCS7-----
+
+### Using the command line decryption tool
+
+This comes with a Puppet Face that can decrypt ciphertext on the command line,
+using the same agent certs as the encrypted file resource type. You can use this
+in your own scripts by:
+
+* Passing data directly using the `--data` option:
+    * `puppet node decrypt --data <encrypted blob of text>`
+    * On some platforms, this may exceed command length limits!
+* Setting data in an environment variable and passing the name:
+    * `export SECRET="your mother was a hamster"`
+    * `puppet node decrypt --env SECRET`
+* Piping data to STDIN:
+    * `echo <encrypted blob of data> | puppet node decrypt`
+    * `cat /file/with/encrypted/blob.txt | puppet node decrypt`
+
+This can be useful when running `exec resources` with embedded secrets. Note the
+careful use of single quotes to prevent variable expansion in Puppet:
+
+```Puppet
+exec { 'set service passphrase':
+  command     => 'some-service --set-passphrase="$(puppet node decrypt --env SECRET)"',
+  path        => '/opt/puppetlabs/bin:/usr/bin',
+  environment => "SECRET=${node_encrypt('and your father smelt of elderberries')}",
+}
+```
 
 ### Automatically distributing certificates to compile masters
 
