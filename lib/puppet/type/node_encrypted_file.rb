@@ -37,8 +37,21 @@ Puppet::Type.newtype(:node_encrypted_file) do
     end
   end
 
-  autobefore(:file) do
+  if respond_to? :autobefore
+    autobefore(:file) do
       self[:path]
-  end
+    end
+  else
+    def autorequire(rel_catalog = nil)
+      rel_catalog ||= catalog
+      raise(Puppet::DevError, "You cannot add relationship without a catalog") unless rel_catalog
 
+      reqs = super
+      rel_catalog.resources.select{|x| x.is_a? Puppet::Type::File}.each do |res|
+        next unless self[:path] == res[:path]
+        reqs << Puppet::Relationship::new(self, res)
+      end
+      reqs
+    end
+  end
 end

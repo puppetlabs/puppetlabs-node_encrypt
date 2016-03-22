@@ -1,3 +1,8 @@
+# 0.2.4
+
+* Reimplements `autobefore` on masters that don't support it. This corrects
+  incompatibilities with 3.x masters.
+
 # 0.2.3
 
 * Adds command-line decrypt tool. This can be used in scripts or in `exec`
