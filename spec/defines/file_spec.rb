@@ -5,28 +5,42 @@ describe "node_encrypt::file" do
 #
 # TODO: I don't know why this spec makes other specs barf. :(
 #
-#   context "ensuring present" do
-#     let(:node) { 'testhost.example.com' }
-#     let(:title) { '/tmp/test' }
-#     let(:params) { {
-#       :ensure  => 'file',
-#       :owner   => 'root',
-#       :mode    => '0644',
-#       :content => 'foobar'
-#     } }
-#     Puppet_X::Binford2k::NodeEncrypt.expects(:encrypt).with('foobar','testhost.example.com').returns('encrypted')
+  context "ensuring present" do
+    let(:node) { 'testhost.example.com' }
+    let(:title) { '/tmp/test' }
+    let(:params) { {
+      :ensure  => 'file',
+      :owner   => 'root',
+      :mode    => '0644',
+      :content => 'foobar'
+    } }
+
+#    before(:each) { scope.expects(:node_encrypt).with('foobar','testhost.example.com').returns('encrypted') }
 #
-#     it { should contain_file('/tmp/test').with({
-#       :ensure  => 'file',
-#       :owner   => 'root',
-#       :mode    => '0644',
-#     }).without_content() }
+#     NameError:
+#       undefined local variable or method `scope' for #<RSpec::ExampleGroups::NodeEncryptFile::EnsuringPresent:0x007fda61e9bc20>
 #
-#     it { should contain_node_encrypted_file('/tmp/test')
-#       .with_content('encrypted')
-#       .that_comes_before('File[/tmp/test]')
-#     }
-#   end
+# This does not work according to docs, so build it manually.
+# https://github.com/rodjek/rspec-puppet#accessing-the-parser-scope-where-the-function-is-running
+
+    before(:each) do
+      Puppet::Parser::Functions.newfunction(:node_encrypt, :type => :rvalue) { |args|
+        raise ArgumentError, 'expected foobar' unless args[0] == 'foobar'
+        'encrypted'
+      }
+    end
+
+    it { should contain_file('/tmp/test').with({
+      :ensure  => 'file',
+      :owner   => 'root',
+      :mode    => '0644',
+    }).without_content() }
+
+    it { should contain_node_encrypted_file('/tmp/test')
+      .with_content('encrypted')
+      .that_comes_before('File[/tmp/test]')
+    }
+  end
 
   context "should accept pre-encrypted content" do
     let(:title) { '/tmp/test' }
