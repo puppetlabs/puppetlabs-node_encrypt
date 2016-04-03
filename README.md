@@ -51,6 +51,13 @@ included to automate the public certificate distribution.
       `node_encrypt::file` type.
     * This can be used to generate text to pass to other types if/when they add
       support for this module.
+    * Parameters:
+        * String to be encrypted.
+* `redact()`
+    * This Puppet function allows you to remove from the catalog the value of a
+      parameter that a class was called with.
+        * The name of the parameter to redact.
+        * The message to replace the parameter's value with. (optional)
 * `node_encrypt::certificates`
     * This class will synchronize certificates to all compile masters.
 
@@ -102,6 +109,66 @@ The ciphertext can be generated on the CA using the `puppet node encrypt` comman
     bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
     ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
     -----END PKCS7-----
+
+### Function usage:
+
+```Puppet
+class secret ($password) {
+  $encrypted = node_encrypt($password)
+  
+  file { '/etc/something/or/other.conf:
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => "password = ${encrypted}",
+  }
+
+  redact('password')
+  
+  # could be called with the optional second parameter
+  # redact('password', 'The password has been removed from the catalog')
+}
+```
+
+#### `node_encrypt($string)`
+
+This function simply encrypts the string passed to it using the certificate
+belonging to the client the catalog is being compiled for.
+
+```Puppet
+$encrypted = node_encrypt($password)
+```
+
+#### `redact($parameter, $replacewith)`
+
+This function will modify the catalog during compilation to remove the named
+parameter from the class from which it was called. For example, if you wrote a
+class named `foo` and called `redact('bar')` from within that class, then the
+catalog would not record the value of `bar` that `foo` was called with.
+
+```Puppet
+class foo($bar) {
+  # this call will display the proper output, but because it's not a resource
+  # the string won't exist in the catalog.
+  notice("Class['foo'] was called with param ${bar}")
+
+  # but the catalog won't record what the passed in param was.
+  redact('bar')
+}
+
+class { 'foo':
+  bar => 'this will not appear in the catalog',
+}
+```
+
+**Warning**: If you use that parameter to declare other classes or resources,
+then you must take further action to remove the parameter from those declarations!
+
+This takes an optional second parameter of the value to replace the original
+parameter declaration with. This parameter is required if the class declares
+a type that is not `String` for the parameter you're redacting.
+
 
 ### Using the command line decryption tool
 

@@ -1,3 +1,7 @@
+# 0.2.5
+
+* Added a `redact()` function to remove class parameters from the catalog.
+
 # 0.2.4
 
 * Reimplements `autobefore` on masters that don't support it. This corrects
