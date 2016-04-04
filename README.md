@@ -222,6 +222,24 @@ Parameters:
     * This is a comma-separated list of all nodes who are authorized to synchronize
       *all* certificates from the CA node. Defaults to `*`, or all nodes.
 
+### Using on masterless infrastructures
+
+For the most part, `node_encrypt` doesn't have as much value in a masterless
+setup. When the agent is compiling its own catalog, there's no cached catalog or
+network transfer. Nevertheless, there are use cases for it. For example, if you
+have a report server configured, or are submitting catalogs & reports to PuppetDB,
+you likely want to keep secrets hidden.
+
+`node_encrypt` won't work out of the box on a masterless node because it relies
+on the existence of the CA certificates. But it's easy to generate these
+certificates so that it will work. Keep in mind that without the full CA
+infrastructure, no other node will be able to decrypt these secrets.
+
+```
+$ rm -rf $(puppet master --configprint ssldir)/*
+$ puppet cert list -a
+$ puppet cert --generate ${puppet master --configprint certname} --dns_alt_names "$(puppet master --configprint dns_alt_names)"
+```
 
 ## Ecosystem
 
