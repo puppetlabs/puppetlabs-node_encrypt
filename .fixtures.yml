@@ -1,3 +1,5 @@
 fixtures:
     symlinks:
         node_encrypt: "#{source_dir}"
+    forge_modules:
+        inifile: "puppetlabs/inifile"
