@@ -16,6 +16,7 @@
 #
 define node_encrypt::file (
   $ensure                  = 'file',
+  $path                    = $title,
   $backup                  = undef,
   $checksum                = undef,
   $content                 = undef,
@@ -24,7 +25,6 @@ define node_encrypt::file (
   $group                   = undef,
   $owner                   = undef,
   $mode                    = undef,
-  $path                    = $title,
   $replace                 = undef,
   $selinux_ignore_defaults = undef,
   $selrange                = undef,
@@ -63,7 +63,7 @@ define node_encrypt::file (
       default => node_encrypt($content),
     }
 
-    node_encrypted_file { $title:
+    node_encrypted_file { $path:
       content => $real_content,
       before  => File[$title], # let the File resource do all the work for us
     }
