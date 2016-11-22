@@ -36,7 +36,7 @@ DOC
 
   # find the class in the catalog matching the name of the class this was called in
   klass = self.catalog.resources.select { |res|
-    res.type == 'Class' && res.name == self.source.name.capitalize
+    res.type == 'Class' && res.name.downcase == self.source.name
   }.first
 
   # and rewrite its parameter
