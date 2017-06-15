@@ -1,3 +1,10 @@
+# 0.2.6
+
+* Correctly handle namespace capitalization (JeremyEinfeld)
+* Use $path parameter properly
+* Corrected some spec tests
+* Warn when signature verification fails
+
 # 0.2.5
 
 * Added a `redact()` function to remove class parameters from the catalog.
