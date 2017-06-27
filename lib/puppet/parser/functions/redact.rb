@@ -29,14 +29,14 @@ a type that is not `String` for the parameter you're redacting.
 DOC
 ) do |args|
   raise Puppet::ParseError, 'The redact function requires 1 or 2 arguments' unless [1,2].include? args.size
-  raise Puppet::ParseError, 'The redact function should only be called from a class' unless self.source.type == :hostclass
 
   param   = args[0]
   message = args[1] || '<<redacted>>'
 
   # find the class in the catalog matching the name of the class this was called in
   klass = self.catalog.resources.select { |res|
-    res.type == 'Class' && res.name.downcase == self.source.name
+    (self.source.type == :hostclass && res.type == 'Class' && res.name.downcase == self.source.name) ||
+    (self.source.type != :hostclass && res.type.downcase == self.source.name && res.title.downcase == self.resource.name.downcase)
   }.first
 
   # and rewrite its parameter

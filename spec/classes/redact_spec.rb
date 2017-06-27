@@ -17,4 +17,17 @@ describe "redact" do
       :replaced => 'a replacement string',
     })
   }
+  it { is_expected.to contain_redact__thing('one').with({
+      :param    => 'a param',
+      :redacted => '<<redacted>>',
+      :replaced => 'a replacement string',
+    })
+  }
+  it { is_expected.to contain_redact__thing('two').with({
+      :param    => 'a param',
+      :redacted => '<<redacted>>',
+      :replaced => 'a replacement string',
+    })
+  }
+
 end

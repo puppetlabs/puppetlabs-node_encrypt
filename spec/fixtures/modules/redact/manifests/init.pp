@@ -9,4 +9,16 @@ class redact (
 
   redact('redacted')
   redact('replaced', 'a replacement string')
+
+  redact::thing { 'one':
+    param    => 'a param',
+    redacted => 'to be redacted',
+    replaced => 'to be replaced',
+  }
+  redact::thing { 'two':
+    param    => 'a param',
+    redacted => 'to be redacted',
+    replaced => 'to be replaced',
+  }
+
 }
