@@ -1,3 +1,7 @@
+# 0.2.7
+
+* Allow the `redact()` function to work with defined types. (ross-w)
+
 # 0.2.6
 
 * Correctly handle namespace capitalization (JeremyEinfeld)
