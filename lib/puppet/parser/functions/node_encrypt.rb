@@ -1,4 +1,4 @@
-require 'puppet_x/binford2k/node_encrypt'
+require File.join(File.dirname(__FILE__), '../../..', 'puppet_x/binford2k/node_encrypt.rb')
 
 Puppet::Parser::Functions::newfunction(:node_encrypt,
   :type  => :rvalue,
