@@ -26,7 +26,11 @@ module Puppet_X
         end
 
         cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
-        key    = OpenSSL::PKey::RSA.new(File.read(keypath), '')
+        # A dummy password with at least 4 characters is required here
+        # since Ruby 2.4 which enforces a minimum password length
+        # of 4 bytes. This is true even if the key has no password
+        # at all, otherwise Ruby fatals out.
+        key    = OpenSSL::PKey::RSA.new(File.read(keypath), '1234')
         target = OpenSSL::X509::Certificate.new(File.read(destpath))
 
         signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
@@ -39,7 +43,11 @@ module Puppet_X
         raise ArgumentError, 'Can only decrypt strings' unless data.class == String
 
         cert   = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:hostcert]))
-        key    = OpenSSL::PKey::RSA.new(File.read(Puppet.settings[:hostprivkey]), '')
+        # A dummy password with at least 4 characters is required here
+        # since Ruby 2.4 which enforces a minimum password length
+        # of 4 bytes. This is true even if the key has no password
+        # at all, otherwise Ruby fatals out.
+        key    = OpenSSL::PKey::RSA.new(File.read(Puppet.settings[:hostprivkey]), '1234')
         source = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:localcacert]))
 
         store = OpenSSL::X509::Store.new
