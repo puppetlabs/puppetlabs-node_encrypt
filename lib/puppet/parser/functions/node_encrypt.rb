@@ -1,4 +1,4 @@
-require 'puppet_x/binford2k/node_encrypt'
+require_relative '../../../puppet_x/binford2k/node_encrypt'
 
 Puppet::Parser::Functions::newfunction(:node_encrypt,
   :type  => :rvalue,
