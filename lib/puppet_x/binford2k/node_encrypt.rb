@@ -29,7 +29,9 @@ module Puppet_X
         # A dummy password with at least 4 characters is required here
         # since Ruby 2.4 which enforces a minimum password length
         # of 4 bytes. This is true even if the key has no password
-        # at all, otherwise Ruby fatals out.
+        # at all--in which case the password we supply is ignored.
+        # We can pass in a dummy here, since we know the certificate
+        # has no password.
         key    = OpenSSL::PKey::RSA.new(File.read(keypath), '1234')
         target = OpenSSL::X509::Certificate.new(File.read(destpath))
 
@@ -43,10 +45,7 @@ module Puppet_X
         raise ArgumentError, 'Can only decrypt strings' unless data.class == String
 
         cert   = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:hostcert]))
-        # A dummy password with at least 4 characters is required here
-        # since Ruby 2.4 which enforces a minimum password length
-        # of 4 bytes. This is true even if the key has no password
-        # at all, otherwise Ruby fatals out.
+        # Same dummy password as above.
         key    = OpenSSL::PKey::RSA.new(File.read(Puppet.settings[:hostprivkey]), '1234')
         source = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:localcacert]))
 
