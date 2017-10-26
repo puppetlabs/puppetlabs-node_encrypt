@@ -211,16 +211,53 @@ to the certificates by passing a comma-separated list of compile master nodes as
 the `$whitelist` parameter.
 
 **Note**:<br />
-If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
-then all agents will have all public certificates synched. This is not a
-security risk, as public certificates are designed to be shared widely, but it
-is something you should be aware of.
+As of Puppet 5, you'll need to set the `whitelist` to false if you don't plan to
+manage access to the certificates. This is a breaking change.
 
 Parameters:
 
 * [*whitelist*]
     * This is a comma-separated list of all nodes who are authorized to synchronize
-      *all* certificates from the CA node. Defaults to `*`, or all nodes.
+      *all* certificates from the CA node. Defaults to `*`, or all nodes. Set to
+      `false` to disable whitelist management.
+
+* [*manage_hocon*]
+    * Set to `true` if you've disabled legacy `auth.conf` and are on Puppet 5.
+
+* [*sort_order*]
+    * If you've customized your HOCON-based `auth.conf`, set the appropriate sort
+      order here. The default rule's weight is 500, so this parameter defaults to
+      `300` so it overrides the default.
+
+**Note**:<br />
+If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
+then all agents will have all public certificates synched. This is not a
+security risk, as public certificates are designed to be shared widely, but it
+is something you should be aware of.
+
+#### Managing Certificates on Open Source Puppet 5
+
+As of Puppet 5, we can no longer automatically manage the whitelist for the
+certificates mountpoint on Open Source Puppet. This is not a problem on Puppet
+Enterprise because we can make certain assumptions about how it is configured.
+
+If you're on Open Source Puppet 5.x or greater, see
+[the documentation](https://puppet.com/docs/puppet/5.3/file_serving.html#controlling-access-to-a-custom-mount-point-in-authconf)
+for information on custom authentication rules. If you've disabled legacy `auth.conf`
+ACLS, then you can simply set `manage_hocon` to true, and optionally set a `sort_order`.
+
+If you're using the legacy `auth.conf` format then you'll need to configure it
+manually by editing `$confdir/auth.conf` on the CA server. Ensure that this
+stanza comes before the existing `^/puppet/v3/file` rule and set the `whitelist`
+parameter to `false` in your classification to disable the error.
+
+```
+# Node_encrypt: Allow limited access to the 'public_certificates' mountpoint:
+path ~ ^/puppet/v3/file_(metadata|content)s?/public_certificates/
+auth yes
+allow ${whitelist}
+```
+
 
 ### Using on masterless infrastructures
 
