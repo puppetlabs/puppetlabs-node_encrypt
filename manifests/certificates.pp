@@ -16,33 +16,61 @@
 #
 # Parameters:
 #
-# [*whitelist*]
-# This is a comma-separated list of all nodes who are authorized to synchronize
-# *all* certificates from the CA node. Defaults to `*`, or all nodes.
+# [*legacy*]
+#  Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
 #
+# [*sort_order*]
+# If you've customized your HOCON-based `auth.conf`, set the appropriate sort
+# order here. The default rule's weight is 500, so this parameter defaults to
+# `300` to ensure that it overrides the default.
+#
+# [*whitelist*]
+# This is deprecated and has no effect. It will be removed in the next major release.
+
 class node_encrypt::certificates (
-  $whitelist = '*',
+  $legacy     = undef,
+  $sort_order = 300,
+  $whitelist  = undef,
 ) {
+  if $whitelist {
+    notice('Node Encrypt: The $whitelist parameter has been deprecated. It currently has no effect and will be removed shortly.')
+    notice('Node Encrypt: See https://github.com/binford2k/binford2k-node_encrypt#deprecated-parameters for more information.')
+  }
 
   # Matches when the agent node is the CA itself.
-  # Set up file mounts
   if $::fqdn == $::settings::ca_server {
+
+    # Set up file mountpoint to distribute the certs
     ini_setting { 'public certificates mountpoint path':
       ensure            => present,
-      path              => "${::settings::confdir}/fileserver.conf",
+      path              => $::settings::fileserverconfig,
       section           => 'public_certificates',
       setting           => 'path',
       key_val_separator => ' ',
       value             => "${::settings::ssldir}/ca/signed/",
     }
 
+    # Puppet 5 hard deprecated managing authentication in fileserver.conf
+    # The only valid value is `allow *`. But it's ignored, so we just write
+    # it anyway, and Puppet 3/4 masters can use it.
     ini_setting { 'public certificates mountpoint whitelist':
       ensure            => present,
       path              => "${::settings::confdir}/fileserver.conf",
       section           => 'public_certificates',
       setting           => 'allow',
       key_val_separator => ' ',
-      value             => $whitelist,
+      value             => '* # ignored on Puppet 5.x+',
+    }
+
+    unless pick($legacy, (versioncmp($::puppetversion, '5.0.0') < 0)) {
+      puppet_authorization::rule { 'public certificates mountpoint whitelist':
+        match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+        match_request_type   => 'regex',
+        match_request_method => 'get',
+        allow                => '*',
+        sort_order           => $sort_order,
+        path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
+      }
     }
 
   }

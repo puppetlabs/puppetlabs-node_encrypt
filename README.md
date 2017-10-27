@@ -210,17 +210,61 @@ This will ensure that all masters have all agents' public certificates. Limit ac
 to the certificates by passing a comma-separated list of compile master nodes as
 the `$whitelist` parameter.
 
+Parameters:
+
+* [*legacy*]
+    * Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
+
+* [*sort_order*]
+    * If you've customized your HOCON-based `auth.conf`, set the appropriate sort
+      order here. The default rule's weight is 500, so this parameter defaults to
+      `300` to ensure that it overrides the default.
+
+* [*whitelist*]
+    * This is deprecated and has no effect. It will be removed in the next major release.
+
+
 **Note**:<br />
 If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
 then all agents will have all public certificates synched. This is not a
 security risk, as public certificates are designed to be shared widely, but it
 is something you should be aware of.
 
-Parameters:
+#### Deprecated Parameters
 
-* [*whitelist*]
-    * This is a comma-separated list of all nodes who are authorized to synchronize
-      *all* certificates from the CA node. Defaults to `*`, or all nodes.
+Since public certificates are designed to be shared widely without a security
+risk, we made the decision to simplify and no longer manage a whitelist of
+compile masters allowed to access the `public_certificates` mountpoint. If you
+would like to enforce a whitelist anyway, then you can use one of the following
+methods:
+
+If you're using the legacy `auth.conf` format then you'll need to configure it
+manually by editing `$confdir/auth.conf` on the CA server. Ensure that this
+stanza comes before the existing `^/puppet/v3/file` rule and set the `whitelist`
+parameter to `false` in your classification to disable the error.
+
+```
+# Node_encrypt: Allow limited access to the 'public_certificates' mountpoint:
+path ~ ^/puppet/v3/file_(metadata|content)s?/public_certificates/
+auth yes
+allow list,of,whitelisted,certnames
+```
+
+If you're using the modern HOCON based `auth.conf` format, then you can manage
+access using a Puppet resource such as the following. Ensure that the `sort_order`
+is lower than `300`, or the value you passed to `node_encrypt::certificates`.
+
+```Puppet
+puppet_authorization::rule { 'public certificates mountpoint override':
+  match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+  match_request_type   => 'regex',
+  match_request_method => 'get',
+  allow                => ['array', 'of', 'whitelisted', 'certnames'],
+  sort_order           => 250,
+  path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
+}
+```
+
 
 ### Using on masterless infrastructures
 
