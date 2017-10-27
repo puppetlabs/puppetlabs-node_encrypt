@@ -4,10 +4,14 @@ require 'puppet_x/binford2k/node_encrypt'
 Puppet::Face.define(:node, '0.0.1') do
   action :encrypt do
     summary "Encrypt a value using a specified agent's certificate"
-    arguments "<string>"
+    arguments "[string]"
 
     option "-t CERTNAME", "--target CERTNAME" do
       summary "Which agent to encrypt for"
+    end
+
+    option "-p", "--prompt" do
+      summary "Prompt the user for data to encrypt"
     end
 
     description <<-'EOT'
@@ -20,10 +24,25 @@ Puppet::Face.define(:node, '0.0.1') do
     EOT
 
     examples <<-'EOT'
-      $ puppet node encrypt --certname testhost.example.com "some text to encrypt"
+      $ puppet node encrypt --target testhost.example.com "some text to encrypt"
+      $ puppet node encrypt --target testhost.example.com --prompt
+      $ echo "some text to encrypt" | puppet node encrypt --target testhost.example.com
+      $ cat /path/to/file.txt | puppet node encrypt --target testhost.example.com
+
     EOT
 
-    when_invoked do |text, options|
+    when_invoked do |*args|
+      options = args.pop
+      if options[:prompt]
+        raise ArgumentError, ('Cannot pass data and prompt for data at the same time!') if args.length > 0
+        print "Enter a string to encrypt: "
+        text = $stdin.gets
+      elsif args.length == 0
+        text = $stdin.read
+      else
+        text = args.join(' ')
+      end
+
       Puppet_X::Binford2k::NodeEncrypt.encrypt(text, options[:target])
     end
   end
