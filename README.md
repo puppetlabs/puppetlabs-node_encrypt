@@ -287,6 +287,19 @@ $ puppet cert --generate ${puppet master --configprint certname} --dns_alt_names
 
 ## Ecosystem
 
+#### How is this different from the new `Sensitive` type?
+
+As of Puppet 4.6, [the core language supports a `Sensitive` type](https://puppet.com/docs/puppet/5.3/lang_data_sensitive.html).
+This type marks data with a flag that prevents the components of the Puppet and
+Puppet Enterprise stack from inadvertently displaying the value. For example, a
+string that's marked as `Sensitive` will not display in reports or in the PE
+Console.
+
+*Unfortunately, it still exists as plain text in the catalog.* The `node_encrypt`
+module encrypts data before it goes into the catalog, and it's only decrypted as
+it's being written to disk.
+
+
 #### What about [Hiera eyaml](https://github.com/TomPoulton/hiera-eyaml)?
 
 Does this project replace that tool?
