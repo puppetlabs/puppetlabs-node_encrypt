@@ -1,7 +1,7 @@
 require 'puppet/face'
 require 'puppet_x/binford2k/node_encrypt'
 
-Puppet::Face.define(:node, '0.0.1') do
+Puppet::Face.define(:node, '0.0.2') do
   action :encrypt do
     summary "Encrypt a value using a specified agent's certificate"
     arguments "[string]"
@@ -28,7 +28,6 @@ Puppet::Face.define(:node, '0.0.1') do
       $ puppet node encrypt --target testhost.example.com --prompt
       $ echo "some text to encrypt" | puppet node encrypt --target testhost.example.com
       $ cat /path/to/file.txt | puppet node encrypt --target testhost.example.com
-
     EOT
 
     when_invoked do |*args|

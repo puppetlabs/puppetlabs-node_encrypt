@@ -1,10 +1,17 @@
+# 0.3.0
+
+* Certificate distribution works on Puppet 5
+* Added new ways to pass data to encrypt on the CLI
+* Fixed the Ruby load path issue on OSS installs (@olifre)
+* Fixed OpenSSL compatiblility with Ruby 2.4 (@olifre)
+
 # 0.2.7
 
-* Allow the `redact()` function to work with defined types. (ross-w)
+* Allow the `redact()` function to work with defined types. (@ross-w)
 
 # 0.2.6
 
-* Correctly handle namespace capitalization (JeremyEinfeld)
+* Correctly handle namespace capitalization (@JeremyEinfeld)
 * Use $path parameter properly
 * Corrected some spec tests
 * Warn when signature verification fails
