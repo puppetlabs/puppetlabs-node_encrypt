@@ -245,7 +245,7 @@ parameter to `false` in your classification to disable the error.
 
 ```
 # Node_encrypt: Allow limited access to the 'public_certificates' mountpoint:
-path ~ ^/puppet/v3/file_(metadata|content)s?/public_certificates/
+path ~ ^/puppet/v3/file_(metadata|content)s?/public_certificates
 auth yes
 allow list,of,whitelisted,certnames
 ```
