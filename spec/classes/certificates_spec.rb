@@ -9,13 +9,14 @@ describe "node_encrypt::certificates" do
     Puppet[:ssldir]    = '/etc/puppetlabs/puppet/ssl'
   end
 
-  context "when run on the CA" do
+  context "when run on a Puppet 5.x CA" do
 # Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
 
     let(:node) { 'ca.example.com' }
     let(:facts) { {
-      :fqdn       => 'ca.example.com',
-      :servername => 'ca.example.com',
+      :fqdn          => 'ca.example.com',
+      :servername    => 'ca.example.com',
+      :puppetversion => '5.3.5',
     } }
 
     it {
@@ -30,11 +31,58 @@ describe "node_encrypt::certificates" do
       should contain_ini_setting('public certificates mountpoint whitelist').with({
         :ensure => 'present',
         :path   => '/etc/puppetlabs/puppet/fileserver.conf',
-        :value  => '*',
+        :value  => '* # ignored on Puppet 5.x+',
+      })
+    }
+
+    it {
+      should contain_puppet_authorization__rule('public certificates mountpoint whitelist').with({
+        :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+        :match_request_type => 'regex',
+        :allow              => '*',
+        :sort_order         => 300,
+        :path               => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
       })
     }
 
     it { should_not contain_file('/etc/puppetlabs/puppet/ssl/certs') }
+  end
+
+  context "when run on a Puppet 4.x CA" do
+    let(:node) { 'ca.example.com' }
+    let(:facts) { {
+      :fqdn          => 'ca.example.com',
+      :servername    => 'ca.example.com',
+      :puppetversion => '4.4.6',
+    } }
+
+    it { should_not contain_puppet_authorization__rule('public certificates mountpoint whitelist') }
+  end
+
+  context 'when manually specifying a modern auth.conf' do
+    let(:params) { { 'legacy' => false } }
+
+    let(:node) { 'ca.example.com' }
+    let(:facts) { {
+      :fqdn          => 'ca.example.com',
+      :servername    => 'ca.example.com',
+      :puppetversion => '4.4.6',
+    } }
+
+    it { should contain_puppet_authorization__rule('public certificates mountpoint whitelist') }
+  end
+
+  context 'when specifying a legacy auth.conf' do
+    let(:params) { { 'legacy' => true } }
+
+    let(:node) { 'ca.example.com' }
+    let(:facts) { {
+      :fqdn          => 'ca.example.com',
+      :servername    => 'ca.example.com',
+      :puppetversion => '4.4.6',
+    } }
+
+    it { should_not contain_puppet_authorization__rule('public certificates mountpoint whitelist') }
   end
 
   context "when run on a compile master" do
@@ -45,7 +93,6 @@ describe "node_encrypt::certificates" do
     } }
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }
-
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
 
     it {

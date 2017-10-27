@@ -16,24 +16,26 @@
 #
 # Parameters:
 #
-# [*whitelist*]
-# This is a comma-separated list of all nodes who are authorized to synchronize
-# *all* certificates from the CA node. Defaults to `*`, or all nodes. Set to
-# `false` to disable whitelist management.
-#
-# [*manage_hocon*]
-#  Set to `true` if you've disabled legacy `auth.conf` and are on Puppet 5.
+# [*legacy*]
+#  Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
 #
 # [*sort_order*]
 # If you've customized your HOCON-based `auth.conf`, set the appropriate sort
 # order here. The default rule's weight is 500, so this parameter defaults to
-# `300` so it overrides the default.
+# `300` to ensure that it overrides the default.
+#
+# [*whitelist*]
+# This is deprecated and has no effect. It will be removed in the next major release.
 
 class node_encrypt::certificates (
-  $whitelist    = '*',
-  $manage_hocon = false,
-  $sort_order   = 300,
+  $legacy     = undef,
+  $sort_order = 300,
+  $whitelist  = undef,
 ) {
+  if $whitelist {
+    notice('Node Encrypt: The $whitelist parameter has been deprecated. It currently has no effect and will be removed shortly.')
+    notice('Node Encrypt: See https://github.com/binford2k/binford2k-node_encrypt#deprecated-parameters for more information.')
+  }
 
   # Matches when the agent node is the CA itself.
   if $::fqdn == $::settings::ca_server {
@@ -49,52 +51,25 @@ class node_encrypt::certificates (
     }
 
     # Puppet 5 hard deprecated managing authentication in fileserver.conf
-    # which is too bad, because that was the only way to reliably associate a
-    # rule with a mount in an automated fashion.
-    if versioncmp($::puppetversion, '5.0.0') < 0 {
-      ini_setting { 'public certificates mountpoint whitelist':
-        ensure            => present,
-        path              => "${::settings::confdir}/fileserver.conf",
-        section           => 'public_certificates',
-        setting           => 'allow',
-        key_val_separator => ' ',
-        value             => $whitelist,
-      }
+    # The only valid value is `allow *`. But it's ignored, so we just write
+    # it anyway, and Puppet 3/4 masters can use it.
+    ini_setting { 'public certificates mountpoint whitelist':
+      ensure            => present,
+      path              => "${::settings::confdir}/fileserver.conf",
+      section           => 'public_certificates',
+      setting           => 'allow',
+      key_val_separator => ' ',
+      value             => '* # ignored on Puppet 5.x+',
     }
-    else {
-      # if we're on PE, we can assume a relatively modern & managed auth.conf
-      if defined('$::pe_server_version') {
-        pe_puppet_authorization::rule { 'public certificates mountpoint whitelist':
-          match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-          match_request_type   => 'regex',
-          match_request_method => 'get',
-          allow                => split($whitelist, ','),
-          sort_order           => 300,
-          path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
-        }
-      }
-      else {
-        # We can't actually do this automatically because we have no way of knowing
-        # whether the machine is configured with legacy auth.conf or HOCON.
-        if $manage_hocon {
-          puppet_authorization::rule { 'public certificates mountpoint whitelist':
-            match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-            match_request_type   => 'regex',
-            match_request_method => 'get',
-            allow                => split($whitelist, ','),
-            sort_order           => $sort_order,
-            path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
-          }
-        }
-        elsif $whitelist {
-          # If the user has specified a whitelist, but haven't indicated that they're
-          # using HOCON, we don't have any option but to fail and ask them to configure
-          # manually (and then set the parameters of this class appropriately).
-          fail("Node Encrypt: As of Puppet 5, it's no longer possible to reliably manage the whitelist automatically on Open Source Puppet. See https://github.com/binford2k/binford2k-node_encrypt#managing-certificates-on-open-source-puppet-5 for more information on configuring this manually.")
-        }
-        else {
-          # noop
-        }
+
+    unless pick($legacy, (versioncmp($::puppetversion, '5.0.0') < 0)) {
+      puppet_authorization::rule { 'public certificates mountpoint whitelist':
+        match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+        match_request_type   => 'regex',
+        match_request_method => 'get',
+        allow                => '*',
+        sort_order           => $sort_order,
+        path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
       }
     }
 
