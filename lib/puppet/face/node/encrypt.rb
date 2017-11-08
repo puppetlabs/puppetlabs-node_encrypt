@@ -1,7 +1,7 @@
 require 'puppet/face'
 require 'puppet_x/binford2k/node_encrypt'
 
-Puppet::Face.define(:node, '0.0.2') do
+Puppet::Face.define(:node, '0.0.1') do
   action :encrypt do
     summary "Encrypt a value using a specified agent's certificate"
     arguments "[string]"

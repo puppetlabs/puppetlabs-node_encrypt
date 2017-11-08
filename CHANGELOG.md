@@ -1,3 +1,8 @@
+# 0.3.1
+
+* Just a hotpatch fix to resolve a compatibility issue with the Puppet Enterprise module.
+* Please install this update if you're having trouble with `puppet node deactivate` or the like.
+
 # 0.3.0
 
 * Certificate distribution works on Puppet 5
