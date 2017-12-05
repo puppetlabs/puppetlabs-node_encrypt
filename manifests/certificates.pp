@@ -76,7 +76,7 @@ class node_encrypt::certificates (
   }
   # Compiled on the CA, meaning that the agent is a compile master client of the CA
   # Synch all agent certificates so we can encrypt for them
-  elsif $servername == $::settings::ca_server {
+  elsif $servername != $::settings::ca_server {
     file { "${::settings::ssldir}/certs":
       ensure  => directory,
       recurse => true,
