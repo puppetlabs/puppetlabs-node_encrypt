@@ -206,9 +206,13 @@ that **this class will create a fileserver mount on the CA node** making public
 certificates available for download by nodes listed in the `$whitelist`.
 
 Classify all your masters, including the CA or Master of Masters, with this class.
-This will ensure that all masters have all agents' public certificates. Limit access
-to the certificates by passing a comma-separated list of compile master nodes as
-the `$whitelist` parameter.
+This will ensure that all masters have all agents' public certificates.
+
+**Note**:<br />
+If this is applied to all nodes in your infrastructure then all agents will have all
+public certificates synched. This is not a security risk, as public certificates are
+designed to be shared widely, but it is something you should be aware of. If you wish
+to prevent that, just make sure to classify only your masters.
 
 Parameters:
 
@@ -223,12 +227,6 @@ Parameters:
 * [*whitelist*]
     * This is deprecated and has no effect. It will be removed in the next major release.
 
-
-**Note**:<br />
-If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
-then all agents will have all public certificates synched. This is not a
-security risk, as public certificates are designed to be shared widely, but it
-is something you should be aware of.
 
 #### Deprecated Parameters
 
