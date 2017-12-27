@@ -79,7 +79,11 @@ module Puppet_X
         def == (another)
           # Puppet does some weird comparisons, so let's just short circuit them all
           return false unless another.class == Puppet_X::Binford2k::NodeEncrypt::Value
-          @decrypted_value == another.decrypted_value
+
+          # comparing as hex values allows us to not care about different-but-equivalent
+          # escaped decimal forms. This allows us to manage binary data without spurious
+          # change notifications in the report.
+          @decrypted_value.unpack("H*") == another.decrypted_value.unpack("H*")
         end
 
         def to_s
