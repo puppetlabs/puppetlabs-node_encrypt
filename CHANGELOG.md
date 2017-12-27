@@ -1,3 +1,9 @@
+# 0.3.2
+
+* Support managing binary files without spurious change notifications.
+* Simplify public cert syncing to make it more reliable, especially with external CA
+    * **NOTE**: The `certificates` class will now sync to all classified nodes.
+
 # 0.3.1
 
 * Just a hotpatch fix to resolve a compatibility issue with the Puppet Enterprise module.
