@@ -74,9 +74,12 @@ class node_encrypt::certificates (
     }
 
   }
-  # Compiled on the CA, meaning that the agent is a compile master client of the CA
-  # Synch all agent certificates so we can encrypt for them
-  elsif $servername != $::settings::ca_server {
+  # Sync all agent certificates so we can encrypt for them.
+  # This will distribute the *public* certificates to all nodes, including other agents. This
+  # is not a security risk, as that's how public certificates were designed to be used, but if
+  # you'd like to limit this anyway, then simply ensure that this class is only enforced on the
+  # CA and any masters in your infrastructure.
+  else {
     file { "${::settings::ssldir}/certs":
       ensure  => directory,
       recurse => true,
@@ -84,8 +87,5 @@ class node_encrypt::certificates (
       source  => "puppet://${::settings::ca_server}/public_certificates/", # lint:ignore:puppet_url_without_modules
     }
   }
-  # Otherwise, we're just an agent node.
-  else {
-    # noop
-  }
+  
 }
