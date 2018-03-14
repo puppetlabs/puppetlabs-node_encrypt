@@ -21,6 +21,7 @@ the contents of the file in the catalog or in any reports.
 node_encrypt::file { '/tmp/foo':
   owner   => 'root',
   group   => 'root',
+  mode    => '0600',
   content => 'This string will never appear in the catalog.',
 }
 ```
@@ -120,7 +121,7 @@ class secret ($password) {
     ensure  => file,
     owner   => 'root',
     group   => 'root',
-    mode    => '0644',
+    mode    => '0600',
     content => "password = ${encrypted}",
   }
 
