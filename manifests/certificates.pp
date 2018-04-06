@@ -16,6 +16,9 @@
 #
 # Parameters:
 #
+# [*ca_server*]
+#  If the CA autodetection fails, then you can specify the $fqdn of the CA server here.
+#
 # [*legacy*]
 #  Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
 #
@@ -28,6 +31,7 @@
 # This is deprecated and has no effect. It will be removed in the next major release.
 
 class node_encrypt::certificates (
+  $ca_server  = undef,
   $legacy     = undef,
   $sort_order = 300,
   $whitelist  = undef,
@@ -38,7 +42,7 @@ class node_encrypt::certificates (
   }
 
   # Matches when the agent node is the CA itself.
-  if $::fqdn == $::settings::ca_server {
+  if $::fqdn in [$ca_server, $::settings::ca_server] {
 
     # Set up file mountpoint to distribute the certs
     ini_setting { 'public certificates mountpoint path':
