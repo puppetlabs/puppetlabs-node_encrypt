@@ -1,3 +1,8 @@
+# 0.3.3
+
+* Add CA server override parameter for cases in which the CA isn't autodetected properly
+
+
 # 0.3.2
 
 * Support managing binary files without spurious change notifications.

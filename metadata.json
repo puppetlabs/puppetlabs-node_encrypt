@@ -1,6 +1,6 @@
 {
   "name": "binford2k-node_encrypt",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "binford2k",
   "summary": "Encrypts secrets in the catalog using the agent's certificate.",
   "license": "Apache-2.0",
