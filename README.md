@@ -217,6 +217,9 @@ to prevent that, just make sure to classify only your masters.
 
 Parameters:
 
+* [*ca_server*]
+    * If the CA autodetection fails, then you can specify the $fqdn of the CA server here.
+
 * [*legacy*]
     * Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
 
