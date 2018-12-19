@@ -255,10 +255,10 @@ describe Puppet_X::Binford2k::NodeEncrypt do
 
   it "should decrypt values which have been encrypted" do
     # encrypting
-    Facter.expects(:value).with(:fqdn).returns('ca.example.com')
-    Puppet.settings.expects(:[]).with(:ca_server).returns('ca.example.com')
-    Puppet.settings.expects(:[]).with(:cacert).returns('/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem')
-    Puppet.settings.expects(:[]).with(:cakey).returns('/etc/puppetlabs/puppet/ssl/ca/ca_key.pem')
+    File.expects(:exist?).with('/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem').returns(true)
+    File.expects(:exist?).with('/etc/puppetlabs/puppet/ssl/ca/ca_key.pem').returns(true)
+    Puppet.settings.expects(:[]).with(:cacert).twice.returns('/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem')
+    Puppet.settings.expects(:[]).with(:cakey).twice.returns('/etc/puppetlabs/puppet/ssl/ca/ca_key.pem')
     Puppet.settings.expects(:[]).with(:signeddir).returns('/etc/puppetlabs/puppet/ssl/ca/signed')
 
     File.expects(:read).with(regexp_matches(/ca_crt\.pem$/)).returns(ca_crt_pem)
