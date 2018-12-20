@@ -204,7 +204,7 @@ exec { 'set service passphrase':
 The `node_encrypt::certificates` class can synchronize certificates across your
 infrastructure so that encryption works from all compile masters. Please be aware
 that **this class will create a fileserver mount on the CA node** making public
-certificates available for download by nodes listed in the `$whitelist`.
+certificates available for download by all nodes.
 
 Classify all your masters, including the CA or Master of Masters, with this class.
 This will ensure that all masters have all agents' public certificates.
@@ -227,9 +227,6 @@ Parameters:
     * If you've customized your HOCON-based `auth.conf`, set the appropriate sort
       order here. The default rule's weight is 500, so this parameter defaults to
       `300` to ensure that it overrides the default.
-
-* [*whitelist*]
-    * This is deprecated and has no effect. It will be removed in the next major release.
 
 
 #### Deprecated Parameters
