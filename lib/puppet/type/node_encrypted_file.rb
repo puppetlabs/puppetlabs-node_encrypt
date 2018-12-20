@@ -1,7 +1,7 @@
 require_relative '../../puppet_x/binford2k/node_encrypt'
 
 Puppet::Type.newtype(:node_encrypted_file) do
-  desc "Manage the content of a file by decrypting with the agent certificate"
+  desc "Manage the content of a file by encrypting & decrypting with the agent certificate"
 
   ensurable do
     newvalue(:present) do
