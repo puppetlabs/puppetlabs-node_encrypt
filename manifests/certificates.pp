@@ -26,21 +26,12 @@
 # If you've customized your HOCON-based `auth.conf`, set the appropriate sort
 # order here. The default rule's weight is 500, so this parameter defaults to
 # `300` to ensure that it overrides the default.
-#
-# [*whitelist*]
-# This is deprecated and has no effect. It will be removed in the next major release.
 
 class node_encrypt::certificates (
   $ca_server  = undef,
   $legacy     = undef,
   $sort_order = 300,
-  $whitelist  = undef,
 ) {
-  if $whitelist {
-    notice('Node Encrypt: The $whitelist parameter has been deprecated. It currently has no effect and will be removed shortly.')
-    notice('Node Encrypt: See https://github.com/binford2k/binford2k-node_encrypt#deprecated-parameters for more information.')
-  }
-
   # Matches when the agent node is the CA itself.
   if $::fqdn in [$ca_server, $::settings::ca_server] {
 
@@ -91,5 +82,5 @@ class node_encrypt::certificates (
       source  => "puppet://${::settings::ca_server}/public_certificates/", # lint:ignore:puppet_url_without_modules
     }
   }
-  
+
 }
