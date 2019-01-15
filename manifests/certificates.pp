@@ -78,6 +78,7 @@ class node_encrypt::certificates (
     file { "${::settings::ssldir}/certs":
       ensure  => directory,
       recurse => true,
+      purge   => true,
       ignore  => 'pe-internal-*',
       source  => "puppet://${::settings::ca_server}/public_certificates/", # lint:ignore:puppet_url_without_modules
     }
