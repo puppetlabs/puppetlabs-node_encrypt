@@ -88,6 +88,13 @@ module Puppet_X
         def to_s
           '<<encrypted>>'
         end
+
+        # The transactionstore uses psych to dump yaml to the cache file.
+        # This lets us control how that is serialized.
+        def encode_with(coder)
+          coder.tag = nil
+          coder.scalar = '<<encrypted>>'
+        end
       end
 
     end
