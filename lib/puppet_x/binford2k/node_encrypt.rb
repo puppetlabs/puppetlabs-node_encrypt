@@ -12,18 +12,9 @@ module Puppet_X
         raise ArgumentError, 'Can only encrypt strings' unless data.class == String
         raise ArgumentError, 'Need a node name to encrypt for' unless destination.class == String
 
-        # encrypt with the CA cert on the CA, and the host cert on compile masters
-        if File.exist?(Puppet.settings[:cacert]) and File.exist?(Puppet.settings[:cakey])
-          certpath = Puppet.settings[:cacert]
-          keypath  = Puppet.settings[:cakey]
-          destpath = "#{Puppet.settings[:signeddir]}/#{destination}.pem"
-          Puppet.debug('node_encrypt: Encrypting as the CA')
-        else
-          certpath = Puppet.settings[:hostcert]
-          keypath  = Puppet.settings[:hostprivkey]
-          destpath = "#{Puppet.settings[:certdir]}/#{destination}.pem"
-          Puppet.debug('node_encrypt: Encrypting as a compile master')
-        end
+        certpath = Puppet.settings[:hostcert]
+        keypath  = Puppet.settings[:hostprivkey]
+        destpath = "#{Puppet.settings[:certdir]}/#{destination}.pem"
 
         cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
         # A dummy password with at least 4 characters is required here
