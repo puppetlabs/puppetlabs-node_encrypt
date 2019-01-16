@@ -23,11 +23,17 @@ describe "node_encrypt::file" do
 # This does not work according to docs, so build it manually.
 # https://github.com/rodjek/rspec-puppet#accessing-the-parser-scope-where-the-function-is-running
 
-    before(:each) do
-      Puppet::Parser::Functions.newfunction(:node_encrypt, :type => :rvalue) { |args|
-        raise ArgumentError, 'expected foobar' unless args[0] == 'foobar'
-        'encrypted'
-      }
+    if Puppet.version[0] == '3'
+      before(:each) do
+        Puppet::Parser::Functions.newfunction(:node_encrypt, :type => :rvalue) { |args|
+          raise ArgumentError, 'expected foobar' unless args[0] == 'foobar'
+          'encrypted'
+        }
+      end
+    else
+      let(:pre_condition) do
+        'function node_encrypt($data) { return "encrypted" }'
+      end
     end
 
     it { should contain_file('/tmp/test').with({

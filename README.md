@@ -14,21 +14,36 @@ This module will encrypt values for each node specifically, using their own
 certificates. This means that not only do you not have plain text secrets, but
 each node can decrypt only its own secrets.
 
-What precisely does that mean? A resource that looks like this will never have
-the contents of the file in the catalog or in any reports.
+<img src="assets/puppet6.png" alt="Puppet 6 logo" align="right" width="125" height="125">
+
+What precisely does that mean? A resource that looks like the examples below will
+never have your secrets exposed in the catalog, in any reports, or any other
+cached state files. Any parameter of any resource type may be encrypted  by
+simply annotating your secret string with a function call. **This relies on
+Deferred execution functions in Puppet 6**. If you're running Puppet 5 or
+below, then see the [legacy section below](#legacy-puppet-5-and-below-support)
+for backwards compatibility.
 
 ```Puppet
-node_encrypt::file { '/tmp/foo':
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0600',
-  content => 'This string will never appear in the catalog.',
+notify { 'example':
+  message => 'this string will be encrypted in your catalog'.node_encrypt::secret
+}
+
+file { '/etc/secretfile.cfg':
+  ensure  => file,
+  content => template('path/to/template.erb').node_encrypt::secret,
+}
+
+$token = lookup('application_token')
+exec { 'authenticate service':
+  command => '/bin/application-register ${token}'.node_encrypt::secret,
 }
 ```
 
-This also comes with a Puppet Face which can be used to generate the encrypted
-block ready for pasting into your manifest, and a Puppet function which can be
-used to programmatically generate the encrypted block.
+This also comes with a Puppet Face which can be used to encrypt content for a node
+and then decrypt it on that node. If you like, you may also paste the ciphertext
+into your manifest or Hiera datafiles and then manually invoke the `node_decrypt()`
+function as needed.
 
 **Note**: Because it requires access to each node's signed certificates, this is
 only useful on the CA node unless you distribute certificates or generate
@@ -37,109 +52,57 @@ included to automate the public certificate distribution.
 
 ## Usage
 
-* `node_encrypt::file`
-    * This is a defined type that wraps a standard file resource, but allows you
-      to encrypt the content in the catalog and reports.
+* `node_encrypt::secret()`
+    * On Puppet6 or above, this is likely the only use you'll need to know.
+    * This function encrypts a string on the master, and then decrypts it on the
+      agent during catalog application.
+    * Example: 'secret string'.node_encrypt::secret
+* `node_encrypt::certificates`
+    * This class will synchronize certificates to all compile masters.
+* `redact()`
+    * This Puppet function allows you to remove from the catalog the value of a
+      parameter that a class was called with.
+        * The name of the parameter to redact.
+        * The message to replace the parameter's value with. (optional)
 * `puppet node encrypt`
     * This is a Puppet Face that generates encrypted ciphertext on the command line.
     * `puppet node encrypt -t testhost.example.com "encrypt some text"`
 * `puppet node decrypt`
     * This is a Puppet Face that decrypts ciphertext on the command line. It is
       useful in command-line scripts, or in `exec` statements.
-* `node_encrypt()`
-    * This is a Puppet function used to programmatically generate encrypted text.
-      It's used internally so you won't need to call it yourself when using the
-      `node_encrypt::file` type.
-    * This can be used to generate text to pass to other types if/when they add
-      support for this module.
-    * Parameters:
-        * String to be encrypted.
-* `redact()`
-    * This Puppet function allows you to remove from the catalog the value of a
-      parameter that a class was called with.
-        * The name of the parameter to redact.
-        * The message to replace the parameter's value with. (optional)
-* `node_encrypt::certificates`
-    * This class will synchronize certificates to all compile masters.
+* `node_decrypt()`
+    * This is a Puppet function used to decrypt encrypted text on the agent.
+      You'll only need to use this if you save encrypted content in your manifests
+      or Hiera data files.
+    * Example: `content => Deferred("node_decrypt", [$encrypted_content])`
+* `node_encrypt::file`
+    * Legacy type for Puppet 5 and below.
+    * This is a defined type that wraps a standard file resource, but allows you
+      to encrypt the content in the catalog and reports.
 
 The simplest usage is like the example shown in the [Overview](#overview). This
 defined type accepts most of the standard file parameters and simply encrypts the
 file contents in the catalog.
 
-    # puppet agent -t
-    Info: Using configured environment 'production'
-    Info: Retrieving pluginfacts
-    Info: Retrieving plugin
-    Info: Loading facts
-    Info: Caching catalog for master.puppetlabs.vm
-    Info: Applying configuration version '1450109738'
-    Notice: /Stage[main]/Main/Node[default]/Node_encrypt::File[/tmp/foo]/Node_encrypted_file[/tmp/foo]/ensure: created
-    Notice: Applied catalog in 9.33 seconds
-    # echo blah > /tmp/foo
-    # puppet agent -t
-    Info: Using configured environment 'production'
-    Info: Retrieving pluginfacts
-    Info: Retrieving plugin
-    Info: Loading facts
-    Info: Caching catalog for master.puppetlabs.vm
-    Info: Applying configuration version '1450109821'
-    Notice: /Stage[main]/Main/Node[default]/Node_encrypt::File[/tmp/foo]/Node_encrypted_file[/tmp/foo]/content: content changed '<<encrypted>>' to '<<encrypted>>'
-    Notice: Applied catalog in 7.61 seconds
-
-If you'd like to pre-encrypt your data, you can pass it as the `encrypted_content`
-instead. The ciphertext can be stored directly in your manifest file, in Hiera,
-or anywhere else you'd like. Note that if you choose to do this, the ciphertext
-must be encrypted specifically for each node. You cannot share secrets amongst nodes.
-
-```Puppet
-node_encrypt::file { '/tmp/foo':
-  owner             => 'root',
-  group             => 'root',
-  encrypted_content => hiera('encrypted_foo'),
-}
-```
-
-The ciphertext can be generated on the CA using the `puppet node encrypt` command.
-
-    # puppet node encrypt -t testhost.puppetlabs.vm "encrypt some text"
-    -----BEGIN PKCS7-----
-    MIIMqwYJKoZIhvcNAQcDoIIMnDCCDJgCAQAxggJ7MIICdwIBADBfMFoxWDBWBgNV
-    BAMMT1B1cHBldCBDQSBnZW5lcmF0ZWQgb24gcHVwcGV0ZmFjdG9yeS5wdXBwZXRs
-    [...]
-    MbxinAGtO0eF4i8ova9MJykDPe600IY2b9ZY4mIskDqvHS9bVoK4fJGuRWAXiVBY
-    bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
-    ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
-    -----END PKCS7-----
 
 ### Function usage:
 
-```Puppet
-class secret ($password) {
-  $encrypted = node_encrypt($password)
-  
-  file { '/etc/something/or/other.conf:
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-    content => "password = ${encrypted}",
-  }
+#### `node_decrypt($string)`
 
-  redact('password')
-  
-  # could be called with the optional second parameter
-  # redact('password', 'The password has been removed from the catalog')
+This function simply decrypts the ciphertext passed to it using the agent's own
+certificate. It is generally only useful as a Deferred function on Puppet 6+.
+
+```Puppet
+$encrypted = lookup('encrypted_foo')
+file { '/etc/something/or/other.conf:
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0600',
+  content => Deferred("node_decrypt", [$encrypted]),
 }
 ```
 
-#### `node_encrypt($string)`
-
-This function simply encrypts the string passed to it using the certificate
-belonging to the client the catalog is being compiled for.
-
-```Puppet
-$encrypted = node_encrypt($password)
-```
 
 #### `redact($parameter, $replacewith)`
 
@@ -173,11 +136,27 @@ a type that is not `String` for the parameter you're redacting.
 
 ### Using the command line decryption tool
 
-This comes with a Puppet Face that can decrypt ciphertext on the command line,
-using the same agent certs as the encrypted file resource type. You can use this
-in your own scripts via several methods. Assume that we've set a variable like such:
+This comes with a Puppet Face that can encrypt or decrypt on the command line.
+You can use this in your own scripts via several methods. The ciphertext can be
+generated on the CA or any compile master using the `puppet node encrypt`
+command.
+
+    # puppet node encrypt -t testhost.puppetlabs.vm "encrypt some text"
+    -----BEGIN PKCS7-----
+    MIIMqwYJKoZIhvcNAQcDoIIMnDCCDJgCAQAxggJ7MIICdwIBADBfMFoxWDBWBgNV
+    BAMMT1B1cHBldCBDQSBnZW5lcmF0ZWQgb24gcHVwcGV0ZmFjdG9yeS5wdXBwZXRs
+    [...]
+    MbxinAGtO0eF4i8ova9MJykDPe600IY2b9ZY4mIskDqvHS9bVoK4fJGuRWAXiVBY
+    bFaZ36l90LkyLLrrSfjah/Tdqd8cHrphofsWVFWBmM1uErX1jBuuzngIehm40pN7
+    ClVbGy9Ow3zado1spWfDwekLoiU5imk77J9POy0X8w==
+    -----END PKCS7-----
+
+Decrypting on the agent is just as easy, though a bit more flexible. For
+convenience in these examples, let's assume that we've set a variable like such:
 
     # export SECRET=$(puppet node encrypt -t testhost.puppetlabs.vm "your mother was a hamster")
+
+You can then decrypt this data by:
 
 * Passing data directly using the `--data` option:
     * `puppet node decrypt --data "${SECRET}"`
@@ -188,16 +167,6 @@ in your own scripts via several methods. Assume that we've set a variable like s
     * `echo "${SECRET}" | puppet node decrypt`
     * `cat /file/with/encrypted/blob.txt | puppet node decrypt`
 
-This can be useful when running `exec resources` with embedded secrets. Note the
-careful use of single quotes to prevent variable expansion in Puppet:
-
-```Puppet
-exec { 'set service passphrase':
-  command     => 'some-service --set-passphrase="$(puppet node decrypt --env SECRET)"',
-  path        => '/opt/puppetlabs/bin:/usr/bin',
-  environment => "SECRET=${node_encrypt('and your father smelt of elderberries')}",
-}
-```
 
 ### Automatically distributing certificates to compile masters
 
@@ -227,6 +196,48 @@ Parameters:
     * If you've customized your HOCON-based `auth.conf`, set the appropriate sort
       order here. The default rule's weight is 500, so this parameter defaults to
       `300` to ensure that it overrides the default.
+
+
+### Legacy Puppet 5 and below support
+
+<img src="assets/puppet5.png" alt="Puppet 5 logo" align="right" width="125" height="125">
+
+Deferred functions were introduced in Puppet 6. In prior versions, `node_encrypt`
+required a custom provider for each resource type it supported. As such, we could
+only encrypt files, using a defined type wrapper like so:
+
+```Puppet
+node_encrypt::file { '/tmp/foo':
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0600',
+  content => 'This string will never appear in the catalog.',
+}
+```
+
+If you'd like to pre-encrypt your data, you can pass it as the `encrypted_content`
+instead. The ciphertext can be stored directly in your manifest file, in Hiera,
+or anywhere else you'd like. Note that if you choose to do this, the ciphertext
+must be encrypted specifically for each node. You cannot share secrets amongst nodes.
+
+```Puppet
+node_encrypt::file { '/tmp/foo':
+  owner             => 'root',
+  group             => 'root',
+  encrypted_content => hiera('encrypted_foo'),
+}
+```
+
+The CLI tool can be useful when running `exec resources` with embedded secrets.
+Note the careful use of single quotes to prevent variable expansion in Puppet:
+
+```Puppet
+exec { 'set service passphrase':
+  command     => 'some-service --set-passphrase="$(puppet node decrypt --env SECRET)"',
+  path        => '/opt/puppetlabs/bin:/usr/bin',
+  environment => "SECRET=${node_encrypt('and your father smelt of elderberries')}",
+}
+```
 
 
 #### Deprecated Parameters
@@ -284,6 +295,7 @@ $ puppet cert list -a
 $ puppet cert --generate ${puppet master --configprint certname} --dns_alt_names "$(puppet master --configprint dns_alt_names)"
 ```
 
+
 ## Ecosystem
 
 #### How is this different from the new `Sensitive` type?
@@ -318,6 +330,7 @@ on disk, while you use `node_encrypt` to protect the rest of the pipeline.
 This was designed to make it easy to integrate support into other tooling. For
 example, [this pull request](https://github.com/richardc/puppet-datacat/pull/17/files)
 adds transparent encryption support to _rc's popular `datacat` module.
+
 
 ## Disclaimer
 
