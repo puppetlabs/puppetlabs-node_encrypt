@@ -254,22 +254,23 @@ describe Puppet_X::Binford2k::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
   it "should decrypt values which have been encrypted" do
-    # encrypting
-    Facter.expects(:value).with(:fqdn).returns('ca.example.com')
-    Puppet.settings.expects(:[]).with(:ca_server).returns('ca.example.com')
-    Puppet.settings.expects(:[]).with(:cacert).returns('/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem')
-    Puppet.settings.expects(:[]).with(:cakey).returns('/etc/puppetlabs/puppet/ssl/ca/ca_key.pem')
-    Puppet.settings.expects(:[]).with(:signeddir).returns('/etc/puppetlabs/puppet/ssl/ca/signed')
+    Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
+              '/etc/puppetlabs/puppet/ssl/certs/master.example.com.pem',   # encrypting for agent
+              '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem'  # decrypting on agent
+            )
+    Puppet.settings.expects(:[]).twice.with(:hostprivkey).returns(
+              '/etc/puppetlabs/puppet/ssl/private_keys/master.example.com.pem',  # encrypting for agent
+              '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem' # decrypting on agent
+            )
+    Puppet.settings.expects(:[]).with(:certdir).returns('/etc/puppetlabs/puppet/ssl/certs')            # encrypting for agent
+    Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
 
-    File.expects(:read).with(regexp_matches(/ca_crt\.pem$/)).returns(ca_crt_pem)
-    File.expects(:read).with(regexp_matches(/ca_key\.pem$/)).returns(ca_key_pem)
-    File.expects(:read).with(regexp_matches(/ca\/signed\/testhost\.example\.com\.pem$/)).returns(cert_pem)
+    # encrypting on master for agent
+    File.expects(:read).with(regexp_matches(/ssl\/certs\/master.example.com\.pem$/)).returns(ca_crt_pem)
+    File.expects(:read).with(regexp_matches(/ssl\/private_keys\/master.example.com\.pem$/)).returns(ca_key_pem)
+    File.expects(:read).with(regexp_matches(/ssl\/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
 
-    # decrypting.
-    Puppet.settings.expects(:[]).with(:hostcert).returns('/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem')
-    Puppet.settings.expects(:[]).with(:hostprivkey).returns('/etc/puppetlabs/puppet/private_keys/testhost.example.com.pem')
-    Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem')
-
+    # decrypting as agent
     File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
     File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
     File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
