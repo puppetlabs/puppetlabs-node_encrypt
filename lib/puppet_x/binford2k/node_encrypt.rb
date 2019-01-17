@@ -14,7 +14,14 @@ module Puppet_X
 
         certpath = Puppet.settings[:hostcert]
         keypath  = Puppet.settings[:hostprivkey]
-        destpath = "#{Puppet.settings[:certdir]}/#{destination}.pem"
+
+        # if we're on the CA, we've got a copy of the clientcert from the start.
+        # This allows the module to work with no classification at all on single
+        # monolithic master setups
+        destpath = [
+          "#{Puppet.settings[:signeddir]}/#{destination}.pem",
+          "#{Puppet.settings[:certdir]}/#{destination}.pem",
+        ].find {|path| File.exist? path }
 
         cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
         # A dummy password with at least 4 characters is required here
