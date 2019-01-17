@@ -45,10 +45,6 @@ and then decrypt it on that node. If you like, you may also paste the ciphertext
 into your manifest or Hiera datafiles and then manually invoke the `node_decrypt()`
 function as needed.
 
-**Note**: Because it requires access to each node's signed certificates, this is
-only useful on the CA node unless you distribute certificates or generate
-encrypted blocks on the CA using the `puppet node encrypt` face. There is a class
-included to automate the public certificate distribution.
 
 ## Usage
 
@@ -170,10 +166,12 @@ You can then decrypt this data by:
 
 ### Automatically distributing certificates to compile masters
 
-The `node_encrypt::certificates` class can synchronize certificates across your
-infrastructure so that encryption works from all compile masters. Please be aware
-that **this class will create a fileserver mount on the CA node** making public
-certificates available for download by all nodes.
+The agent should send its public certificate as a custom `clientcert_pem` fact,
+making this a seamless zero-config process. In the case that doesn't work, you
+can distribute certificates to your compile masters using the
+`node_encrypt::certificates` class so that encryption works from all compile
+masters. Please be aware that **this class will create a fileserver mount on the
+CA node** making public certificates available for download by all nodes.
 
 Classify all your masters, including the CA or Master of Masters, with this class.
 This will ensure that all masters have all agents' public certificates.
@@ -197,23 +195,6 @@ Parameters:
       order here. The default rule's weight is 500, so this parameter defaults to
       `300` to ensure that it overrides the default.
 
-#### Distributing certificates via a custom fact.
-
-If you cannot sync agent public certificates to your compile masters, you can also
-send them with the catalog request from the agent with a custom fact. Place this
-file in `/etc/puppetlabs/facter/facts.d/clientcert_pem.rb` on each agent node and
-make it executable with `chmod +x` or mode `0755`.
-
-```Ruby
-#! /opt/puppetlabs/puppet/bin/ruby
-require 'puppet'
-Puppet.initialize_settings
-
-hostcert = File.read(Puppet.settings[:hostcert])
-factdata = { 'clientcert_pem' => hostcert }
-
-puts JSON.pretty_generate factdata
-```
 
 ### Legacy Puppet 5 and below support
 
