@@ -112,8 +112,6 @@ describe "node_encrypt::certificates" do
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
-    it { should_not contain_file('/etc/puppetlabs/puppet/ssl/certs') }
-
   end
 
 end
