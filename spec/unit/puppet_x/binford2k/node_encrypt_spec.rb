@@ -262,10 +262,14 @@ describe Puppet_X::Binford2k::NodeEncrypt do
               '/etc/puppetlabs/puppet/ssl/private_keys/master.example.com.pem',  # encrypting for agent
               '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem' # decrypting on agent
             )
+    Puppet.settings.expects(:[]).with(:signeddir).returns('/bad/path')                                 # fall through to certdir
     Puppet.settings.expects(:[]).with(:certdir).returns('/etc/puppetlabs/puppet/ssl/certs')            # encrypting for agent
     Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
 
     # encrypting on master for agent
+    File.expects(:exist?).with(regexp_matches(/bad\/path\/testhost.example.com\.pem$/)).returns(nil)
+    File.expects(:exist?).with(regexp_matches(/ssl\/certs\/testhost.example.com\.pem$/)).returns(true)
+
     File.expects(:read).with(regexp_matches(/ssl\/certs\/master.example.com\.pem$/)).returns(ca_crt_pem)
     File.expects(:read).with(regexp_matches(/ssl\/private_keys\/master.example.com\.pem$/)).returns(ca_key_pem)
     File.expects(:read).with(regexp_matches(/ssl\/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
