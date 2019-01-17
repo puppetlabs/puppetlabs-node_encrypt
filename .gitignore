@@ -13,3 +13,8 @@ tmtags
 ## VIM
 *.swp
 tags
+
+/pkg/
+/temp/
+/spec/fixtures/
+.rake_t_cache
