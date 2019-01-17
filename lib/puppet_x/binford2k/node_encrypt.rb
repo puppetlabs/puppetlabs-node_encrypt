@@ -23,7 +23,6 @@ module Puppet_X
           "#{Puppet.settings[:certdir]}/#{destination}.pem",
         ].find {|path| File.exist? path }
 
-        cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
         # A dummy password with at least 4 characters is required here
         # since Ruby 2.4 which enforces a minimum password length
         # of 4 bytes. This is true even if the key has no password
@@ -31,7 +30,16 @@ module Puppet_X
         # We can pass in a dummy here, since we know the certificate
         # has no password.
         key    = OpenSSL::PKey::RSA.new(File.read(keypath), '1234')
-        target = OpenSSL::X509::Certificate.new(File.read(destpath))
+        cert   = OpenSSL::X509::Certificate.new(File.read(certpath))
+
+        if destpath
+          target = OpenSSL::X509::Certificate.new(File.read(destpath))
+        elsif Puppet.lookup(:global_scope).exist?('clientcert_pem')
+          hostcert = Puppet.lookup(:global_scope).lookupvar('clientcert_pem')
+          target   = OpenSSL::X509::Certificate.new(hostcert)
+        else
+          raise ArgumentError, 'Client certificate does not exist. See https://github.com/binford2k/binford2k-node_encrypt#automatically-distributing-certificates-to-compile-masters'
+        end
 
         signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
         cipher = OpenSSL::Cipher::new("AES-128-CFB")

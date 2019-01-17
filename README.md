@@ -197,6 +197,23 @@ Parameters:
       order here. The default rule's weight is 500, so this parameter defaults to
       `300` to ensure that it overrides the default.
 
+#### Distributing certificates via a custom fact.
+
+If you cannot sync agent public certificates to your compile masters, you can also
+send them with the catalog request from the agent with a custom fact. Place this
+file in `/etc/puppetlabs/facter/facts.d/clientcert_pem.rb` on each agent node and
+make it executable with `chmod +x` or mode `0755`.
+
+```Ruby
+#! /opt/puppetlabs/puppet/bin/ruby
+require 'puppet'
+Puppet.initialize_settings
+
+hostcert = File.read(Puppet.settings[:hostcert])
+factdata = { 'clientcert_pem' => hostcert }
+
+puts JSON.pretty_generate factdata
+```
 
 ### Legacy Puppet 5 and below support
 
