@@ -25,11 +25,17 @@ below, then see the [legacy section below](#legacy-puppet-5-and-below-support)
 for backwards compatibility.
 
 ```Puppet
-notify { 'example':
-  message => 'this string will be encrypted in your catalog'.node_encrypt::secret
+user { 'erwin':
+  ensure   => present,
+  password => '{vT6YcbBhX.LL6s8'.node_encrypt::secret
 }
 
 file { '/etc/secretfile.cfg':
+  ensure   => file,
+  password => 'this string will be encrypted in your catalog'.node_encrypt::secret
+}
+
+file { '/etc/another_secretfile.cfg':
   ensure  => file,
   content => template('path/to/template.erb').node_encrypt::secret,
 }
