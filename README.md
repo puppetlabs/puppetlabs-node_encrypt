@@ -58,7 +58,7 @@ function as needed.
     * On Puppet6 or above, this is likely the only use you'll need to know.
     * This function encrypts a string on the master, and then decrypts it on the
       agent during catalog application.
-    * Example: 'secret string'.node_encrypt::secret
+    * Example: `'secret string'.node_encrypt::secret`
 * `redact()`
     * This Puppet function allows you to remove from the catalog the value of a
       parameter that a class was called with.
