@@ -31,8 +31,8 @@ user { 'erwin':
 }
 
 file { '/etc/secretfile.cfg':
-  ensure   => file,
-  password => 'this string will be encrypted in your catalog'.node_encrypt::secret
+  ensure  => file,
+  content => 'this string will be encrypted in your catalog'.node_encrypt::secret
 }
 
 file { '/etc/another_secretfile.cfg':
