@@ -59,8 +59,6 @@ function as needed.
     * This function encrypts a string on the master, and then decrypts it on the
       agent during catalog application.
     * Example: 'secret string'.node_encrypt::secret
-* `node_encrypt::certificates`
-    * This class will synchronize certificates to all compile masters.
 * `redact()`
     * This Puppet function allows you to remove from the catalog the value of a
       parameter that a class was called with.
@@ -77,6 +75,9 @@ function as needed.
       You'll only need to use this if you save encrypted content in your manifests
       or Hiera data files.
     * Example: `content => Deferred("node_decrypt", [$encrypted_content])`
+* `node_encrypt::certificates`
+    * This class will synchronize certificates to all compile masters.
+    * Generally not needed, unless the `clientcert_pem` fact fails for some reason.
 * `node_encrypt::file`
     * Legacy type for Puppet 5 and below.
     * This is a defined type that wraps a standard file resource, but allows you
