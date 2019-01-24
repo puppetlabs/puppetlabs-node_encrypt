@@ -1,3 +1,3 @@
-function node_encrypt::secret(String $data) >> Deferred {
+function node_encrypt::secret(Variant[String, Sensitive[String]] $data) >> Deferred {
   Deferred("node_decrypt", [node_encrypt($data)])
 }
