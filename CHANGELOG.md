@@ -1,3 +1,8 @@
+# 0.4.1
+
+* Allow node_encrypt::secret to accept Sensitive[String] values (@danielparks)
+
+
 # 0.4.0
 ## Warning: this is a major change in functionality!
 
