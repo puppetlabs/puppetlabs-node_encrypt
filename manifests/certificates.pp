@@ -10,7 +10,7 @@
 #
 # **Note**:
 # If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
-# then all agents will have all public certificates synched. This is not a
+# then all agents will have all public certificates synced. This is not a
 # security risk, as public certificates are designed to be shared widely, but it
 # is something you should be aware of.
 #
