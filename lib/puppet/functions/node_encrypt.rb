@@ -1,7 +1,7 @@
 require_relative '../../puppet_x/binford2k/node_encrypt'
 
-# Encrypt data with node_encrypt.
-#
+# @summary
+#   Encrypt data with node_encrypt.
 #
 Puppet::Functions.create_function(:node_encrypt) do
   dispatch :simple_encrypt do
