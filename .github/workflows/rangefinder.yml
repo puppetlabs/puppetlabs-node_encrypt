@@ -16,13 +16,14 @@ jobs:
       run: |
         URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
         export FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-        echo $FILES
+        echo "::set-env name=FILES::$FILES"
 
     - name: Run analysis
       run: |
         gem install puppet-community-rangefinder
+        echo "Running: rangefinder ${{ env.FILES }}
         export REPORT=$(rangefinder ${{ env.FILES }})
-        echo $REPORT
+        echo "::set-env name=REPORT::$REPORT"
 
     - name: Post report
       uses: unsplash/comment-on-pr@master
