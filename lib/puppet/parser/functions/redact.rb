@@ -5,7 +5,7 @@ parameter from the class from which it was called. For example, if you wrote a
 class named `foo` and called `redact('bar')` from within that class, then the
 catalog would not record the value of `bar` that `foo` was called with.
 
-~~~ puppet
+``` puppet
 class foo($bar) {
   # this call will display the proper output, but because it's not a resource
   # the string won't exist in the catalog.
@@ -18,7 +18,7 @@ class foo($bar) {
 class { 'foo':
   bar => 'this will not appear in the catalog',
 }
-~~~
+```
 
 **Warning**: If you use that parameter to declare other classes or resources,
 then you must take further action to remove the parameter from those declarations!
