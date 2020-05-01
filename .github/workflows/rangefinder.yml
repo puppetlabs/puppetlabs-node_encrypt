@@ -23,15 +23,6 @@ jobs:
         gem install puppet-community-rangefinder
         mkdir output
         rangefinder ${{ env.FILES }} > results.md
-
-#     - uses: actions/upload-artifact@v1
-#       with:
-#         name: results
-#         path: output
-    
-#     - uses: actions/download-artifact@v1
-#       with:
-#         name: results
     
     - name: Post report
       uses: machine-learning-apps/pr-comment@master
