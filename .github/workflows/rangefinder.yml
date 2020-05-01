@@ -1,0 +1,30 @@
+name: Rangefinder impact analysis
+on: pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+
+    - name: list files
+      run: |
+        URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+        export FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+
+    - name: Run analysis
+      run: |
+        gem install rangefinder
+        export REPORT=$(rangefinder $(echo $FILES))
+
+    - name: Post report
+      uses: unsplash/comment-on-pr@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        msg: $REPORT
