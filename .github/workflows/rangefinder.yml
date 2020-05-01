@@ -30,4 +30,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: ${{ env.REPORT }}
+        msg: |
+          ${{ env.REPORT }}
