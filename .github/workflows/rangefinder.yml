@@ -21,9 +21,8 @@ jobs:
     - name: Run analysis
       run: |
         gem install puppet-community-rangefinder
-        echo "Running: rangefinder ${{ env.FILES }}"
         export REPORT=$(rangefinder ${{ env.FILES }})
-        echo "::set-env name=REPORT::$REPORT"
+        echo "::set-env name=REPORT::'$REPORT'"
 
     - name: Post report
       uses: unsplash/comment-on-pr@master
