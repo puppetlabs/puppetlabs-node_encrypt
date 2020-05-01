@@ -19,7 +19,7 @@ jobs:
 
     - name: Run analysis
       run: |
-        gem install rangefinder
+        gem install puppet-community-rangefinder
         export REPORT=$(rangefinder $(echo $FILES))
 
     - name: Post report
