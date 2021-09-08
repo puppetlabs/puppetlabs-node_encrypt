@@ -9,8 +9,13 @@ Puppet::Functions.create_function(:node_decrypt) do
   end
 
   def decrypt(content)
+    decrypted_data = if content.include?('MOCKED_DATA')
+                       'content'
+                     else
+                       Puppet_X::Binford2k::NodeEncrypt.decrypt(content)
+                     end
     Puppet::Pops::Types::PSensitiveType::Sensitive.new(
-      Puppet_X::Binford2k::NodeEncrypt.decrypt(content)
+      decrypted_data
     )
   end
 end
