@@ -33,7 +33,7 @@ Puppet::Type.newtype(:node_encrypted_file) do
 
     munge do |value|
       # This happens on the agent side, so yay?
-      Puppet_X::Binford2k::NodeEncrypt::Value.new(value)
+      Puppet_X::Binford2k::NodeEncrypt::Value.new(value) unless value.include?('MOCKED_DATA')
     end
   end
 

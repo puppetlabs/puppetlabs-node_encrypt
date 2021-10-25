@@ -336,6 +336,24 @@ This was designed to make it easy to integrate support into other tooling. For
 example, [this pull request](https://github.com/richardc/puppet-datacat/pull/17/files)
 adds transparent encryption support to _rc's popular `datacat` module.
 
+#### Testing with [Onceover](https://github.com/dylanratcliffe/onceover)
+
+If you use Onceover to test your puppet roles, you'll experience compilation failures
+when using this module as it won't be able to find the private keys it expects.
+
+```
+Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, Not a directory @ rb_sysopen - /dev/null/ssl/private_keys/example.com.pem
+```
+
+In your onceover.yaml file, mock the `node_encrypt` function as follows.
+
+```yaml
+functions:
+  node_encrypt:
+    returns: '-----BEGIN PKCS7----- MOCKED_DATA'
+```
+
+(Note, the text of the mock return is important for users of the `node_encrypt::file` defined type.)
 
 ## Disclaimer
 
