@@ -20,5 +20,13 @@ class redact (
     redacted => 'to be redacted',
     replaced => 'to be replaced',
   }
-
+  redact::thing {
+    default:
+      param    => 'a param',
+      redacted => 'to be redacted',
+      replaced => 'to be replaced',
+    ;
+    'three':;
+    'four':;
+  }
 }

@@ -29,5 +29,23 @@ describe "redact" do
       :replaced => 'a replacement string',
     })
   }
+  it { is_expected.to contain_redact__thing('three').with({
+      :param    => 'a param',
+      :redacted => '<<redacted>>',
+      :replaced => 'a replacement string',
+    })
+  }
+  it { is_expected.to contain_redact__thing('four').with({
+      :param    => 'a param',
+      :redacted => '<<redacted>>',
+      :replaced => 'a replacement string',
+    })
+  }
 
+  describe 'parameters being redacted are still available to use in manifests' do
+    ['one','two','three','four'].each do |title|
+      it { is_expected.to contain_notify("#{title} The value of redacted is to be redacted") }
+      it { is_expected.to contain_notify("#{title} The value of replaced is to be replaced") }
+    end
+  end
 end
