@@ -40,5 +40,13 @@ DOC
   }.first
 
   # and rewrite its parameter
-  klass.parameters[param.to_sym].value = message
+  if klass.type == 'Class'
+    klass.parameters[param.to_sym].value = message
+  else
+    # For defined types, the parameter object might be shared with other instances of the type, (if it was declared with a per resource default attribute).
+    # We must only redact the specific instance as the others won't have added their resources yet and still need the parameter unredacted.
+    parameter = klass.parameters[param.to_sym].dup
+    parameter.value = message
+    klass.parameters[param.to_sym] = parameter
+  end
 end
