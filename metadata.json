@@ -18,7 +18,8 @@
         "4",
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -27,7 +28,8 @@
         "4",
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -53,14 +55,19 @@
       "operatingsystemrelease": [
         "10 SP4",
         "11 SP1",
-        "12"
+        "12",
+        "15"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
       ]
     },
     {
@@ -68,7 +75,10 @@
       "operatingsystemrelease": [
         "10.04",
         "12.04",
-        "14.04"
+        "14.04",
+        "16.04",
+        "18.04",
+        "20.04"
       ]
     },
     {
@@ -82,14 +92,15 @@
     {
       "operatingsystem": "Windows",
       "operatingsystemrelease": [
-        "Server 2003",
-        "Server 2003 R2",
-        "Server 2008",
-        "Server 2008 R2",
-        "Server 2012",
-        "Server 2012 R2",
+        "2008",
+        "2008 R2",
+        "2012",
+        "2012 R2",
+        "2016",
+        "2019",
         "7",
-        "8"
+        "8.1",
+        "10"
       ]
     },
     {
@@ -98,6 +109,18 @@
         "5.3",
         "6.1",
         "7.1"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8"
       ]
     }
   ],
