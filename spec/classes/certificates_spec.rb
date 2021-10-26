@@ -85,7 +85,7 @@ describe "node_encrypt::certificates" do
     it { should_not contain_puppet_authorization__rule('public certificates mountpoint whitelist') }
   end
 
-  context "when run on a compile master" do
+  context "when run on a compile server" do
     let(:node) { 'compile1.example.com' }
     let(:facts) { {
       :fqdn       => 'compile1.example.com',

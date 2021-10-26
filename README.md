@@ -56,7 +56,7 @@ function as needed.
 
 * `node_encrypt::secret()`
     * On Puppet6 or above, this is likely the only use you'll need to know.
-    * This function encrypts a string on the master, and then decrypts it on the
+    * This function encrypts a string on the server, and then decrypts it on the
       agent during catalog application.
     * Example: `'secret string'.node_encrypt::secret`
 * `redact()`
@@ -76,7 +76,7 @@ function as needed.
       or Hiera data files.
     * Example: `content => Deferred("node_decrypt", [$encrypted_content])`
 * `node_encrypt::certificates`
-    * This class will synchronize certificates to all compile masters.
+    * This class will synchronize certificates to all compile servers.
     * Generally not needed, unless the `clientcert_pem` fact fails for some reason.
 * `node_encrypt::file`
     * Legacy type for Puppet 5 and below.
@@ -141,7 +141,7 @@ a type that is not `String` for the parameter you're redacting.
 
 This comes with a Puppet Face that can encrypt or decrypt on the command line.
 You can use this in your own scripts via several methods. The ciphertext can be
-generated on the CA or any compile master using the `puppet node encrypt`
+generated on the CA or any compile server using the `puppet node encrypt`
 command.
 
     # puppet node encrypt -t testhost.puppetlabs.vm "encrypt some text"
@@ -171,23 +171,23 @@ You can then decrypt this data by:
     * `cat /file/with/encrypted/blob.txt | puppet node decrypt`
 
 
-### Automatically distributing certificates to compile masters
+### Automatically distributing certificates to compile servers
 
 The agent should send its public certificate as a custom `clientcert_pem` fact,
 making this a seamless zero-config process. In the case that doesn't work, you
-can distribute certificates to your compile masters using the
+can distribute certificates to your compile servers using the
 `node_encrypt::certificates` class so that encryption works from all compile
-masters. Please be aware that **this class will create a fileserver mount on the
+servers. Please be aware that **this class will create a fileserver mount on the
 CA node** making public certificates available for download by all nodes.
 
-Classify all your masters, including the CA or Master of Masters, with this class.
-This will ensure that all masters have all agents' public certificates.
+Classify all your servers, including the CA or Primary Server, with this class.
+This will ensure that all server have all agents' public certificates.
 
 **Note**:<br />
 If this is applied to all nodes in your infrastructure then all agents will have all
 public certificates synched. This is not a security risk, as public certificates are
 designed to be shared widely, but it is something you should be aware of. If you wish
-to prevent that, just make sure to classify only your masters.
+to prevent that, just make sure to classify only your servers.
 
 Parameters:
 
@@ -249,7 +249,7 @@ exec { 'set service passphrase':
 
 Since public certificates are designed to be shared widely without a security
 risk, we made the decision to simplify and no longer manage a whitelist of
-compile masters allowed to access the `public_certificates` mountpoint. If you
+compile servers allowed to access the `public_certificates` mountpoint. If you
 would like to enforce a whitelist anyway, then you can use one of the following
 methods:
 
@@ -281,23 +281,26 @@ puppet_authorization::rule { 'public certificates mountpoint override':
 ```
 
 
-### Using on masterless infrastructures
+### Using on serverless infrastructures
 
-For the most part, `node_encrypt` doesn't have as much value in a masterless
+For the most part, `node_encrypt` doesn't have as much value in a serverless
 setup. When the agent is compiling its own catalog, there's no cached catalog or
 network transfer. Nevertheless, there are use cases for it. For example, if you
 have a report server configured, or are submitting catalogs & reports to PuppetDB,
 you likely want to keep secrets hidden.
 
-`node_encrypt` won't work out of the box on a masterless node because it relies
+`node_encrypt` won't work out of the box on a serverless node because it relies
 on the existence of the CA certificates. But it's easy to generate these
 certificates so that it will work. Keep in mind that without the full CA
 infrastructure, no other node will be able to decrypt these secrets.
 
+Note that this functionality was moved to the `puppetserver` application
+in Puppet 6.x, so you'll need Puppet 5.x to generate this certificate.
+
 ```
-$ rm -rf $(puppet master --configprint ssldir)/*
+$ rm -rf $(puppet config print ssldir --section server)/*
 $ puppet cert list -a
-$ puppet cert --generate ${puppet master --configprint certname} --dns_alt_names "$(puppet master --configprint dns_alt_names)"
+$ puppet cert --generate ${puppet config print certname} --dns_alt_names "$(puppet config print dns_alt_names)"
 ```
 
 

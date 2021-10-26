@@ -1,15 +1,15 @@
 # Class: node_encrypt::certificates
 #
 # This class distributes public certificates from your CA node to all compile
-# masters in a Master of Masters configuration. You should classify all your
-# master nodes with this class, including the CA.
+# server configuration. You should classify all your server nodes with this
+# class, including the CA.
 #
 # It will set up a file mountpoint on the CA node, and then sync all agent public
-# certificates to the $ssldir/certs directory on each compile master, where they
+# certificates to the $ssldir/certs directory on each compile server, where they
 # can be used to encrypt secrets for agents.
 #
 # **Note**:
-# If this is applied to nodes in a flat hierarchy (i.e., non Master of Masters),
+# If this is applied to nodes in a flat hierarchy (i.e., without a primary server),
 # then all agents will have all public certificates synced. This is not a
 # security risk, as public certificates are designed to be shared widely, but it
 # is something you should be aware of.
@@ -47,7 +47,7 @@ class node_encrypt::certificates (
 
     # Puppet 5 hard deprecated managing authentication in fileserver.conf
     # The only valid value is `allow *`. But it's ignored, so we just write
-    # it anyway, and Puppet 3/4 masters can use it.
+    # it anyway, and Puppet 3/4 servers can use it.
     ini_setting { 'public certificates mountpoint whitelist':
       ensure            => present,
       path              => "${::settings::confdir}/fileserver.conf",
@@ -73,7 +73,7 @@ class node_encrypt::certificates (
   # This will distribute the *public* certificates to all nodes, including other agents. This
   # is not a security risk, as that's how public certificates were designed to be used, but if
   # you'd like to limit this anyway, then simply ensure that this class is only enforced on the
-  # CA and any masters in your infrastructure.
+  # CA and any servers in your infrastructure.
   else {
     file { "${::settings::ssldir}/certs":
       ensure  => directory,

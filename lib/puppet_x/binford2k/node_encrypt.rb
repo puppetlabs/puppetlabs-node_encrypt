@@ -26,7 +26,7 @@ module Puppet_X
 
         # if we're on the CA, we've got a copy of the clientcert from the start.
         # This allows the module to work with no classification at all on single
-        # monolithic master setups
+        # monolithic server setups
         destpath = [
           "#{Puppet.settings[:signeddir]}/#{destination}.pem",
           "#{Puppet.settings[:certdir]}/#{destination}.pem",
@@ -43,7 +43,7 @@ module Puppet_X
             hostcert = scope.lookupvar('clientcert_pem')
             target   = OpenSSL::X509::Certificate.new(hostcert)
           else
-            url = 'https://github.com/binford2k/binford2k-node_encrypt#automatically-distributing-certificates-to-compile-masters'
+            url = 'https://github.com/binford2k/binford2k-node_encrypt#automatically-distributing-certificates-to-compile-servers'
             raise ArgumentError, "Client certificate does not exist. See #{url} for more info."
           end
         end
