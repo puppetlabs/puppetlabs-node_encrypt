@@ -81,7 +81,7 @@ module Puppet_X
         attr_accessor :decrypted_value
 
         def initialize(value)
-          if Puppet_X::Binford2k::NodeEncrypt.encrypted? value and not defined?($onceover_node)
+          if Puppet_X::Binford2k::NodeEncrypt.encrypted? value
             @decrypted_value = Puppet_X::Binford2k::NodeEncrypt.decrypt(value)
           else
             @decrypted_value = value
