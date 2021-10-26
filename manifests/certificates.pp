@@ -26,7 +26,7 @@
 # If you've customized your HOCON-based `auth.conf`, set the appropriate sort
 # order here. The default rule's weight is 500, so this parameter defaults to
 # `300` to ensure that it overrides the default.
-
+#
 class node_encrypt::certificates (
   $ca_server  = undef,
   $legacy     = undef,
