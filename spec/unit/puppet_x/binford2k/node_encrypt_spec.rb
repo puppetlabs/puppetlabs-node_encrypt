@@ -292,39 +292,3 @@ describe Puppet_X::Binford2k::NodeEncrypt do
   end
 end
 
-describe Puppet_X::Binford2k::NodeEncrypt::Value do
-
-  it "should store a decrypted value" do
-    File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
-    File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
-    File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
-
-    # not sure why this isn't getting set automatically, but eh. This works
-    Puppet.settings[:certname] = 'testhost.example.com'
-
-    data = Puppet_X::Binford2k::NodeEncrypt::Value.new(encrypted)
-    expect(data.decrypted_value).to eq 'foo'
-  end
-
-  it "should store a plain value" do
-    data = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
-    expect(data.decrypted_value).to eq 'foo'
-  end
-
-  it "should complain about a non-string" do
-    expect { Puppet_X::Binford2k::NodeEncrypt::Value.new(1234) }.to raise_error(ArgumentError)
-  end
-
-  it "should test equality" do
-    first  = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
-    second = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
-    expect(first == second).to be true
-  end
-
-  it "should test inequality" do
-    first  = Puppet_X::Binford2k::NodeEncrypt::Value.new('foo')
-    second = Puppet_X::Binford2k::NodeEncrypt::Value.new('bar')
-    expect(first == second).to be false
-  end
-
-end

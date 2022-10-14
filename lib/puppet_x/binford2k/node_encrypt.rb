@@ -75,40 +75,6 @@ module Puppet_X
         verified.data
       end
 
-      # This is just a stupid simple value wrapper class that allows us to store and compare
-      # two values, but to not print them out in the generated reports.
-      class Value
-        attr_accessor :decrypted_value
-
-        def initialize(value)
-          if Puppet_X::Binford2k::NodeEncrypt.encrypted? value
-            @decrypted_value = Puppet_X::Binford2k::NodeEncrypt.decrypt(value)
-          else
-            @decrypted_value = value
-          end
-        end
-
-        def == (another)
-          # Puppet does some weird comparisons, so let's just short circuit them all
-          return false unless another.class == Puppet_X::Binford2k::NodeEncrypt::Value
-
-          # comparing as hex values allows us to not care about different-but-equivalent
-          # escaped decimal forms. This allows us to manage binary data without spurious
-          # change notifications in the report.
-          @decrypted_value.unpack("H*") == another.decrypted_value.unpack("H*")
-        end
-
-        def to_s
-          '<<encrypted>>'
-        end
-
-        # The transactionstore uses psych to dump yaml to the cache file.
-        # This lets us control how that is serialized.
-        def encode_with(coder)
-          coder.tag = nil
-          coder.scalar = '<<encrypted>>'
-        end
-      end
 
     end
   end
