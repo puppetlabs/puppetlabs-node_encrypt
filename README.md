@@ -6,13 +6,12 @@
 
 ## Overview
 
-Do you wish your Puppet catalogs didn't contain plain text secrets? Are you tired
-of limiting access to your Puppet reports because of the passwords clearly
-visible in the change events?
-
-This module will encrypt values for each node specifically, using their own
-certificates. This means that not only do you not have plain text secrets, but
-each node can decrypt only its own secrets.
+Do you wish your Puppet catalogs didn't contain plain text secrets? Are you
+tired of limiting access to your Puppet reports because of the passwords clearly
+visible in the change events? This module will encrypt values for each node
+specifically, using their own certificates. This means that not only do you not
+have plain text secrets in the catalog file, but each node can decrypt only its
+own secrets.
 
 <img src="assets/puppet6.png" alt="Puppet 6 logo" align="right" width="125" height="125">
 
@@ -21,8 +20,7 @@ never have your secrets exposed in the catalog, in any reports, or any other
 cached state files. Any parameter of any resource type may be encrypted  by
 simply annotating your secret string with a function call. **This relies on
 Deferred execution functions in Puppet 6**. If you're running Puppet 5 or
-below, then see the [legacy section below](#legacy-puppet-5-and-below-support)
-for backwards compatibility.
+below, then pin this module to `v0.4.1` or older for backwards compatibility.
 
 ```Puppet
 user { 'erwin':
@@ -55,7 +53,6 @@ function as needed.
 ## Usage
 
 * `node_encrypt::secret()`
-    * On Puppet6 or above, this is likely the only use you'll need to know.
     * This function encrypts a string on the server, and then decrypts it on the
       agent during catalog application.
     * Example: `'secret string'.node_encrypt::secret`
@@ -68,8 +65,8 @@ function as needed.
     * This is a Puppet Face that generates encrypted ciphertext on the command line.
     * `puppet node encrypt -t testhost.example.com "encrypt some text"`
 * `puppet node decrypt`
-    * This is a Puppet Face that decrypts ciphertext on the command line. It is
-      useful in command-line scripts, or in `exec` statements.
+    * This is a Puppet Face that decrypts ciphertext on the command line. It can
+      be useful in command-line scripts.
 * `node_decrypt()`
     * This is a Puppet function used to decrypt encrypted text on the agent.
       You'll only need to use this if you save encrypted content in your manifests
@@ -79,7 +76,11 @@ function as needed.
     * This class will synchronize certificates to all compile servers.
     * Generally not needed, unless the `clientcert_pem` fact fails for some reason.
 * `node_encrypt::file`
-    * Legacy type for Puppet 5 and below.
+    * Legacy type for backwards code compatibility.
+    * It just invokes the deferred functions for you so that your old code will
+      continue to compile. This means that it now requires Puppet 6.x+. You should
+      migrate to the deferred function as soon as possible, as this type will be
+      removed in the next major version.
     * This is a defined type that wraps a standard file resource, but allows you
       to encrypt the content in the catalog and reports.
 
@@ -194,91 +195,10 @@ Parameters:
 * [*ca_server*]
     * If the CA autodetection fails, then you can specify the $fqdn of the CA server here.
 
-* [*legacy*]
-    * Set to `true` if you're still using legacy `auth.conf` on Puppet 5.
-
 * [*sort_order*]
     * If you've customized your HOCON-based `auth.conf`, set the appropriate sort
       order here. The default rule's weight is 500, so this parameter defaults to
       `300` to ensure that it overrides the default.
-
-
-### Legacy Puppet 5 and below support
-
-<img src="assets/puppet5.png" alt="Puppet 5 logo" align="right" width="125" height="125">
-
-Deferred functions were introduced in Puppet 6. In prior versions, `node_encrypt`
-required a custom provider for each resource type it supported. As such, we could
-only encrypt files, using a defined type wrapper like so:
-
-```Puppet
-node_encrypt::file { '/tmp/foo':
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0600',
-  content => 'This string will never appear in the catalog.',
-}
-```
-
-If you'd like to pre-encrypt your data, you can pass it as the `encrypted_content`
-instead. The ciphertext can be stored directly in your manifest file, in Hiera,
-or anywhere else you'd like. Note that if you choose to do this, the ciphertext
-must be encrypted specifically for each node. You cannot share secrets amongst nodes.
-
-```Puppet
-node_encrypt::file { '/tmp/foo':
-  owner             => 'root',
-  group             => 'root',
-  encrypted_content => hiera('encrypted_foo'),
-}
-```
-
-The CLI tool can be useful when running `exec resources` with embedded secrets.
-Note the careful use of single quotes to prevent variable expansion in Puppet:
-
-```Puppet
-exec { 'set service passphrase':
-  command     => 'some-service --set-passphrase="$(puppet node decrypt --env SECRET)"',
-  path        => '/opt/puppetlabs/bin:/usr/bin',
-  environment => "SECRET=${node_encrypt('and your father smelt of elderberries')}",
-}
-```
-
-
-#### Deprecated Parameters
-
-Since public certificates are designed to be shared widely without a security
-risk, we made the decision to simplify and no longer manage a whitelist of
-compile servers allowed to access the `public_certificates` mountpoint. If you
-would like to enforce a whitelist anyway, then you can use one of the following
-methods:
-
-If you're using the legacy `auth.conf` format then you'll need to configure it
-manually by editing `$confdir/auth.conf` on the CA server. Ensure that this
-stanza comes before the existing `^/puppet/v3/file` rule and set the `whitelist`
-parameter to `false` in your classification to disable the error.
-
-```
-# Node_encrypt: Allow limited access to the 'public_certificates' mountpoint:
-path ~ ^/puppet/v3/file_(metadata|content)s?/public_certificates
-auth yes
-allow list,of,whitelisted,certnames
-```
-
-If you're using the modern HOCON based `auth.conf` format, then you can manage
-access using a Puppet resource such as the following. Ensure that the `sort_order`
-is lower than `300`, or the value you passed to `node_encrypt::certificates`.
-
-```Puppet
-puppet_authorization::rule { 'public certificates mountpoint override':
-  match_request_path   => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-  match_request_type   => 'regex',
-  match_request_method => 'get',
-  allow                => ['array', 'of', 'whitelisted', 'certnames'],
-  sort_order           => 250,
-  path                 => '/etc/puppetlabs/puppetserver/conf.d/auth.conf',
-}
-```
 
 
 ### Using on serverless infrastructures
