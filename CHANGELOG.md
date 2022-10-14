@@ -1,3 +1,21 @@
+# 2.0.0
+## Warning: this is a major change and now depends on Puppet 6.x+!
+
+* This now completely drops support for Puppet versions 5 and below.
+    * The weird node_encrypted_file type was totally removed.
+    * The only supported encryption is now the deferred function.
+    * The `node_encrypt::file` defined type was retained for backwards code
+      compatibility, so you may not need to make code changes. It's now just a
+      wrapper for the deferred function and will scream at you when you use it.
+
+
+# 1.0.0
+
+* Alex Fisher added some basic support for testing under OnceOver #70
+* Some minor cleanups required to get the Approved badge on the Forge #77
+* Alex Fisher fixed the ability to redact default resource attributes #75
+* Language cleanup #76
+
 # 0.4.1
 
 * Allow node_encrypt::secret to accept Sensitive[String] values (@danielparks)
