@@ -18,3 +18,5 @@ tags
 /temp/
 /spec/fixtures/
 .rake_t_cache
+.git
+
