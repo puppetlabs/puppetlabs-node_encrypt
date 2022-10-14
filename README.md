@@ -49,6 +49,28 @@ and then decrypt it on that node. If you like, you may also paste the ciphertext
 into your manifest or Hiera datafiles and then manually invoke the `node_decrypt()`
 function as needed.
 
+## Suitability
+
+Please note that `node_encrypt` is ***not a security panacea***. It will encrypt
+your secrets in the catalog file on disk using the node's certificate, also on
+disk. This means that if an attacker gains root level access to your filesystem,
+then they can likely read both the encrypted secrets and the key used to decrypt
+them.
+
+| ⚠️ **Warning:** |
+|-----------------|
+| *`node_encrypt` will only protect you in cases where an attacker has access to the catalog file, but not to the node's private certificate.* |
+
+Some of the cases protected by `node_encrypt` might include:
+
+* Filesystem backup
+* Using the catalog files for certain kinds of [impact analysis](https://dev.to/camptocamp-ops/automated-puppet-impact-analysis-1c1)
+* Making catalogs available for troubleshooting with catalog diff
+* Retrieving catalogs from [PuppetDB via API](https://puppet.com/docs/puppetdb/latest/api/query/v4/catalogs.html)
+
+If you have more stringent security requirements, we suggest integrating with a purpose
+built secret server. See [docs](https://puppet.com/docs/puppet/latest/integrations_with_secret_stores.html) for more details.
+
 
 ## Usage
 
