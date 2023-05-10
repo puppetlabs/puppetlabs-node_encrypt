@@ -4,8 +4,9 @@ module Puppet_X
 
       def self.encrypted?(data)
         raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
+
         # ridiculously faster than a regex
-        data.start_with?("-----BEGIN PKCS7-----")
+        data.start_with?('-----BEGIN PKCS7-----')
       end
 
       def self.encrypt(data, destination)
@@ -49,7 +50,7 @@ module Puppet_X
         end
 
         signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
-        cipher = OpenSSL::Cipher::new("AES-128-CFB")
+        cipher = OpenSSL::Cipher::new('AES-128-CFB')
 
         OpenSSL::PKCS7::encrypt([target], signed.to_der, cipher, OpenSSL::PKCS7::BINARY).to_s
       end
@@ -72,9 +73,9 @@ module Puppet_X
         unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
           raise ArgumentError, 'Signature verification failed'
         end
+
         verified.data
       end
-
 
     end
   end

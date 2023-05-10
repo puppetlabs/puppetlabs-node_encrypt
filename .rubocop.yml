@@ -1,0 +1,20 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  SuggestExtensions: false
+
+# Layout
+Layout/LineLength:
+  Description: People have wide screens, use them.
+  Max: 200
+
+# Metrics
+Metrics/ParameterLists:
+  Description: 6 is the current highest count. Lets not go over that.
+  Max: 6

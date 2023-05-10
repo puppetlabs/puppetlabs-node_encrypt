@@ -6,5 +6,8 @@ group :test do
   gem 'rspec-puppet'
   gem 'puppetlabs_spec_helper'
   gem 'pry'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rspec'
 end
 

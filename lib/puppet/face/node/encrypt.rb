@@ -4,14 +4,14 @@ require 'puppet_x/binford2k/node_encrypt'
 Puppet::Face.define(:node, '0.0.1') do
   action :encrypt do
     summary "Encrypt a value using a specified agent's certificate"
-    arguments "[string]"
+    arguments '[string]'
 
-    option "-t CERTNAME", "--target CERTNAME" do
-      summary "Which agent to encrypt for"
+    option '-t CERTNAME', '--target CERTNAME' do
+      summary 'Which agent to encrypt for'
     end
 
-    option "-p", "--prompt" do
-      summary "Prompt the user for data to encrypt"
+    option '-p', '--prompt' do
+      summary 'Prompt the user for data to encrypt'
     end
 
     description <<-'EOT'
@@ -34,7 +34,8 @@ Puppet::Face.define(:node, '0.0.1') do
       options = args.pop
       if options[:prompt]
         raise ArgumentError, ('Cannot pass data and prompt for data at the same time!') if args.length > 0
-        print "Enter a string to encrypt: "
+
+        print 'Enter a string to encrypt: '
         text = $stdin.gets
       elsif args.length == 0
         text = $stdin.read
@@ -49,12 +50,12 @@ Puppet::Face.define(:node, '0.0.1') do
   action :decrypt do
     summary "Decrypt a value using the agent's own certificate"
 
-    option "-d DATA", "--data DATA" do
-      summary "An string of data to decrypt"
+    option '-d DATA', '--data DATA' do
+      summary 'An string of data to decrypt'
     end
 
-    option "-e VARIABLE", "--env VARIABLE" do
-      summary "An environment variable containing data to decrypt"
+    option '-e VARIABLE', '--env VARIABLE' do
+      summary 'An environment variable containing data to decrypt'
     end
 
     description <<-'EOT'
@@ -81,5 +82,4 @@ Puppet::Face.define(:node, '0.0.1') do
       end
     end
   end
-
 end

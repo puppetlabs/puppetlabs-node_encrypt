@@ -253,7 +253,7 @@ uSI28VzZYavkITj+2D6tMys=
 describe Puppet_X::Binford2k::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
-  it "should decrypt values which have been encrypted" do
+  it 'should decrypt values which have been encrypted' do
     Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
               '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem',   # encrypting for agent
               '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem'  # decrypting on agent
@@ -283,11 +283,11 @@ describe Puppet_X::Binford2k::NodeEncrypt do
     expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
   end
 
-  it "should identify an encrypted string" do
+  it 'should identify an encrypted string' do
     expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted) ).to be true
   end
 
-  it "should identify a non-encrypted string" do
+  it 'should identify a non-encrypted string' do
     expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo') ).to be false
   end
 end
