@@ -13,28 +13,28 @@ describe 'node_encrypt::certificates' do
 
     let(:node) { 'ca.example.com' }
     let(:facts) { {
-      :fqdn          => 'ca.example.com',
-      :servername    => 'ca.example.com',
+      :fqdn => 'ca.example.com',
+      :servername => 'ca.example.com',
       :puppetversion => '5.3.5'
     }
     }
 
     it {
       should contain_ini_setting('public certificates mountpoint path').with({
-        :ensure => 'present',
-        :path   => '/etc/puppetlabs/puppet/fileserver.conf',
-        :value  => '/etc/puppetlabs/puppet/ssl/ca/signed/'
-      })
+                                                                               :ensure => 'present',
+                                                                               :path => '/etc/puppetlabs/puppet/fileserver.conf',
+                                                                               :value => '/etc/puppetlabs/puppet/ssl/ca/signed/'
+                                                                             })
     }
 
     it {
       should contain_puppet_authorization__rule('public certificates mountpoint whitelist').with({
-        :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-        :match_request_type => 'regex',
-        :allow              => '*',
-        :sort_order         => 300,
-        :path               => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
-      })
+                                                                                                   :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+                                                                                                   :match_request_type => 'regex',
+                                                                                                   :allow => '*',
+                                                                                                   :sort_order => 300,
+                                                                                                   :path => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+                                                                                                 })
     }
 
     it { should_not contain_file('/etc/puppetlabs/puppet/ssl/certs') }
@@ -43,7 +43,7 @@ describe 'node_encrypt::certificates' do
   context 'when run on a compile server' do
     let(:node) { 'compile1.example.com' }
     let(:facts) { {
-      :fqdn       => 'compile1.example.com',
+      :fqdn => 'compile1.example.com',
       :servername => 'ca.example.com'
     }
     }
@@ -53,16 +53,16 @@ describe 'node_encrypt::certificates' do
 
     it {
       should contain_file('/etc/puppetlabs/puppet/ssl/certs').with({
-        :ensure => 'directory',
-        :source => 'puppet://ca.example.com/public_certificates/'
-      })
+                                                                     :ensure => 'directory',
+                                                                     :source => 'puppet://ca.example.com/public_certificates/'
+                                                                   })
     }
   end
 
   context 'when run on a tier3 agent' do
     let(:node) { 'agent.example.com' }
     let(:facts) { {
-      :fqdn       => 'agent.example.com',
+      :fqdn => 'agent.example.com',
       :servername => 'compile01.example.com'
     }
     }

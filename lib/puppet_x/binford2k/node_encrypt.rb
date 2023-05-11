@@ -1,7 +1,6 @@
 module Puppet_X
   module Binford2k
     class NodeEncrypt
-
       def self.encrypted?(data)
         raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
 
@@ -30,7 +29,7 @@ module Puppet_X
         # monolithic server setups
         destpath = [
           "#{Puppet.settings[:signeddir]}/#{destination}.pem",
-          "#{Puppet.settings[:certdir]}/#{destination}.pem",
+          "#{Puppet.settings[:certdir]}/#{destination}.pem"
         ].find {|path| File.exist? path }
 
         # for safer upgrades, let's default to the known good pathway for now
@@ -70,13 +69,10 @@ module Puppet_X
         decrypted = blob.decrypt(key, cert)
         verified  = OpenSSL::PKCS7.new(decrypted)
 
-        unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
-          raise ArgumentError, 'Signature verification failed'
-        end
+        raise ArgumentError, 'Signature verification failed' unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
 
         verified.data
       end
-
     end
   end
 end

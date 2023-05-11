@@ -6,9 +6,9 @@ describe 'node_encrypt::file' do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) { {
-      :ensure  => 'file',
-      :owner   => 'root',
-      :mode    => '0644',
+      :ensure => 'file',
+      :owner => 'root',
+      :mode => '0644',
       :content => 'foobar'
     }
     }
@@ -19,11 +19,11 @@ describe 'node_encrypt::file' do
 
     it { should have_notify_resource_count(1) }
     it { should contain_file('/tmp/test').with({
-      :ensure  => 'file',
-      :owner   => 'root',
-      :mode    => '0644',
-      :content => 'encrypted'
-    })
+                                                 :ensure => 'file',
+                                                 :owner => 'root',
+                                                 :mode => '0644',
+                                                 :content => 'encrypted'
+                                               })
     }
   end
 
@@ -31,24 +31,24 @@ describe 'node_encrypt::file' do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) { {
-      :ensure            => 'file',
-      :owner             => 'root',
-      :mode              => '0644',
+      :ensure => 'file',
+      :owner => 'root',
+      :mode => '0644',
       :encrypted_content => 'encrypted'
     }
     }
 
     before(:each) do
-      Puppet_X::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
+      allow(Puppet_X::Binford2k::NodeEncrypt).to receive(:decrypt).with('encrypted').and_return('decrypted')
     end
 
     it { should have_notify_resource_count(1) }
     it { should contain_file('/tmp/test').with({
-      :ensure  => 'file',
-      :owner   => 'root',
-      :mode    => '0644',
-      :content => sensitive('decrypted')
-    })
+                                                 :ensure => 'file',
+                                                 :owner => 'root',
+                                                 :mode => '0644',
+                                                 :content => sensitive('decrypted')
+                                               })
     }
   end
 
