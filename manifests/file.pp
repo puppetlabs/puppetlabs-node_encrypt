@@ -20,22 +20,22 @@
 #  }
 #
 define node_encrypt::file (
-  $ensure                  = 'file',
-  $path                    = $title,
-  $backup                  = undef,
-  $checksum                = undef,
-  $content                 = undef,
-  $encrypted_content       = undef,
-  $force                   = undef,
-  $group                   = undef,
-  $owner                   = undef,
-  $mode                    = undef,
-  $replace                 = undef,
-  $selinux_ignore_defaults = undef,
-  $selrange                = undef,
-  $selrole                 = undef,
-  $seltype                 = undef,
-  $seluser                 = undef,
+  Enum[present, absent, file] $ensure                  = 'file',
+  String[1] $path                    = $title,
+  Optional[String[1]] $backup                  = undef,
+  Optional[String[1]] $checksum                = undef,
+  Optional[String[1]] $content                 = undef,
+  Optional[String[1]] $encrypted_content       = undef,
+  Optional[String[1]] $force                   = undef,
+  Optional[String[1]] $group                   = undef,
+  Optional[String[1]] $owner                   = undef,
+  Optional[String[1]] $mode                    = undef,
+  Optional[String[1]] $replace                 = undef,
+  Optional[String[1]] $selinux_ignore_defaults = undef,
+  Optional[String[1]] $selrange                = undef,
+  Optional[String[1]] $selrole                 = undef,
+  Optional[String[1]] $seltype                 = undef,
+  Optional[String[1]] $seluser                 = undef,
 ) {
   warning('This defined type is now deprecated and will be removed in the next major release. Use the node_encrypt::secret function instead.')
   notify { 'Warning: this defined type is now deprecated and will be removed in the next major release. Use the node_encrypt::secret function instead.': }
