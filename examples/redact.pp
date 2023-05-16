@@ -1,10 +1,8 @@
-class foo ($bar) {
-  notice("The value of bar is ${bar}")
-  redact('bar')
+$encrypted = lookup('encrypted_foo')
+file { '/etc/something/or/other.conf':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0600',
+  content => Deferred('node_decrypt', [$encrypted]),
 }
-
-class { 'foo':
-  bar => 'buzzbuzz',
-}
-
-notice("The value of foo::bar is ${foo::bar}")

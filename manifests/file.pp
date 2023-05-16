@@ -40,7 +40,7 @@ define node_encrypt::file (
   warning('This defined type is now deprecated and will be removed in the next major release. Use the node_encrypt::secret function instead.')
   notify { 'Warning: this defined type is now deprecated and will be removed in the next major release. Use the node_encrypt::secret function instead.': }
 
-  unless $ensure in [ 'absent', 'present', 'file'] {
+  unless $ensure in ['absent', 'present', 'file'] {
     fail("Node_encrypt::File[${title}] invalid value for ensure")
   }
 

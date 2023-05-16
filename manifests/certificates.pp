@@ -29,16 +29,15 @@ class node_encrypt::certificates (
   $sort_order = 300,
 ) {
   # Matches when the agent node is the CA itself.
-  if $::fqdn in [$ca_server, $::settings::ca_server] {
-
+  if $facts['networking']['fqdn'] in [$ca_server, $settings::ca_server] {
     # Set up file mountpoint to distribute the certs
     ini_setting { 'public certificates mountpoint path':
       ensure            => present,
-      path              => $::settings::fileserverconfig,
+      path              => $settings::fileserverconfig,
       section           => 'public_certificates',
       setting           => 'path',
       key_val_separator => ' ',
-      value             => "${::settings::ssldir}/ca/signed/",
+      value             => "${settings::ssldir}/ca/signed/",
     }
 
     puppet_authorization::rule { 'public certificates mountpoint whitelist':
@@ -56,13 +55,12 @@ class node_encrypt::certificates (
   # you'd like to limit this anyway, then simply ensure that this class is only enforced on the
   # CA and any servers in your infrastructure.
   else {
-    file { "${::settings::ssldir}/certs":
+    file { "${settings::ssldir}/certs":
       ensure  => directory,
       recurse => true,
       purge   => true,
-      ignore  => [ 'pe-internal-*', 'ca.pem' ],
-      source  => "puppet://${::settings::ca_server}/public_certificates/", # lint:ignore:puppet_url_without_modules
+      ignore  => ['pe-internal-*', 'ca.pem'],
+      source  => "puppet://${settings::ca_server}/public_certificates/", # lint:ignore:puppet_url_without_modules
     }
   }
-
 }
