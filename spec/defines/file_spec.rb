@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/puppetlabs/node_encrypt'
 
 describe "node_encrypt::file" do
   context "ensuring present" do
@@ -36,7 +36,7 @@ describe "node_encrypt::file" do
     } }
 
     before(:each) do
-      Puppet_X::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
+      allow(Puppet_X::Puppetlabs::NodeEncrypt).to receive(:decrypt).with('encrypted').and_return('decrypted')
     end
 
     it { should have_notify_resource_count(1) }

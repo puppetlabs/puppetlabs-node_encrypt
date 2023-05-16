@@ -1,4 +1,4 @@
-require_relative '../../puppet_x/binford2k/node_encrypt'
+require_relative '../../puppet_x/puppetlabs/node_encrypt'
 
 # @summary
 #   Encrypt data with node_encrypt.
@@ -14,7 +14,7 @@ Puppet::Functions.create_function(:node_encrypt) do
 
   def simple_encrypt(content)
     certname = closure_scope['clientcert']
-    Puppet_X::Binford2k::NodeEncrypt.encrypt(content, certname)
+    Puppet_X::Puppetlabs::NodeEncrypt.encrypt(content, certname)
   end
 
   def sensitive_encrypt(content)

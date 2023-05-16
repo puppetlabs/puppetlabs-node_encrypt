@@ -1,6 +1,6 @@
 require 'openssl'
 require 'spec_helper'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/puppetlabs/node_encrypt'
 
 ca_crt_pem = "-----BEGIN CERTIFICATE-----
 MIIGGjCCBAKgAwIBAgIBATANBgkqhkiG9w0BAQsFADBaMVgwVgYDVQQDDE9QdXBw
@@ -250,45 +250,45 @@ P3UmZrgNUptcoa0TSn++XeFchgdUJIsk+tQv7TWsa4/MANKfFGZKSq2NMHW685Aw
 uSI28VzZYavkITj+2D6tMys=
 -----END PKCS7-----"
 
-describe Puppet_X::Binford2k::NodeEncrypt do
+describe Puppet_X::Puppetlabs::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
   it "should decrypt values which have been encrypted" do
-    Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
+    expect(Puppet.settings).to receive(:[]).with(:hostcert).and_return(
               '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem',   # encrypting for agent
               '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem'  # decrypting on agent
-            )
-    Puppet.settings.expects(:[]).twice.with(:hostprivkey).returns(
+            ).twice
+    expect(Puppet.settings).to receive(:[]).with(:hostprivkey).and_return(
               '/etc/puppetlabs/puppet/ssl/private_keys/primary.example.com.pem',  # encrypting for agent
               '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem' # decrypting on agent
-            )
-    Puppet.settings.expects(:[]).with(:signeddir).returns('/bad/path')                                 # fall through to certdir
-    Puppet.settings.expects(:[]).with(:certdir).returns('/etc/puppetlabs/puppet/ssl/certs')            # encrypting for agent
-    Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
+    ).twice
+    expect(Puppet.settings).to receive(:[]).with(:signeddir).and_return('/bad/path')                                 # fall through to certdir
+    expect(Puppet.settings).to receive(:[]).with(:certdir).and_return('/etc/puppetlabs/puppet/ssl/certs')            # encrypting for agent
+    expect(Puppet.settings).to receive(:[]).with(:localcacert).and_return('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
 
     # encrypting on server for agent
-    File.expects(:exist?).with(regexp_matches(/bad\/path\/testhost.example.com\.pem$/)).returns(nil)
-    File.expects(:exist?).with(regexp_matches(/ssl\/certs\/testhost.example.com\.pem$/)).returns(true)
+    expect(File).to receive(:exist?).with(/bad\/path\/testhost.example.com\.pem$/).and_return(nil)
+    expect(File).to receive(:exist?).with(/ssl\/certs\/testhost.example.com\.pem$/).and_return(true)
 
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/primary.example.com\.pem$/)).returns(ca_crt_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/private_keys\/primary.example.com\.pem$/)).returns(ca_key_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
+    expect(File).to receive(:read).with(/ssl\/certs\/primary.example.com\.pem$/).and_return(ca_crt_pem)
+    expect(File).to receive(:read).with(/ssl\/private_keys\/primary.example.com\.pem$/).and_return(ca_key_pem)
+    expect(File).to receive(:read).with(/ssl\/certs\/testhost\.example\.com\.pem$/).and_return(cert_pem)
 
     # decrypting as agent
-    File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
-    File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
-    File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
+    expect(File).to receive(:read).with(/certs\/testhost\.example\.com\.pem$/).and_return(cert_pem)
+    expect(File).to receive(:read).with(/private_keys\/testhost\.example\.com\.pem$/).and_return(cert_key_pem)
+    expect(File).to receive(:read).with(/certs\/ca\.pem$/).and_return(ca_crt_pem)
 
-    data = Puppet_X::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
-    expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
+    data = Puppet_X::Puppetlabs::NodeEncrypt.encrypt('foo', 'testhost.example.com')
+    expect(Puppet_X::Puppetlabs::NodeEncrypt.decrypt(data)).to eq 'foo'
   end
 
   it "should identify an encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted) ).to be true
+    expect(Puppet_X::Puppetlabs::NodeEncrypt.encrypted?(encrypted) ).to be true
   end
 
   it "should identify a non-encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo') ).to be false
+    expect(Puppet_X::Puppetlabs::NodeEncrypt.encrypted?('foo') ).to be false
   end
 end
 

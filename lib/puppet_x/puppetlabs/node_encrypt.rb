@@ -1,5 +1,5 @@
 module Puppet_X
-  module Binford2k
+  module Puppetlabs
     class NodeEncrypt
 
       def self.encrypted?(data)
