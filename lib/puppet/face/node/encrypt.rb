@@ -1,17 +1,17 @@
 require 'puppet/face'
-require 'puppet_x/binford2k/node_encrypt'
+require 'PuppetX/BinFord2k/node_encrypt'
 
 Puppet::Face.define(:node, '0.0.1') do
   action :encrypt do
     summary "Encrypt a value using a specified agent's certificate"
-    arguments "[string]"
+    arguments '[string]'
 
-    option "-t CERTNAME", "--target CERTNAME" do
-      summary "Which agent to encrypt for"
+    option '-t CERTNAME", "--target CERTNAME' do
+      summary 'Which agent to encrypt for'
     end
 
-    option "-p", "--prompt" do
-      summary "Prompt the user for data to encrypt"
+    option '-p', '--prompt' do
+      summary 'Prompt the user for data to encrypt'
     end
 
     description <<-'EOT'
@@ -33,28 +33,27 @@ Puppet::Face.define(:node, '0.0.1') do
     when_invoked do |*args|
       options = args.pop
       if options[:prompt]
-        raise ArgumentError, ('Cannot pass data and prompt for data at the same time!') if args.length > 0
-        print "Enter a string to encrypt: "
+        raise ArgumentError, 'Cannot pass data and prompt for data at the same time!' unless args.empty?
         text = $stdin.gets
-      elsif args.length == 0
+      elsif args.empty?
         text = $stdin.read
       else
         text = args.join(' ')
       end
 
-      Puppet_X::Binford2k::NodeEncrypt.encrypt(text, options[:target])
+      PuppetX::BinFord2k::NodeEncrypt.encrypt(text, options[:target])
     end
   end
 
   action :decrypt do
     summary "Decrypt a value using the agent's own certificate"
 
-    option "-d DATA", "--data DATA" do
-      summary "An string of data to decrypt"
+    option '-d DATA', '--data DATA' do
+      summary 'An string of data to decrypt'
     end
 
-    option "-e VARIABLE", "--env VARIABLE" do
-      summary "An environment variable containing data to decrypt"
+    option '-e VARIABLE', '--env VARIABLE' do
+      summary 'An environment variable containing data to decrypt'
     end
 
     description <<-'EOT'
@@ -73,13 +72,12 @@ Puppet::Face.define(:node, '0.0.1') do
 
     when_invoked do |options|
       if options.include? :data
-        Puppet_X::Binford2k::NodeEncrypt.decrypt(options[:data])
+        PuppetX::BinFord2k::NodeEncrypt.decrypt(options[:data])
       elsif options.include? :env
-        Puppet_X::Binford2k::NodeEncrypt.decrypt(ENV[options[:env]])
+        PuppetX::BinFord2k::NodeEncrypt.decrypt(ENV[options[:env]])
       else
-        Puppet_X::Binford2k::NodeEncrypt.decrypt($stdin.read)
+        PuppetX::BinFord2k::NodeEncrypt.decrypt($stdin.read)
       end
     end
   end
-
 end

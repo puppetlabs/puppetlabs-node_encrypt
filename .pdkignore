@@ -15,6 +15,8 @@
 /junit/
 /log/
 /pkg/
+/spec/fixtures/manifests/
+/spec/fixtures/modules/
 /tmp/
 /vendor/
 /convert_report.txt
@@ -24,3 +26,18 @@
 .envrc
 /inventory.yaml
 /spec/fixtures/litmus_inventory.yaml
+/.fixtures.yml
+/Gemfile
+/.gitattributes
+/.gitignore
+/.pdkignore
+/.puppet-lint.rc
+/Rakefile
+/rakelib/
+/.rspec
+/..yml
+/.yardopts
+/spec/
+/.vscode/
+/.sync.yml
+/.devcontainer/

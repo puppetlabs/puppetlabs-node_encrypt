@@ -1,23 +1,26 @@
 {
-  "name": "binford2k-node_encrypt",
+  "name": "puppetlabs-node_encrypt",
   "version": "2.0.0",
-  "author": "binford2k",
+  "author": "puppetlabs",
   "summary": "Encrypts secrets in the catalog using the agent's certificate.",
   "license": "Apache-2.0",
-  "source": "https://github.com/binford2k/binford2k-node_encrypt",
-  "project_page": "https://github.com/binford2k/binford2k-node_encrypt",
-  "issues_url": "https://github.com/binford2k/binford2k-node_encrypt/issues",
+  "source": "https://github.com/puppetlabs/puppetlabs-node_encrypt",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-node_encrypt",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-node_encrypt/issues",
   "dependencies": [
-    {"name":"puppetlabs/inifile",                  "version_requirement":">= 1.4.0 < 6.0.0" },
-    {"name":"puppetlabs/puppet_authorization",     "version_requirement":">= 0.4.0 < 1.0.0" }
+    {
+      "name": "puppetlabs/inifile",
+      "version_requirement": ">= 1.4.0 < 7.0.0"
+    },
+    {
+      "name": "puppetlabs/puppet_authorization",
+      "version_requirement": ">= 0.4.0 < 1.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7",
         "8",
         "9"
@@ -26,9 +29,6 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7",
         "8"
       ]
@@ -36,26 +36,18 @@
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "10 SP4",
-        "11 SP1",
         "12",
         "15"
       ]
@@ -63,10 +55,6 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "6",
-        "7",
-        "8",
-        "9",
         "10",
         "11"
       ]
@@ -74,12 +62,9 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "10.04",
-        "12.04",
-        "14.04",
-        "16.04",
         "18.04",
-        "20.04"
+        "20.04",
+        "22.04"
       ]
     },
     {
@@ -93,23 +78,16 @@
     {
       "operatingsystem": "Windows",
       "operatingsystemrelease": [
-        "2008",
-        "2008 R2",
         "2012",
         "2012 R2",
         "2016",
         "2019",
-        "2022",
-        "7",
-        "8.1",
-        "10"
+        "2022"
       ]
     },
     {
       "operatingsystem": "AIX",
       "operatingsystemrelease": [
-        "5.3",
-        "6.1",
         "7.1",
         "7.2"
       ]
@@ -128,7 +106,12 @@
     }
   ],
   "requirements": [
-    { "name": "puppet",   "version_requirement": ">=6.0.0 < 8.0.0" }
-  ]
+    {
+      "name": "puppet",
+      "version_requirement": ">=7.0.0 < 9.0.0"
+    }
+  ],
+  "pdk-version": "2.7.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates.git#main",
+  "template-ref": "heads/main-0-gab2bd48"
 }
-

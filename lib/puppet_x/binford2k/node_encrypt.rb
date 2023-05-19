@@ -1,11 +1,10 @@
-module Puppet_X
-  module Binford2k
-    class NodeEncrypt
-
+module PuppetX # rubocop:disable Style/ClassAndModuleChildren
+  module BinFord2k
+    class NodeEncrypt # rubocop:disable Style/Documentation
       def self.encrypted?(data)
         raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
         # ridiculously faster than a regex
-        data.start_with?("-----BEGIN PKCS7-----")
+        data.start_with?('-----BEGIN PKCS7-----')
       end
 
       def self.encrypt(data, destination)
@@ -30,7 +29,7 @@ module Puppet_X
         destpath = [
           "#{Puppet.settings[:signeddir]}/#{destination}.pem",
           "#{Puppet.settings[:certdir]}/#{destination}.pem",
-        ].find {|path| File.exist? path }
+        ].find { |path| File.exist? path }
 
         # for safer upgrades, let's default to the known good pathway for now
         if destpath
@@ -43,15 +42,15 @@ module Puppet_X
             hostcert = scope.lookupvar('clientcert_pem')
             target   = OpenSSL::X509::Certificate.new(hostcert)
           else
-            url = 'https://github.com/binford2k/binford2k-node_encrypt#automatically-distributing-certificates-to-compile-servers'
+            url = 'https://github.com/BinFord2k/BinFord2k-node_encrypt#automatically-distributing-certificates-to-compile-servers'
             raise ArgumentError, "Client certificate does not exist. See #{url} for more info."
           end
         end
 
-        signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
-        cipher = OpenSSL::Cipher::new("AES-128-CFB")
+        signed = OpenSSL::PKCS7.sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
+        cipher = OpenSSL::Cipher.new('AES-128-CFB')
 
-        OpenSSL::PKCS7::encrypt([target], signed.to_der, cipher, OpenSSL::PKCS7::BINARY).to_s
+        OpenSSL::PKCS7.encrypt([target], signed.to_der, cipher, OpenSSL::PKCS7::BINARY).to_s
       end
 
       def self.decrypt(data)
@@ -74,8 +73,6 @@ module Puppet_X
         end
         verified.data
       end
-
-
     end
   end
 end

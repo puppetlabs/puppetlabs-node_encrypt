@@ -305,8 +305,4 @@ I take no liability for the use of this module. As this uses standard Ruby and
 OpenSSL libraries, it should work anywhere Puppet itself does. I have not yet
 validated on anything other than CentOS, though.
 
-Contact
--------
-
-binford2k@gmail.com
 

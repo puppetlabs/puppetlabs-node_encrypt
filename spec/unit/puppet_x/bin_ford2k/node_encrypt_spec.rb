@@ -250,45 +250,44 @@ P3UmZrgNUptcoa0TSn++XeFchgdUJIsk+tQv7TWsa4/MANKfFGZKSq2NMHW685Aw
 uSI28VzZYavkITj+2D6tMys=
 -----END PKCS7-----"
 
-describe Puppet_X::Binford2k::NodeEncrypt do
+describe PuppetX::BinFord2k::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
-  it "should decrypt values which have been encrypted" do
+  it 'decrypts values which have been encrypted' do
     Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
               '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem',   # encrypting for agent
-              '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem'  # decrypting on agent
+              '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem', # decrypting on agent
             )
     Puppet.settings.expects(:[]).twice.with(:hostprivkey).returns(
-              '/etc/puppetlabs/puppet/ssl/private_keys/primary.example.com.pem',  # encrypting for agent
-              '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem' # decrypting on agent
+              '/etc/puppetlabs/puppet/ssl/private_keys/primary.example.com.pem', # encrypting for agent
+              '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem', # decrypting on agent
             )
     Puppet.settings.expects(:[]).with(:signeddir).returns('/bad/path')                                 # fall through to certdir
     Puppet.settings.expects(:[]).with(:certdir).returns('/etc/puppetlabs/puppet/ssl/certs')            # encrypting for agent
     Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
 
     # encrypting on server for agent
-    File.expects(:exist?).with(regexp_matches(/bad\/path\/testhost.example.com\.pem$/)).returns(nil)
-    File.expects(:exist?).with(regexp_matches(/ssl\/certs\/testhost.example.com\.pem$/)).returns(true)
+    File.expects(:exist?).with(regexp_matches(%r{bad/path/testhost.example.com\.pem$})).returns(nil)
+    File.expects(:exist?).with(regexp_matches(%r{ssl/certs/testhost.example.com\.pem$})).returns(true)
 
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/primary.example.com\.pem$/)).returns(ca_crt_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/private_keys\/primary.example.com\.pem$/)).returns(ca_key_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/certs/primary.example.com\.pem$})).returns(ca_crt_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/private_keys/primary.example.com\.pem$})).returns(ca_key_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/certs/testhost\.example\.com\.pem$})).returns(cert_pem)
 
     # decrypting as agent
-    File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
-    File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
-    File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
+    File.expects(:read).with(regexp_matches(%r{certs/testhost\.example\.com\.pem$})).returns(cert_pem)
+    File.expects(:read).with(regexp_matches(%r{private_keys/testhost\.example\.com\.pem$})).returns(cert_key_pem)
+    File.expects(:read).with(regexp_matches(%r{certs/ca\.pem$})).returns(ca_crt_pem)
 
-    data = Puppet_X::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
-    expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
+    data = described_class.encrypt('foo', 'testhost.example.com')
+    expect(described_class.decrypt(data)).to eq 'foo'
   end
 
-  it "should identify an encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted) ).to be true
+  it 'identifies an encrypted string' do
+    expect(described_class.encrypted?(encrypted)).to be true
   end
 
-  it "should identify a non-encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo') ).to be false
+  it 'identifies a non-encrypted string' do
+    expect(described_class.encrypted?('foo')).to be false
   end
 end
-
