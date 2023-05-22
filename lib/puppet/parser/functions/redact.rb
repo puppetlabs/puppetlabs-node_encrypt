@@ -1,5 +1,5 @@
 Puppet::Parser::Functions.newfunction(:redact,
-  doc: <<DOC,
+  doc: <<~DOC,
 This function will modify the catalog during compilation to remove the named
 parameter from the class from which it was called. For example, if you wrote a
 class named `foo` and called `redact('bar')` from within that class, then the
@@ -34,10 +34,10 @@ DOC
   message = args[1] || '<<redacted>>'
 
   # find the class in the catalog matching the name of the class this was called in
-  klass = catalog.resources.find { |res|
+  klass = catalog.resources.find do |res|
     (source.type == :hostclass && res.type == 'Class' && res.name.downcase == source.name) ||
       (source.type != :hostclass && res.type.downcase == source.name && res.title.casecmp(resource.name).zero?)
-  }.first
+  end
 
   # and rewrite its parameter
   if klass.type == 'Class'

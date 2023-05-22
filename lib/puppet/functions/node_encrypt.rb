@@ -1,4 +1,4 @@
-require_relative '../../PuppetX/BinFord2k/node_encrypt'
+require_relative '../../puppet_x/binford2k/node_encrypt'
 
 # @summary
 #   Encrypt data with node_encrypt.

@@ -30,3 +30,4 @@ class redact (
     'four':;
   }
 }
+

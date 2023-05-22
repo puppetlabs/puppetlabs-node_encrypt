@@ -10,8 +10,8 @@ describe 'redact' do
   let(:params) do
     {
       param: 'a param',
-    redacted: 'to be redacted',
-    replaced: 'to be replaced',
+      redacted: 'to be redacted',
+      replaced: 'to be replaced',
     }
   end
 

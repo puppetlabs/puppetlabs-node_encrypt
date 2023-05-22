@@ -14,3 +14,4 @@ define redact::thing (
   notify { "${name} The value of redacted is ${redacted}":}
   notify { "${name} The value of replaced is ${replaced}":}
 }
+

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'PuppetX/BinFord2k/node_encrypt'
+require 'puppet_x/binford2k/node_encrypt'
 
 describe 'node_encrypt::certificates' do
   before(:each) do

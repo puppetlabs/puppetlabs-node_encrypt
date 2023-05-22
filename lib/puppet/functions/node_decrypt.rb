@@ -1,4 +1,4 @@
-require_relative '../../PuppetX/BinFord2k/node_encrypt'
+require_relative '../../puppet_x/binford2k/node_encrypt'
 
 # Decrypt data with node_encrypt. This is intended to be used as a
 # Deferred function on the _agent_ via the node_encrypted::secret wrapper.
