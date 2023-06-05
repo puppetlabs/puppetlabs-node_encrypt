@@ -1,7 +1,6 @@
 module Puppet_X
   module Binford2k
     class NodeEncrypt # rubocop:disable Style/Documentation
-
       def self.encrypted?(data)
         raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
 
@@ -76,7 +75,6 @@ module Puppet_X
 
         verified.data
       end
-
     end
   end
 end
