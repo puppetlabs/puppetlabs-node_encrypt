@@ -291,4 +291,3 @@ describe Puppet_X::Binford2k::NodeEncrypt do
     expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo')).to be false
   end
 end
-
