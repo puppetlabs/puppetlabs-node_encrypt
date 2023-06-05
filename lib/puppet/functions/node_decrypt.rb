@@ -12,7 +12,7 @@ Puppet::Functions.create_function(:node_decrypt) do
 
   def decrypt(content)
     Puppet::Pops::Types::PSensitiveType::Sensitive.new(
-      PuppetX::Binford2k::NodeEncrypt.decrypt(content)
+      PuppetX::Binford2k::NodeEncrypt.decrypt(content),
     )
   end
 end

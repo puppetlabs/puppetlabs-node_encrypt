@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'puppet_x/binford2k/node_encrypt'
 
-describe "node_encrypt::file" do
-  context "when ensuring present" do
+describe 'node_encrypt::file' do
+  context 'when ensuring present' do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) do
@@ -34,7 +34,7 @@ describe "node_encrypt::file" do
     }
   end
 
-  context "with pre-encrypted content" do
+  context 'with pre-encrypted content' do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) do
@@ -64,7 +64,7 @@ describe "node_encrypt::file" do
     }
   end
 
-  context "when ensure absent" do
+  context 'when ensure absent' do
     let(:title) { '/tmp/test' }
     let(:params) { { ensure: 'absent' } }
 

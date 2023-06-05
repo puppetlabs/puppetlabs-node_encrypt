@@ -3,14 +3,14 @@
 require 'spec_helper'
 require 'puppet_x/binford2k/node_encrypt'
 
-describe "node_encrypt::certificates" do
+describe 'node_encrypt::certificates' do
   before(:each) do
     Puppet[:ca_server] = 'ca.example.com'
     Puppet[:confdir]   = '/etc/puppetlabs/puppet'
     Puppet[:ssldir]    = '/etc/puppetlabs/puppet/ssl'
   end
 
-  context "when run on a Puppet 5.x CA" do
+  context 'when run on a Puppet 5.x CA' do
     # Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
 
     let(:node) { 'ca.example.com' }
@@ -47,7 +47,7 @@ describe "node_encrypt::certificates" do
     it { is_expected.not_to contain_file('/etc/puppetlabs/puppet/ssl/certs') }
   end
 
-  context "when run on a compile server" do
+  context 'when run on a compile server' do
     let(:node) { 'compile1.example.com' }
     let(:facts) do
       {
@@ -69,7 +69,7 @@ describe "node_encrypt::certificates" do
     }
   end
 
-  context "when run on a tier3 agent" do
+  context 'when run on a tier3 agent' do
     let(:node) { 'agent.example.com' }
     let(:facts) do
       {

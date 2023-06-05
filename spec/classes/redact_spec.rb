@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe "redact" do
+describe 'redact' do
   let(:node) { 'test.example.com' }
   let(:facts) do
     {
