@@ -19,6 +19,7 @@ describe "node_encrypt::file" do
     end
 
     it { should have_notify_resource_count(1) }
+
     it {
       should contain_file('/tmp/test').with(
         {
@@ -48,6 +49,7 @@ describe "node_encrypt::file" do
     end
 
     it { should have_notify_resource_count(1) }
+
     it {
       should contain_file('/tmp/test').with(
         {

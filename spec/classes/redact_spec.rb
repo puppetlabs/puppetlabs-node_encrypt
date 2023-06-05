@@ -24,6 +24,7 @@ describe "redact" do
       },
     )
   }
+
   it {
     is_expected.to contain_redact__thing('one').with(
       {
@@ -33,6 +34,7 @@ describe "redact" do
       },
     )
   }
+
   it {
     is_expected.to contain_redact__thing('two').with(
       {
@@ -42,6 +44,7 @@ describe "redact" do
       },
     )
   }
+
   it {
     is_expected.to contain_redact__thing('three').with(
       {
@@ -51,6 +54,7 @@ describe "redact" do
       },
     )
   }
+
   it {
     is_expected.to contain_redact__thing('four').with(
       {
