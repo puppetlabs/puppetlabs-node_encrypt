@@ -34,10 +34,10 @@ Puppet::Parser::Functions::newfunction(:redact,
   message = args[1] || '<<redacted>>'
 
   # find the class in the catalog matching the name of the class this was called in
-  klass = self.catalog.resources.select { |res|
+  klass = self.catalog.resources.find do |res|
     (self.source.type == :hostclass && res.type == 'Class' && res.name.downcase == self.source.name) ||
       (self.source.type != :hostclass && res.type.downcase == self.source.name && res.title.casecmp(self.resource.name).zero?)
-  }.first
+  end
 
   # and rewrite its parameter
   if klass.type == 'Class'

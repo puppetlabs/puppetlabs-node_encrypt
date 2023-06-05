@@ -23,12 +23,6 @@ Metrics/MethodLength:
   Max: 25
 
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/Detect:
-  Exclude:
-    - 'lib/puppet/parser/functions/redact.rb'
-
 # Offense count: 3
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
