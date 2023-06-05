@@ -1,7 +1,5 @@
 fixtures:
-    symlinks:
-        node_encrypt: "#{source_dir}"
-    forge_modules:
-        stdlib: "puppetlabs/stdlib"
-        inifile: "puppetlabs/inifile"
-        puppet_authorization: "puppetlabs/puppet_authorization"
+  repositories:
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    inifile: "https://github.com/puppetlabs/puppetlabs-inifile.git"
+    puppet_authorization: "https://github.com/voxpupuli/puppet_authorization.git"
