@@ -45,7 +45,7 @@ module PuppetX
             hostcert = scope.lookupvar('clientcert_pem')
             target   = OpenSSL::X509::Certificate.new(hostcert)
           else
-            url = 'https://github.com/binford2k/binford2k-node_encrypt#automatically-distributing-certificates-to-compile-servers'
+            url = 'https://github.com/puppetlabs/puppetlabs-node_encrypt#automatically-distributing-certificates-to-compile-servers'
             raise ArgumentError, "Client certificate does not exist. See #{url} for more info."
           end
         end
