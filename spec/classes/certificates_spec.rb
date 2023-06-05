@@ -20,21 +20,25 @@ describe "node_encrypt::certificates" do
     }
 
     it {
-      should contain_ini_setting('public certificates mountpoint path').with({
-        :ensure => 'present',
-        :path   => '/etc/puppetlabs/puppet/fileserver.conf',
-        :value  => '/etc/puppetlabs/puppet/ssl/ca/signed/',
-      })
+      should contain_ini_setting('public certificates mountpoint path').with(
+        {
+          :ensure => 'present',
+          :path   => '/etc/puppetlabs/puppet/fileserver.conf',
+          :value  => '/etc/puppetlabs/puppet/ssl/ca/signed/',
+        },
+      )
     }
 
     it {
-      should contain_puppet_authorization__rule('public certificates mountpoint whitelist').with({
-        :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-        :match_request_type => 'regex',
-        :allow              => '*',
-        :sort_order         => 300,
-        :path               => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
-      })
+      should contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
+        {
+          :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+          :match_request_type => 'regex',
+          :allow              => '*',
+          :sort_order         => 300,
+          :path               => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+        },
+      )
     }
 
     it { should_not contain_file('/etc/puppetlabs/puppet/ssl/certs') }
@@ -52,10 +56,12 @@ describe "node_encrypt::certificates" do
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
 
     it {
-      should contain_file('/etc/puppetlabs/puppet/ssl/certs').with({
-        :ensure => 'directory',
-        :source => 'puppet://ca.example.com/public_certificates/',
-      })
+      should contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
+        {
+          :ensure => 'directory',
+          :source => 'puppet://ca.example.com/public_certificates/',
+        },
+      )
     }
   end
 
