@@ -65,6 +65,7 @@ describe "node_encrypt::file" do
   context "when ensure absent" do
     let(:title) { '/tmp/test' }
     let(:params) { { :ensure => 'absent' } }
+
     it { should have_notify_resource_count(1) }
     it { should contain_file('/tmp/test').with_ensure('absent') }
   end

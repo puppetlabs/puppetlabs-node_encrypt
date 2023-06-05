@@ -36,11 +36,6 @@ RSpec/DescribeClass:
     - 'spec/defines/file_spec.rb'
     - 'spec/functions/node_encrypt_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterFinalLet:
-  Exclude:
-    - 'spec/defines/file_spec.rb'
 
 # Offense count: 11
 # Configuration parameters: CountAsOne.
