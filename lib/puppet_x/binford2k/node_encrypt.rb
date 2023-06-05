@@ -30,7 +30,7 @@ module Puppet_X
         destpath = [
           "#{Puppet.settings[:signeddir]}/#{destination}.pem",
           "#{Puppet.settings[:certdir]}/#{destination}.pem",
-        ].find {|path| File.exist? path }
+        ].find { |path| File.exist? path }
 
         # for safer upgrades, let's default to the known good pathway for now
         if destpath
