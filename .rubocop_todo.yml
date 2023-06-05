@@ -60,12 +60,6 @@ Style/ClassAndModuleChildren:
     - 'lib/puppet_x/binford2k/node_encrypt.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
-
-# Offense count: 1
 Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'

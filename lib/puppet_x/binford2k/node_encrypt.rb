@@ -71,9 +71,7 @@ module PuppetX
         decrypted = blob.decrypt(key, cert)
         verified  = OpenSSL::PKCS7.new(decrypted)
 
-        unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
-          raise ArgumentError, 'Signature verification failed'
-        end
+        raise ArgumentError, 'Signature verification failed' unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
 
         verified.data
       end
