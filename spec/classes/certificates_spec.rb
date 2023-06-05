@@ -21,7 +21,7 @@ describe "node_encrypt::certificates" do
     }
 
     it {
-      should contain_ini_setting('public certificates mountpoint path').with(
+      is_expected.to contain_ini_setting('public certificates mountpoint path').with(
         {
           :ensure => 'present',
           :path => '/etc/puppetlabs/puppet/fileserver.conf',
@@ -31,7 +31,7 @@ describe "node_encrypt::certificates" do
     }
 
     it {
-      should contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
+      is_expected.to contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
         {
           :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
           :match_request_type => 'regex',
@@ -42,7 +42,7 @@ describe "node_encrypt::certificates" do
       )
     }
 
-    it { should_not contain_file('/etc/puppetlabs/puppet/ssl/certs') }
+    it { is_expected.not_to contain_file('/etc/puppetlabs/puppet/ssl/certs') }
   end
 
   context "when run on a compile server" do
@@ -54,11 +54,11 @@ describe "node_encrypt::certificates" do
       }
     }
 
-    it { should_not contain_ini_setting('public certificates mountpoint path') }
-    it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
+    it { is_expected.not_to contain_ini_setting('public certificates mountpoint path') }
+    it { is_expected.not_to contain_ini_setting('public certificates mountpoint whitelist') }
 
     it {
-      should contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
+      is_expected.to contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
         {
           :ensure => 'directory',
           :source => 'puppet://ca.example.com/public_certificates/',
@@ -76,7 +76,7 @@ describe "node_encrypt::certificates" do
       }
     }
 
-    it { should_not contain_ini_setting('public certificates mountpoint path') }
-    it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
+    it { is_expected.not_to contain_ini_setting('public certificates mountpoint path') }
+    it { is_expected.not_to contain_ini_setting('public certificates mountpoint whitelist') }
   end
 end

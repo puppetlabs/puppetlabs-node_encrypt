@@ -18,10 +18,10 @@ describe "node_encrypt::file" do
       'function node_encrypt::secret($data) { return "encrypted" }'
     end
 
-    it { should have_notify_resource_count(1) }
+    it { is_expected.to have_notify_resource_count(1) }
 
     it {
-      should contain_file('/tmp/test').with(
+      is_expected.to contain_file('/tmp/test').with(
         {
           :ensure => 'file',
           :owner => 'root',
@@ -48,10 +48,10 @@ describe "node_encrypt::file" do
       PuppetX::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
     end
 
-    it { should have_notify_resource_count(1) }
+    it { is_expected.to have_notify_resource_count(1) }
 
     it {
-      should contain_file('/tmp/test').with(
+      is_expected.to contain_file('/tmp/test').with(
         {
           :ensure => 'file',
           :owner => 'root',
@@ -66,7 +66,7 @@ describe "node_encrypt::file" do
     let(:title) { '/tmp/test' }
     let(:params) { { :ensure => 'absent' } }
 
-    it { should have_notify_resource_count(1) }
-    it { should contain_file('/tmp/test').with_ensure('absent') }
+    it { is_expected.to have_notify_resource_count(1) }
+    it { is_expected.to contain_file('/tmp/test').with_ensure('absent') }
   end
 end
