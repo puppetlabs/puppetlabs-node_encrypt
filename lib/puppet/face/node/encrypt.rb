@@ -16,7 +16,7 @@ Puppet::Face.define(:node, '0.0.1') do
       summary "Prompt the user for data to encrypt"
     end
 
-    description <<-'DESC'
+    description <<-DESC
       Encrypt a value using a specified agent's certificate useful for pasting
       into a manifest for a node_encrypted_file resource type, or for a data
       value for a datacat fragment.
@@ -25,7 +25,7 @@ Puppet::Face.define(:node, '0.0.1') do
       public certificate.
     DESC
 
-    examples <<-'EXAMPLE'
+    examples <<-EXAMPLE
       $ puppet node encrypt --target testhost.example.com "some text to encrypt"
       $ puppet node encrypt --target testhost.example.com --prompt
       $ echo "some text to encrypt" | puppet node encrypt --target testhost.example.com
@@ -60,14 +60,14 @@ Puppet::Face.define(:node, '0.0.1') do
       summary "An environment variable containing data to decrypt"
     end
 
-    description <<-'DESC'
+    description <<-DESC
       Decrypt a value using the agent's own certificate. You have three ways to pass data
       for decryption. You can pass it directly on the command line (if your kernel allows
       command strings that long), you can set it in an environment variable and pass the
       name of the variable, or you can pipe it using STDIN.
     DESC
 
-    examples <<-'EXAMPLE'
+    examples <<-EXAMPLE
       $ puppet node decrypt --data <encrypted blob of data>
       $ puppet node decrypt --env <environment variable containing blob of encrypted data>
       $ echo <encrypted blob of data> | puppet node decrypt
