@@ -256,10 +256,10 @@ describe Puppet_X::Binford2k::NodeEncrypt do
   it "should decrypt values which have been encrypted" do
     Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
               '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem',   # encrypting for agent
-              '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem'  # decrypting on agent
+              '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem' # decrypting on agent
             )
     Puppet.settings.expects(:[]).twice.with(:hostprivkey).returns(
-              '/etc/puppetlabs/puppet/ssl/private_keys/primary.example.com.pem',  # encrypting for agent
+              '/etc/puppetlabs/puppet/ssl/private_keys/primary.example.com.pem', # encrypting for agent
               '/etc/puppetlabs/puppet/ssl/private_keys/testhost.example.com.pem' # decrypting on agent
             )
     Puppet.settings.expects(:[]).with(:signeddir).returns('/bad/path')                                 # fall through to certdir
