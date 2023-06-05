@@ -7,13 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'lib/puppet/face/node/encrypt.rb'
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 Layout/EmptyLines:

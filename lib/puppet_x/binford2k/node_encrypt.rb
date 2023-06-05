@@ -4,6 +4,7 @@ module Puppet_X
 
       def self.encrypted?(data)
         raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
+
         # ridiculously faster than a regex
         data.start_with?("-----BEGIN PKCS7-----")
       end
@@ -72,6 +73,7 @@ module Puppet_X
         unless verified.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
           raise ArgumentError, 'Signature verification failed'
         end
+
         verified.data
       end
 
