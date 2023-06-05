@@ -18,7 +18,7 @@ describe 'node_encrypt::certificates' do
       {
         fqdn: 'ca.example.com',
         servername: 'ca.example.com',
-        puppetversion: '5.3.5',
+        puppetversion: '5.3.5'
       }
     end
 
@@ -27,7 +27,7 @@ describe 'node_encrypt::certificates' do
         {
           ensure: 'present',
           path: '/etc/puppetlabs/puppet/fileserver.conf',
-          value: '/etc/puppetlabs/puppet/ssl/ca/signed/',
+          value: '/etc/puppetlabs/puppet/ssl/ca/signed/'
         },
       )
     }
@@ -52,7 +52,7 @@ describe 'node_encrypt::certificates' do
     let(:facts) do
       {
         fqdn: 'compile1.example.com',
-        servername: 'ca.example.com',
+        servername: 'ca.example.com'
       }
     end
 
@@ -63,7 +63,7 @@ describe 'node_encrypt::certificates' do
       expect(subject).to contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
         {
           ensure: 'directory',
-          source: 'puppet://ca.example.com/public_certificates/',
+          source: 'puppet://ca.example.com/public_certificates/'
         },
       )
     }
@@ -74,7 +74,7 @@ describe 'node_encrypt::certificates' do
     let(:facts) do
       {
         fqdn: 'agent.example.com',
-        servername: 'compile01.example.com',
+        servername: 'compile01.example.com'
       }
     end
 

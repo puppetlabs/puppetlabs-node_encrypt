@@ -6,14 +6,14 @@ describe 'redact' do
   let(:node) { 'test.example.com' }
   let(:facts) do
     {
-      fqdn: 'test.example.com',
+      fqdn: 'test.example.com'
     }
   end
   let(:params) do
     {
       param: 'a param',
       redacted: 'to be redacted',
-      replaced: 'to be replaced',
+      replaced: 'to be replaced'
     }
   end
 
@@ -22,7 +22,7 @@ describe 'redact' do
       {
         param: 'a param',
         redacted: '<<redacted>>',
-        replaced: 'a replacement string',
+        replaced: 'a replacement string'
       },
     )
   }
@@ -32,7 +32,7 @@ describe 'redact' do
       {
         param: 'a param',
         redacted: '<<redacted>>',
-        replaced: 'a replacement string',
+        replaced: 'a replacement string'
       },
     )
   }
@@ -42,7 +42,7 @@ describe 'redact' do
       {
         param: 'a param',
         redacted: '<<redacted>>',
-        replaced: 'a replacement string',
+        replaced: 'a replacement string'
       },
     )
   }
@@ -52,7 +52,7 @@ describe 'redact' do
       {
         param: 'a param',
         redacted: '<<redacted>>',
-        replaced: 'a replacement string',
+        replaced: 'a replacement string'
       },
     )
   }
@@ -62,7 +62,7 @@ describe 'redact' do
       {
         param: 'a param',
         redacted: '<<redacted>>',
-        replaced: 'a replacement string',
+        replaced: 'a replacement string'
       },
     )
   }

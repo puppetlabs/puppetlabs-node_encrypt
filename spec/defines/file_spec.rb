@@ -28,7 +28,7 @@ describe 'node_encrypt::file' do
           ensure: 'file',
           owner: 'root',
           mode: '0644',
-          content: 'encrypted',
+          content: 'encrypted'
         },
       )
     }
@@ -58,7 +58,7 @@ describe 'node_encrypt::file' do
           ensure: 'file',
           owner: 'root',
           mode: '0644',
-          content: sensitive('decrypted'),
+          content: sensitive('decrypted')
         },
       )
     }
