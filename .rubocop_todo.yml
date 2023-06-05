@@ -7,11 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 
-# Offense count: 1
-Lint/SelfAssignment:
-  Exclude:
-    - 'lib/puppet/parser/functions/node_encrypt.rb'
-
 # Offense count: 2
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:

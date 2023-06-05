@@ -9,11 +9,7 @@ Puppet::Parser::Functions::newfunction(:node_encrypt,
                                        DOC
                                       ) do |args|
   content = args.first
-  if defined?(Puppet::Pops::Types::PSensitiveType::Sensitive) && content.is_a?(Puppet::Pops::Types::PSensitiveType::Sensitive)
-    content = content.unwrap
-  else
-    content = content
-  end
+  content = content.unwrap if defined?(Puppet::Pops::Types::PSensitiveType::Sensitive) && content.is_a?(Puppet::Pops::Types::PSensitiveType::Sensitive)
 
   certname = self.lookupvar('clientcert')
   Puppet_X::Binford2k::NodeEncrypt.encrypt(content, certname)
