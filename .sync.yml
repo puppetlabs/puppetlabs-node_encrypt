@@ -28,3 +28,6 @@ spec/spec_helper.rb:
   unmanaged: false
 .github/workflows/release_prep.yml:
   unmanaged: false
+.gitignore:
+  paths:
+    - '!/spec/fixtures/modules/redact/'
