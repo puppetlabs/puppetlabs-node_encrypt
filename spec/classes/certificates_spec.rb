@@ -12,13 +12,13 @@ describe "node_encrypt::certificates" do
     # Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
 
     let(:node) { 'ca.example.com' }
-    let(:facts) {
+    let(:facts) do
       {
         :fqdn => 'ca.example.com',
         :servername => 'ca.example.com',
         :puppetversion => '5.3.5',
       }
-    }
+    end
 
     it {
       expect(subject).to contain_ini_setting('public certificates mountpoint path').with(
@@ -47,12 +47,12 @@ describe "node_encrypt::certificates" do
 
   context "when run on a compile server" do
     let(:node) { 'compile1.example.com' }
-    let(:facts) {
+    let(:facts) do
       {
         :fqdn => 'compile1.example.com',
         :servername => 'ca.example.com',
       }
-    }
+    end
 
     it { is_expected.not_to contain_ini_setting('public certificates mountpoint path') }
     it { is_expected.not_to contain_ini_setting('public certificates mountpoint whitelist') }
@@ -69,12 +69,12 @@ describe "node_encrypt::certificates" do
 
   context "when run on a tier3 agent" do
     let(:node) { 'agent.example.com' }
-    let(:facts) {
+    let(:facts) do
       {
         :fqdn => 'agent.example.com',
         :servername => 'compile01.example.com',
       }
-    }
+    end
 
     it { is_expected.not_to contain_ini_setting('public certificates mountpoint path') }
     it { is_expected.not_to contain_ini_setting('public certificates mountpoint whitelist') }

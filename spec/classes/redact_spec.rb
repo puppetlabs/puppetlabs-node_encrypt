@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe "redact" do
   let(:node) { 'test.example.com' }
-  let(:facts) {
+  let(:facts) do
     {
       :fqdn => 'test.example.com',
     }
-  }
-  let(:params) {
+  end
+  let(:params) do
     {
       :param => 'a param',
       :redacted => 'to be redacted',
       :replaced => 'to be replaced',
     }
-  }
+  end
 
   it {
     expect(subject).to contain_class('redact').with(

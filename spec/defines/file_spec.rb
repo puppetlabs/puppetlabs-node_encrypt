@@ -5,14 +5,14 @@ describe "node_encrypt::file" do
   context "when ensuring present" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
-    let(:params) {
+    let(:params) do
       {
         :ensure => 'file',
         :owner => 'root',
         :mode => '0644',
         :content => 'foobar'
       }
-    }
+    end
 
     let(:pre_condition) do
       'function node_encrypt::secret($data) { return "encrypted" }'
@@ -35,14 +35,14 @@ describe "node_encrypt::file" do
   context "with pre-encrypted content" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
-    let(:params) {
+    let(:params) do
       {
         :ensure => 'file',
         :owner => 'root',
         :mode => '0644',
         :encrypted_content => 'encrypted'
       }
-    }
+    end
 
     before(:each) do
       PuppetX::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
