@@ -48,10 +48,10 @@ module PuppetX
           end
         end
 
-        signed = OpenSSL::PKCS7::sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
-        cipher = OpenSSL::Cipher::new("AES-128-CFB")
+        signed = OpenSSL::PKCS7.sign(cert, key, data, [], OpenSSL::PKCS7::BINARY)
+        cipher = OpenSSL::Cipher.new("AES-128-CFB")
 
-        OpenSSL::PKCS7::encrypt([target], signed.to_der, cipher, OpenSSL::PKCS7::BINARY).to_s
+        OpenSSL::PKCS7.encrypt([target], signed.to_der, cipher, OpenSSL::PKCS7::BINARY).to_s
       end
 
       def self.decrypt(data)
