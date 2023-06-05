@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'puppet_x/binford2k/node_encrypt'
 
 describe "node_encrypt::file" do
-  context "ensuring present" do
+  context "when ensuring present" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) {
@@ -31,7 +31,7 @@ describe "node_encrypt::file" do
     }
   end
 
-  context "should accept pre-encrypted content" do
+  context "with pre-encrypted content" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) {
@@ -60,7 +60,7 @@ describe "node_encrypt::file" do
     }
   end
 
-  context "ensure absent" do
+  context "when ensure absent" do
     let(:title) { '/tmp/test' }
     let(:params) { { :ensure => 'absent' } }
     it { should have_notify_resource_count(1) }

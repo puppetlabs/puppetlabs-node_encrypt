@@ -22,14 +22,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 25
 
-
-# Offense count: 3
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/defines/file_spec.rb'
-
 # Offense count: 4
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:
