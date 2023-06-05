@@ -77,7 +77,6 @@ module Puppet_X
         verified.data
       end
 
-
     end
   end
 end
