@@ -76,7 +76,7 @@ Puppet::Face.define(:node, '0.0.1') do
       if options.include? :data
         PuppetX::Binford2k::NodeEncrypt.decrypt(options[:data])
       elsif options.include? :env
-        PuppetX::Binford2k::NodeEncrypt.decrypt(ENV[options[:env]])
+        PuppetX::Binford2k::NodeEncrypt.decrypt(ENV.fetch(options[:env], nil))
       else
         PuppetX::Binford2k::NodeEncrypt.decrypt($stdin.read)
       end
