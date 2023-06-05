@@ -21,7 +21,7 @@ describe "node_encrypt::file" do
     it { is_expected.to have_notify_resource_count(1) }
 
     it {
-      is_expected.to contain_file('/tmp/test').with(
+      expect(subject).to contain_file('/tmp/test').with(
         {
           :ensure => 'file',
           :owner => 'root',
@@ -51,7 +51,7 @@ describe "node_encrypt::file" do
     it { is_expected.to have_notify_resource_count(1) }
 
     it {
-      is_expected.to contain_file('/tmp/test').with(
+      expect(subject).to contain_file('/tmp/test').with(
         {
           :ensure => 'file',
           :owner => 'root',

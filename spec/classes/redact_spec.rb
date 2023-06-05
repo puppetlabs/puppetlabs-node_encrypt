@@ -16,7 +16,7 @@ describe "redact" do
   }
 
   it {
-    is_expected.to contain_class('redact').with(
+    expect(subject).to contain_class('redact').with(
       {
         :param => 'a param',
         :redacted => '<<redacted>>',
@@ -26,7 +26,7 @@ describe "redact" do
   }
 
   it {
-    is_expected.to contain_redact__thing('one').with(
+    expect(subject).to contain_redact__thing('one').with(
       {
         :param => 'a param',
         :redacted => '<<redacted>>',
@@ -36,7 +36,7 @@ describe "redact" do
   }
 
   it {
-    is_expected.to contain_redact__thing('two').with(
+    expect(subject).to contain_redact__thing('two').with(
       {
         :param => 'a param',
         :redacted => '<<redacted>>',
@@ -46,7 +46,7 @@ describe "redact" do
   }
 
   it {
-    is_expected.to contain_redact__thing('three').with(
+    expect(subject).to contain_redact__thing('three').with(
       {
         :param => 'a param',
         :redacted => '<<redacted>>',
@@ -56,7 +56,7 @@ describe "redact" do
   }
 
   it {
-    is_expected.to contain_redact__thing('four').with(
+    expect(subject).to contain_redact__thing('four').with(
       {
         :param => 'a param',
         :redacted => '<<redacted>>',
