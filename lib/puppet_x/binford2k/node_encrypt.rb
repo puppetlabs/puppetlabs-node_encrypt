@@ -2,15 +2,15 @@ module PuppetX
   module Binford2k
     class NodeEncrypt # rubocop:disable Style/Documentation
       def self.encrypted?(data)
-        raise ArgumentError, 'Only strings can be encrypted' unless data.class == String
+        raise ArgumentError, 'Only strings can be encrypted' unless data.instance_of?(String)
 
         # ridiculously faster than a regex
         data.start_with?("-----BEGIN PKCS7-----")
       end
 
       def self.encrypt(data, destination)
-        raise ArgumentError, 'Can only encrypt strings' unless data.class == String
-        raise ArgumentError, 'Need a node name to encrypt for' unless destination.class == String
+        raise ArgumentError, 'Can only encrypt strings' unless data.instance_of?(String)
+        raise ArgumentError, 'Need a node name to encrypt for' unless destination.instance_of?(String)
 
         certpath = Puppet.settings[:hostcert]
         keypath  = Puppet.settings[:hostprivkey]
@@ -55,7 +55,7 @@ module PuppetX
       end
 
       def self.decrypt(data)
-        raise ArgumentError, 'Can only decrypt strings' unless data.class == String
+        raise ArgumentError, 'Can only decrypt strings' unless data.instance_of?(String)
 
         cert   = OpenSSL::X509::Certificate.new(File.read(Puppet.settings[:hostcert]))
         # Same dummy password as above.
