@@ -284,11 +284,11 @@ describe Puppet_X::Binford2k::NodeEncrypt do
   end
 
   it "should identify an encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted) ).to be true
+    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted)).to be true
   end
 
   it "should identify a non-encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo') ).to be false
+    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo')).to be false
   end
 end
 
