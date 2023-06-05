@@ -58,12 +58,6 @@ RSpec/NamedSubject:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'lib/puppet_x/binford2k/node_encrypt.rb'
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/puppet/parser/functions/node_encrypt.rb'
-    - 'lib/puppet/parser/functions/redact.rb'
 
 # Offense count: 8
 # This cop supports safe autocorrection (--autocorrect).
