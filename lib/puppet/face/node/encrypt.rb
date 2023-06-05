@@ -35,7 +35,7 @@ Puppet::Face.define(:node, '0.0.1') do
     when_invoked do |*args|
       options = args.pop
       if options[:prompt]
-        raise ArgumentError, ('Cannot pass data and prompt for data at the same time!') if args.length.positive?
+        raise ArgumentError, 'Cannot pass data and prompt for data at the same time!' if args.length.positive?
 
         print "Enter a string to encrypt: "
         text = $stdin.gets
