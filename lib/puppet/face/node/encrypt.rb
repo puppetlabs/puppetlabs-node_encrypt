@@ -14,21 +14,21 @@ Puppet::Face.define(:node, '0.0.1') do
       summary "Prompt the user for data to encrypt"
     end
 
-    description <<-'EOT'
+    description <<-'DESC'
       Encrypt a value using a specified agent's certificate useful for pasting
       into a manifest for a node_encrypted_file resource type, or for a data
       value for a datacat fragment.
 
       This will only run properly on a CA node with access to each node's signed
       public certificate.
-    EOT
+    DESC
 
-    examples <<-'EOT'
+    examples <<-'EXAMPLE'
       $ puppet node encrypt --target testhost.example.com "some text to encrypt"
       $ puppet node encrypt --target testhost.example.com --prompt
       $ echo "some text to encrypt" | puppet node encrypt --target testhost.example.com
       $ cat /path/to/file.txt | puppet node encrypt --target testhost.example.com
-    EOT
+    EXAMPLE
 
     when_invoked do |*args|
       options = args.pop
@@ -58,19 +58,19 @@ Puppet::Face.define(:node, '0.0.1') do
       summary "An environment variable containing data to decrypt"
     end
 
-    description <<-'EOT'
+    description <<-'DESC'
       Decrypt a value using the agent's own certificate. You have three ways to pass data
       for decryption. You can pass it directly on the command line (if your kernel allows
       command strings that long), you can set it in an environment variable and pass the
       name of the variable, or you can pipe it using STDIN.
-    EOT
+    DESC
 
-    examples <<-'EOT'
+    examples <<-'EXAMPLE'
       $ puppet node decrypt --data <encrypted blob of data>
       $ puppet node decrypt --env <environment variable containing blob of encrypted data>
       $ echo <encrypted blob of data> | puppet node decrypt
       $ cat /file/with/encrypted/blob.txt | puppet node decrypt
-    EOT
+    EXAMPLE
 
     when_invoked do |options|
       if options.include? :data
