@@ -9,10 +9,10 @@ describe "node_encrypt::file" do
     let(:title) { '/tmp/test' }
     let(:params) do
       {
-        :ensure => 'file',
-        :owner => 'root',
-        :mode => '0644',
-        :content => 'foobar'
+        ensure: 'file',
+        owner: 'root',
+        mode: '0644',
+        content: 'foobar'
       }
     end
 
@@ -25,10 +25,10 @@ describe "node_encrypt::file" do
     it {
       expect(subject).to contain_file('/tmp/test').with(
         {
-          :ensure => 'file',
-          :owner => 'root',
-          :mode => '0644',
-          :content => 'encrypted',
+          ensure: 'file',
+          owner: 'root',
+          mode: '0644',
+          content: 'encrypted',
         },
       )
     }
@@ -39,10 +39,10 @@ describe "node_encrypt::file" do
     let(:title) { '/tmp/test' }
     let(:params) do
       {
-        :ensure => 'file',
-        :owner => 'root',
-        :mode => '0644',
-        :encrypted_content => 'encrypted'
+        ensure: 'file',
+        owner: 'root',
+        mode: '0644',
+        encrypted_content: 'encrypted'
       }
     end
 
@@ -55,10 +55,10 @@ describe "node_encrypt::file" do
     it {
       expect(subject).to contain_file('/tmp/test').with(
         {
-          :ensure => 'file',
-          :owner => 'root',
-          :mode => '0644',
-          :content => sensitive('decrypted'),
+          ensure: 'file',
+          owner: 'root',
+          mode: '0644',
+          content: sensitive('decrypted'),
         },
       )
     }
@@ -66,7 +66,7 @@ describe "node_encrypt::file" do
 
   context "when ensure absent" do
     let(:title) { '/tmp/test' }
-    let(:params) { { :ensure => 'absent' } }
+    let(:params) { { ensure: 'absent' } }
 
     it { is_expected.to have_notify_resource_count(1) }
     it { is_expected.to contain_file('/tmp/test').with_ensure('absent') }

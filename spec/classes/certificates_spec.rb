@@ -16,18 +16,18 @@ describe "node_encrypt::certificates" do
     let(:node) { 'ca.example.com' }
     let(:facts) do
       {
-        :fqdn => 'ca.example.com',
-        :servername => 'ca.example.com',
-        :puppetversion => '5.3.5',
+        fqdn: 'ca.example.com',
+        servername: 'ca.example.com',
+        puppetversion: '5.3.5',
       }
     end
 
     it {
       expect(subject).to contain_ini_setting('public certificates mountpoint path').with(
         {
-          :ensure => 'present',
-          :path => '/etc/puppetlabs/puppet/fileserver.conf',
-          :value => '/etc/puppetlabs/puppet/ssl/ca/signed/',
+          ensure: 'present',
+          path: '/etc/puppetlabs/puppet/fileserver.conf',
+          value: '/etc/puppetlabs/puppet/ssl/ca/signed/',
         },
       )
     }
@@ -35,11 +35,11 @@ describe "node_encrypt::certificates" do
     it {
       expect(subject).to contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
         {
-          :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
-          :match_request_type => 'regex',
-          :allow => '*',
-          :sort_order => 300,
-          :path => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+          match_request_path: '^/puppet/v3/file_(metadata|content)s?/public_certificates',
+          match_request_type: 'regex',
+          allow: '*',
+          sort_order: 300,
+          path: '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
         },
       )
     }
@@ -51,8 +51,8 @@ describe "node_encrypt::certificates" do
     let(:node) { 'compile1.example.com' }
     let(:facts) do
       {
-        :fqdn => 'compile1.example.com',
-        :servername => 'ca.example.com',
+        fqdn: 'compile1.example.com',
+        servername: 'ca.example.com',
       }
     end
 
@@ -62,8 +62,8 @@ describe "node_encrypt::certificates" do
     it {
       expect(subject).to contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
         {
-          :ensure => 'directory',
-          :source => 'puppet://ca.example.com/public_certificates/',
+          ensure: 'directory',
+          source: 'puppet://ca.example.com/public_certificates/',
         },
       )
     }
@@ -73,8 +73,8 @@ describe "node_encrypt::certificates" do
     let(:node) { 'agent.example.com' }
     let(:facts) do
       {
-        :fqdn => 'agent.example.com',
-        :servername => 'compile01.example.com',
+        fqdn: 'agent.example.com',
+        servername: 'compile01.example.com',
       }
     end
 
