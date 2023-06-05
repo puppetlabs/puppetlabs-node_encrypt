@@ -5,12 +5,13 @@ describe "node_encrypt::file" do
   context "ensuring present" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
-    let(:params) { {
-      :ensure => 'file',
-      :owner => 'root',
-      :mode => '0644',
-      :content => 'foobar'
-    }
+    let(:params) {
+      {
+        :ensure => 'file',
+        :owner => 'root',
+        :mode => '0644',
+        :content => 'foobar'
+      }
     }
 
     let(:pre_condition) do
@@ -18,26 +19,28 @@ describe "node_encrypt::file" do
     end
 
     it { should have_notify_resource_count(1) }
-    it { should contain_file('/tmp/test').with(
-      {
-        :ensure => 'file',
-        :owner => 'root',
-        :mode => '0644',
-        :content => 'encrypted',
-      },
-    )
+    it {
+      should contain_file('/tmp/test').with(
+        {
+          :ensure => 'file',
+          :owner => 'root',
+          :mode => '0644',
+          :content => 'encrypted',
+        },
+      )
     }
   end
 
   context "should accept pre-encrypted content" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
-    let(:params) { {
-      :ensure => 'file',
-      :owner => 'root',
-      :mode => '0644',
-      :encrypted_content => 'encrypted'
-    }
+    let(:params) {
+      {
+        :ensure => 'file',
+        :owner => 'root',
+        :mode => '0644',
+        :encrypted_content => 'encrypted'
+      }
     }
 
     before(:each) do
@@ -45,14 +48,15 @@ describe "node_encrypt::file" do
     end
 
     it { should have_notify_resource_count(1) }
-    it { should contain_file('/tmp/test').with(
-      {
-        :ensure => 'file',
-        :owner => 'root',
-        :mode => '0644',
-        :content => sensitive('decrypted'),
-      },
-    )
+    it {
+      should contain_file('/tmp/test').with(
+        {
+          :ensure => 'file',
+          :owner => 'root',
+          :mode => '0644',
+          :content => sensitive('decrypted'),
+        },
+      )
     }
   end
 

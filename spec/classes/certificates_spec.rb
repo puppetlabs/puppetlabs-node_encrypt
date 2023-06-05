@@ -12,11 +12,12 @@ describe "node_encrypt::certificates" do
     # Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
 
     let(:node) { 'ca.example.com' }
-    let(:facts) { {
-      :fqdn => 'ca.example.com',
-      :servername => 'ca.example.com',
-      :puppetversion => '5.3.5',
-    }
+    let(:facts) {
+      {
+        :fqdn => 'ca.example.com',
+        :servername => 'ca.example.com',
+        :puppetversion => '5.3.5',
+      }
     }
 
     it {
@@ -46,10 +47,11 @@ describe "node_encrypt::certificates" do
 
   context "when run on a compile server" do
     let(:node) { 'compile1.example.com' }
-    let(:facts) { {
-      :fqdn => 'compile1.example.com',
-      :servername => 'ca.example.com',
-    }
+    let(:facts) {
+      {
+        :fqdn => 'compile1.example.com',
+        :servername => 'ca.example.com',
+      }
     }
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }
@@ -67,10 +69,11 @@ describe "node_encrypt::certificates" do
 
   context "when run on a tier3 agent" do
     let(:node) { 'agent.example.com' }
-    let(:facts) { {
-      :fqdn => 'agent.example.com',
-      :servername => 'compile01.example.com',
-    }
+    let(:facts) {
+      {
+        :fqdn => 'agent.example.com',
+        :servername => 'compile01.example.com',
+      }
     }
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }

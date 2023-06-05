@@ -6,13 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 14
-# This cop supports safe autocorrection (--autocorrect).
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'spec/classes/certificates_spec.rb'
-    - 'spec/classes/redact_spec.rb'
-    - 'spec/defines/file_spec.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
