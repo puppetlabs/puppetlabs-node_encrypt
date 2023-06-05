@@ -279,15 +279,15 @@ describe PuppetX::Binford2k::NodeEncrypt do
     File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
     File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
 
-    data = PuppetX::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
-    expect(PuppetX::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
+    data = described_class.encrypt('foo', 'testhost.example.com')
+    expect(described_class.decrypt(data)).to eq 'foo'
   end
 
   it "should identify an encrypted string" do
-    expect(PuppetX::Binford2k::NodeEncrypt.encrypted?(encrypted)).to be true
+    expect(described_class.encrypted?(encrypted)).to be true
   end
 
   it "should identify a non-encrypted string" do
-    expect(PuppetX::Binford2k::NodeEncrypt.encrypted?('foo')).to be false
+    expect(described_class.encrypted?('foo')).to be false
   end
 end
