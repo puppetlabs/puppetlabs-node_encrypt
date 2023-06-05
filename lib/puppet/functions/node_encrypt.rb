@@ -20,5 +20,4 @@ Puppet::Functions.create_function(:node_encrypt) do
   def sensitive_encrypt(content)
     simple_encrypt(content.unwrap)
   end
-
 end

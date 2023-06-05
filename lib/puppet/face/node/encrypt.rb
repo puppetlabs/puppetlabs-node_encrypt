@@ -82,5 +82,4 @@ Puppet::Face.define(:node, '0.0.1') do
       end
     end
   end
-
 end

@@ -15,5 +15,4 @@ describe 'node_encrypt' do
       should run.with_params(Puppet::Pops::Types::PSensitiveType::Sensitive.new('foobar')).and_return('encrypted')
     }
   end
-
 end

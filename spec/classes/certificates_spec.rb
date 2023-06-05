@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'puppet_x/binford2k/node_encrypt'
 
 describe "node_encrypt::certificates" do
-
   before(:each) do
     Puppet[:ca_server] = 'ca.example.com'
     Puppet[:confdir]   = '/etc/puppetlabs/puppet'
@@ -71,5 +70,4 @@ describe "node_encrypt::certificates" do
     it { should_not contain_ini_setting('public certificates mountpoint path') }
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
   end
-
 end
