@@ -13,8 +13,8 @@ describe "node_encrypt::certificates" do
 
     let(:node) { 'ca.example.com' }
     let(:facts) { {
-      :fqdn          => 'ca.example.com',
-      :servername    => 'ca.example.com',
+      :fqdn => 'ca.example.com',
+      :servername => 'ca.example.com',
       :puppetversion => '5.3.5',
     }
     }
@@ -23,8 +23,8 @@ describe "node_encrypt::certificates" do
       should contain_ini_setting('public certificates mountpoint path').with(
         {
           :ensure => 'present',
-          :path   => '/etc/puppetlabs/puppet/fileserver.conf',
-          :value  => '/etc/puppetlabs/puppet/ssl/ca/signed/',
+          :path => '/etc/puppetlabs/puppet/fileserver.conf',
+          :value => '/etc/puppetlabs/puppet/ssl/ca/signed/',
         },
       )
     }
@@ -34,9 +34,9 @@ describe "node_encrypt::certificates" do
         {
           :match_request_path => '^/puppet/v3/file_(metadata|content)s?/public_certificates',
           :match_request_type => 'regex',
-          :allow              => '*',
-          :sort_order         => 300,
-          :path               => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+          :allow => '*',
+          :sort_order => 300,
+          :path => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
         },
       )
     }
@@ -47,7 +47,7 @@ describe "node_encrypt::certificates" do
   context "when run on a compile server" do
     let(:node) { 'compile1.example.com' }
     let(:facts) { {
-      :fqdn       => 'compile1.example.com',
+      :fqdn => 'compile1.example.com',
       :servername => 'ca.example.com',
     }
     }
@@ -68,7 +68,7 @@ describe "node_encrypt::certificates" do
   context "when run on a tier3 agent" do
     let(:node) { 'agent.example.com' }
     let(:facts) { {
-      :fqdn       => 'agent.example.com',
+      :fqdn => 'agent.example.com',
       :servername => 'compile01.example.com',
     }
     }

@@ -6,9 +6,9 @@ describe "node_encrypt::file" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) { {
-      :ensure  => 'file',
-      :owner   => 'root',
-      :mode    => '0644',
+      :ensure => 'file',
+      :owner => 'root',
+      :mode => '0644',
       :content => 'foobar'
     }
     }
@@ -20,9 +20,9 @@ describe "node_encrypt::file" do
     it { should have_notify_resource_count(1) }
     it { should contain_file('/tmp/test').with(
       {
-        :ensure  => 'file',
-        :owner   => 'root',
-        :mode    => '0644',
+        :ensure => 'file',
+        :owner => 'root',
+        :mode => '0644',
         :content => 'encrypted',
       },
     )
@@ -33,9 +33,9 @@ describe "node_encrypt::file" do
     let(:node) { 'testhost.example.com' }
     let(:title) { '/tmp/test' }
     let(:params) { {
-      :ensure            => 'file',
-      :owner             => 'root',
-      :mode              => '0644',
+      :ensure => 'file',
+      :owner => 'root',
+      :mode => '0644',
       :encrypted_content => 'encrypted'
     }
     }
@@ -47,9 +47,9 @@ describe "node_encrypt::file" do
     it { should have_notify_resource_count(1) }
     it { should contain_file('/tmp/test').with(
       {
-        :ensure  => 'file',
-        :owner   => 'root',
-        :mode    => '0644',
+        :ensure => 'file',
+        :owner => 'root',
+        :mode => '0644',
         :content => sensitive('decrypted'),
       },
     )
