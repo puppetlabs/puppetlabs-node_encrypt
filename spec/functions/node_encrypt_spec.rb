@@ -7,13 +7,13 @@ describe 'node_encrypt' do
   let(:node) { 'testhost.example.com' }
 
   it {
-    PuppetX::Binford2k::NodeEncrypt.expects(:encrypt).with('foobar', 'testhost.example.com').returns('encrypted')
+    expect(PuppetX::Binford2k::NodeEncrypt).to receive(:encrypt).with('foobar', 'testhost.example.com').and_return('encrypted')
     expect(subject).to run.with_params('foobar').and_return('encrypted')
   }
 
   if defined?(Puppet::Pops::Types::PSensitiveType::Sensitive)
     it {
-      PuppetX::Binford2k::NodeEncrypt.expects(:encrypt).with('foobar', 'testhost.example.com').returns('encrypted')
+      expect(PuppetX::Binford2k::NodeEncrypt).to receive(:encrypt).with('foobar', 'testhost.example.com').and_return('encrypted')
       expect(subject).to run.with_params(Puppet::Pops::Types::PSensitiveType::Sensitive.new('foobar')).and_return('encrypted')
     }
   end

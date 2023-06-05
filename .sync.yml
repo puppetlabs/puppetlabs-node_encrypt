@@ -17,9 +17,6 @@ Rakefile:
   changelog_since_tag: '1.2.0'
   requires:
     - 'puppet-strings/tasks'
-spec/spec_helper.rb:
-  mock_with: ':mocha'
-  coverage_report: true
 .github/workflows/ci.yml:
   unmanaged: true
 .github/workflows/nightly.yml:
