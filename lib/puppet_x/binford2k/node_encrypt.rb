@@ -1,4 +1,4 @@
-module Puppet_X
+module PuppetX
   module Binford2k
     class NodeEncrypt # rubocop:disable Style/Documentation
       def self.encrypted?(data)

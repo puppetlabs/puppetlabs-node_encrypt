@@ -6,7 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-
 # Offense count: 2
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
@@ -23,12 +22,12 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 25
 
-# Offense count: 1
-# Configuration parameters: AllowedNames.
-# AllowedNames: module_parent
-Naming/ClassAndModuleCamelCase:
-  Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+# # Offense count: 1
+# # Configuration parameters: AllowedNames.
+# # AllowedNames: module_parent
+# Naming/ClassAndModuleCamelCase:
+#   Exclude:
+#     - 'lib/PuppetX/binford2k/node_encrypt.rb'
 
 # Offense count: 4
 # Configuration parameters: ForbiddenDelimiters.
@@ -76,7 +75,7 @@ RSpec/DescribeClass:
 # SupportedStyles: described_class, explicit
 RSpec/DescribedClass:
   Exclude:
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
@@ -103,14 +102,14 @@ RSpec/ExampleLength:
 # DisallowedExamples: works
 RSpec/ExampleWording:
   Exclude:
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
 # Include: **/*_spec*rb*, **/spec/**/*
 RSpec/FilePath:
   Exclude:
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 16
 # This cop supports safe autocorrection (--autocorrect).
@@ -152,7 +151,7 @@ Style/BlockDelimiters:
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
@@ -160,7 +159,7 @@ Style/ClassAndModuleChildren:
 # AllowedMethods: ==, equal?, eql?
 Style/ClassEqualityComparison:
   Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
 
 # Offense count: 5
 # This cop supports safe autocorrection (--autocorrect).
@@ -168,7 +167,7 @@ Style/ColonMethodCall:
   Exclude:
     - 'lib/puppet/parser/functions/node_encrypt.rb'
     - 'lib/puppet/parser/functions/redact.rb'
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -197,12 +196,12 @@ Style/FrozenStringLiteralComment:
     - 'lib/puppet/functions/node_encrypt.rb'
     - 'lib/puppet/parser/functions/node_encrypt.rb'
     - 'lib/puppet/parser/functions/redact.rb'
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
     - 'spec/classes/certificates_spec.rb'
     - 'spec/classes/redact_spec.rb'
     - 'spec/defines/file_spec.rb'
     - 'spec/functions/node_encrypt_spec.rb'
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 57
 # This cop supports safe autocorrection (--autocorrect).
@@ -221,7 +220,7 @@ Style/HashSyntax:
 # This cop supports safe autocorrection (--autocorrect).
 Style/IfUnlessModifier:
   Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
 
 # Offense count: 1
 Style/MixinUsage:
@@ -262,7 +261,7 @@ Style/RedundantSelf:
 # SupportedStyles: slashes, percent_r, mixed
 Style/RegexpLiteral:
   Exclude:
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 28
 # This cop supports safe autocorrection (--autocorrect).
@@ -271,11 +270,11 @@ Style/RegexpLiteral:
 Style/StringLiterals:
   Exclude:
     - 'lib/puppet/face/node/encrypt.rb'
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/PuppetX/binford2k/node_encrypt.rb'
     - 'spec/classes/certificates_spec.rb'
     - 'spec/classes/redact_spec.rb'
     - 'spec/defines/file_spec.rb'
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 5
 # This cop supports safe autocorrection (--autocorrect).
@@ -286,7 +285,7 @@ Style/TrailingCommaInArguments:
     - 'lib/puppet/functions/node_decrypt.rb'
     - 'lib/puppet/parser/functions/node_encrypt.rb'
     - 'lib/puppet/parser/functions/redact.rb'
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/PuppetX/binford2k/node_encrypt_spec.rb'
 
 # Offense count: 15
 # This cop supports safe autocorrection (--autocorrect).

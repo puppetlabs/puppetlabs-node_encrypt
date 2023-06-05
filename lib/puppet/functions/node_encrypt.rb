@@ -14,7 +14,7 @@ Puppet::Functions.create_function(:node_encrypt) do
 
   def simple_encrypt(content)
     certname = closure_scope['clientcert']
-    Puppet_X::Binford2k::NodeEncrypt.encrypt(content, certname)
+    PuppetX::Binford2k::NodeEncrypt.encrypt(content, certname)
   end
 
   def sensitive_encrypt(content)

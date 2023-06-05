@@ -250,7 +250,7 @@ P3UmZrgNUptcoa0TSn++XeFchgdUJIsk+tQv7TWsa4/MANKfFGZKSq2NMHW685Aw
 uSI28VzZYavkITj+2D6tMys=
 -----END PKCS7-----"
 
-describe Puppet_X::Binford2k::NodeEncrypt do
+describe PuppetX::Binford2k::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
   it "should decrypt values which have been encrypted" do
@@ -279,15 +279,15 @@ describe Puppet_X::Binford2k::NodeEncrypt do
     File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
     File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
 
-    data = Puppet_X::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
-    expect(Puppet_X::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
+    data = PuppetX::Binford2k::NodeEncrypt.encrypt('foo', 'testhost.example.com')
+    expect(PuppetX::Binford2k::NodeEncrypt.decrypt(data)).to eq 'foo'
   end
 
   it "should identify an encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?(encrypted)).to be true
+    expect(PuppetX::Binford2k::NodeEncrypt.encrypted?(encrypted)).to be true
   end
 
   it "should identify a non-encrypted string" do
-    expect(Puppet_X::Binford2k::NodeEncrypt.encrypted?('foo')).to be false
+    expect(PuppetX::Binford2k::NodeEncrypt.encrypted?('foo')).to be false
   end
 end

@@ -44,7 +44,7 @@ describe "node_encrypt::file" do
     }
 
     before(:each) do
-      Puppet_X::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
+      PuppetX::Binford2k::NodeEncrypt.stubs(:decrypt).with('encrypted').returns('decrypted')
     end
 
     it { should have_notify_resource_count(1) }

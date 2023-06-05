@@ -43,7 +43,7 @@ Puppet::Face.define(:node, '0.0.1') do
         text = args.join(' ')
       end
 
-      Puppet_X::Binford2k::NodeEncrypt.encrypt(text, options[:target])
+      PuppetX::Binford2k::NodeEncrypt.encrypt(text, options[:target])
     end
   end
 
@@ -74,11 +74,11 @@ Puppet::Face.define(:node, '0.0.1') do
 
     when_invoked do |options|
       if options.include? :data
-        Puppet_X::Binford2k::NodeEncrypt.decrypt(options[:data])
+        PuppetX::Binford2k::NodeEncrypt.decrypt(options[:data])
       elsif options.include? :env
-        Puppet_X::Binford2k::NodeEncrypt.decrypt(ENV[options[:env]])
+        PuppetX::Binford2k::NodeEncrypt.decrypt(ENV[options[:env]])
       else
-        Puppet_X::Binford2k::NodeEncrypt.decrypt($stdin.read)
+        PuppetX::Binford2k::NodeEncrypt.decrypt($stdin.read)
       end
     end
   end

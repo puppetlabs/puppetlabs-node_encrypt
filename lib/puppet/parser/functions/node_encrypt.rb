@@ -1,4 +1,4 @@
-require_relative '../../../puppet_x/binford2k/node_encrypt'
+require_relative '../../../PuppetX/binford2k/node_encrypt'
 
 Puppet::Parser::Functions::newfunction(:node_encrypt,
                                        :type => :rvalue,
@@ -12,5 +12,5 @@ Puppet::Parser::Functions::newfunction(:node_encrypt,
   content = content.unwrap if defined?(Puppet::Pops::Types::PSensitiveType::Sensitive) && content.is_a?(Puppet::Pops::Types::PSensitiveType::Sensitive)
 
   certname = self.lookupvar('clientcert')
-  Puppet_X::Binford2k::NodeEncrypt.encrypt(content, certname)
+  PuppetX::Binford2k::NodeEncrypt.encrypt(content, certname)
 end
