@@ -62,7 +62,7 @@ describe "redact" do
   }
 
   describe 'parameters being redacted are still available to use in manifests' do
-    ['one','two','three','four'].each do |title|
+    ['one', 'two', 'three', 'four'].each do |title|
       it { is_expected.to contain_notify("#{title} The value of redacted is to be redacted") }
       it { is_expected.to contain_notify("#{title} The value of replaced is to be replaced") }
     end

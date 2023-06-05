@@ -28,7 +28,7 @@ Puppet::Parser::Functions::newfunction(:redact,
                                          a type that is not `String` for the parameter you're redacting.
                                        DOC
                                       ) do |args|
-  raise Puppet::ParseError, 'The redact function requires 1 or 2 arguments' unless [1,2].include? args.size
+  raise Puppet::ParseError, 'The redact function requires 1 or 2 arguments' unless [1, 2].include? args.size
 
   param   = args[0]
   message = args[1] || '<<redacted>>'
