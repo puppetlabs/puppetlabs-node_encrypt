@@ -39,7 +39,7 @@ Puppet::Face.define(:node, '0.0.1') do
 
         print 'Enter a string to encrypt: '
         text = $stdin.gets
-      elsif args.length.zero?
+      elsif args.empty?
         text = $stdin.read
       else
         text = args.join(' ')
