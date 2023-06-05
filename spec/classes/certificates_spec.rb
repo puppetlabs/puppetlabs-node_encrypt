@@ -17,7 +17,8 @@ describe "node_encrypt::certificates" do
       :fqdn          => 'ca.example.com',
       :servername    => 'ca.example.com',
       :puppetversion => '5.3.5',
-    } }
+    }
+    }
 
     it {
       should contain_ini_setting('public certificates mountpoint path').with({
@@ -45,7 +46,8 @@ describe "node_encrypt::certificates" do
     let(:facts) { {
       :fqdn       => 'compile1.example.com',
       :servername => 'ca.example.com',
-    } }
+    }
+    }
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
@@ -63,7 +65,8 @@ describe "node_encrypt::certificates" do
     let(:facts) { {
       :fqdn       => 'agent.example.com',
       :servername => 'compile01.example.com',
-    } }
+    }
+    }
 
     it { should_not contain_ini_setting('public certificates mountpoint path') }
     it { should_not contain_ini_setting('public certificates mountpoint whitelist') }
