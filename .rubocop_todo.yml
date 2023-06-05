@@ -7,14 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: aligned, indented
-Layout/MultilineOperationIndentation:
-  Exclude:
-    - 'lib/puppet/parser/functions/redact.rb'
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 Layout/SpaceAfterComma:
