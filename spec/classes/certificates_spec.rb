@@ -10,7 +10,7 @@ describe "node_encrypt::certificates" do
   end
 
   context "when run on a Puppet 5.x CA" do
-# Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
+    # Test case don't work? Comment it, yo! http://i.imgur.com/ki41AH1.gifv
 
     let(:node) { 'ca.example.com' }
     let(:facts) { {
