@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet/face'
 require 'puppet_x/binford2k/node_encrypt'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PuppetX
   module Binford2k
     class NodeEncrypt # rubocop:disable Style/Documentation

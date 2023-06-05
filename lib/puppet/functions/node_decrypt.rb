@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../puppet_x/binford2k/node_encrypt'
 
 # Decrypt data with node_encrypt. This is intended to be used as a

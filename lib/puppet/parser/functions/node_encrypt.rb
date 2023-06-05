@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../../PuppetX/binford2k/node_encrypt'
 
 Puppet::Parser::Functions.newfunction(:node_encrypt,

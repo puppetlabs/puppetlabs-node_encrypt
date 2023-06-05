@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Puppet::Parser::Functions.newfunction(:redact,
                                       :doc => <<~DOC
                                         This function will modify the catalog during compilation to remove the named

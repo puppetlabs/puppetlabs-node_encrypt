@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'openssl'
 require 'spec_helper'
 require 'puppet_x/binford2k/node_encrypt'
@@ -255,7 +257,7 @@ describe PuppetX::Binford2k::NodeEncrypt do
 
   it "decrypts values which have been encrypted" do
     Puppet.settings.expects(:[]).twice.with(:hostcert).returns(
-      '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem',   # encrypting for agent
+      '/etc/puppetlabs/puppet/ssl/certs/primary.example.com.pem', # encrypting for agent
       '/etc/puppetlabs/puppet/ssl/certs/testhost.example.com.pem' # decrypting on agent
     )
     Puppet.settings.expects(:[]).twice.with(:hostprivkey).returns(
