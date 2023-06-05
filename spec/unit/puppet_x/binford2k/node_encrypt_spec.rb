@@ -269,17 +269,17 @@ describe PuppetX::Binford2k::NodeEncrypt do
     Puppet.settings.expects(:[]).with(:localcacert).returns('/etc/puppetlabs/puppet/ssl/certs/ca.pem') # decrypting as agent
 
     # encrypting on server for agent
-    File.expects(:exist?).with(regexp_matches(/bad\/path\/testhost.example.com\.pem$/)).returns(nil)
-    File.expects(:exist?).with(regexp_matches(/ssl\/certs\/testhost.example.com\.pem$/)).returns(true)
+    File.expects(:exist?).with(regexp_matches(%r{bad/path/testhost.example.com\.pem$})).returns(nil)
+    File.expects(:exist?).with(regexp_matches(%r{ssl/certs/testhost.example.com\.pem$})).returns(true)
 
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/primary.example.com\.pem$/)).returns(ca_crt_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/private_keys\/primary.example.com\.pem$/)).returns(ca_key_pem)
-    File.expects(:read).with(regexp_matches(/ssl\/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/certs/primary.example.com\.pem$})).returns(ca_crt_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/private_keys/primary.example.com\.pem$})).returns(ca_key_pem)
+    File.expects(:read).with(regexp_matches(%r{ssl/certs/testhost\.example\.com\.pem$})).returns(cert_pem)
 
     # decrypting as agent
-    File.expects(:read).with(regexp_matches(/certs\/testhost\.example\.com\.pem$/)).returns(cert_pem)
-    File.expects(:read).with(regexp_matches(/private_keys\/testhost\.example\.com\.pem$/)).returns(cert_key_pem)
-    File.expects(:read).with(regexp_matches(/certs\/ca\.pem$/)).returns(ca_crt_pem)
+    File.expects(:read).with(regexp_matches(%r{certs/testhost\.example\.com\.pem$})).returns(cert_pem)
+    File.expects(:read).with(regexp_matches(%r{private_keys/testhost\.example\.com\.pem$})).returns(cert_key_pem)
+    File.expects(:read).with(regexp_matches(%r{certs/ca\.pem$})).returns(ca_crt_pem)
 
     data = described_class.encrypt('foo', 'testhost.example.com')
     expect(described_class.decrypt(data)).to eq 'foo'
