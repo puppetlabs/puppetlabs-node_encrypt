@@ -96,14 +96,6 @@ built secret server. See [docs](https://puppet.com/docs/puppet/latest/integratio
 * `node_encrypt::certificates`
     * This class will synchronize certificates to all compile servers.
     * Generally not needed, unless the `clientcert_pem` fact fails for some reason.
-* `node_encrypt::file`
-    * Legacy type for backwards code compatibility.
-    * It just invokes the deferred functions for you so that your old code will
-      continue to compile. This means that it now requires Puppet 6.x+. You should
-      migrate to the deferred function as soon as possible, as this type will be
-      removed in the next major version.
-    * This is a defined type that wraps a standard file resource, but allows you
-      to encrypt the content in the catalog and reports.
 
 The simplest usage is like the example shown in the [Overview](#overview). This
 defined type accepts most of the standard file parameters and simply encrypts the
@@ -297,7 +289,6 @@ functions:
     returns: '-----BEGIN PKCS7----- MOCKED_DATA'
 ```
 
-(Note, the text of the mock return is important for users of the `node_encrypt::file` defined type.)
 
 
 ## Limitations
