@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'puppet/face'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/node_encrypt'
 
 Puppet::Face.define(:node, '0.0.1') do
   action :encrypt do
@@ -45,7 +45,7 @@ Puppet::Face.define(:node, '0.0.1') do
         text = args.join(' ')
       end
 
-      PuppetX::Binford2k::NodeEncrypt.encrypt(text, options[:target])
+      PuppetX::NodeEncrypt.encrypt(text, options[:target])
     end
   end
 
@@ -76,11 +76,11 @@ Puppet::Face.define(:node, '0.0.1') do
 
     when_invoked do |options|
       if options.include? :data
-        PuppetX::Binford2k::NodeEncrypt.decrypt(options[:data])
+        PuppetX::NodeEncrypt.decrypt(options[:data])
       elsif options.include? :env
-        PuppetX::Binford2k::NodeEncrypt.decrypt(ENV.fetch(options[:env], nil))
+        PuppetX::NodeEncrypt.decrypt(ENV.fetch(options[:env], nil))
       else
-        PuppetX::Binford2k::NodeEncrypt.decrypt($stdin.read)
+        PuppetX::NodeEncrypt.decrypt($stdin.read)
       end
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/node_encrypt'
 
 describe 'node_encrypt::file' do
   context 'when ensuring present' do
@@ -48,7 +48,7 @@ describe 'node_encrypt::file' do
     end
 
     before(:each) do
-      allow(PuppetX::Binford2k::NodeEncrypt).to receive(:decrypt).with('encrypted').and_return('decrypted')
+      allow(PuppetX::NodeEncrypt).to receive(:decrypt).with('encrypted').and_return('decrypted')
     end
 
     it {

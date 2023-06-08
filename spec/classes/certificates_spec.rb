@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/node_encrypt'
 
 describe 'node_encrypt::certificates' do
   before(:each) do

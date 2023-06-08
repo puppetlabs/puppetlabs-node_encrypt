@@ -59,7 +59,7 @@ RSpec/NamedSubject:
 RSpec/StubbedMock:
   Exclude:
     - 'spec/functions/node_encrypt_spec.rb'
-    - 'spec/unit/puppet_x/binford2k/node_encrypt_spec.rb'
+    - 'spec/unit/puppet_x/node_encrypt_spec.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -67,4 +67,4 @@ RSpec/StubbedMock:
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'lib/puppet_x/binford2k/node_encrypt.rb'
+    - 'lib/puppet_x/node_encrypt.rb'

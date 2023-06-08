@@ -2,7 +2,7 @@
 
 require 'openssl'
 require 'spec_helper'
-require 'puppet_x/binford2k/node_encrypt'
+require 'puppet_x/node_encrypt'
 
 ca_crt_pem = "-----BEGIN CERTIFICATE-----
 MIIGGjCCBAKgAwIBAgIBATANBgkqhkiG9w0BAQsFADBaMVgwVgYDVQQDDE9QdXBw
@@ -252,7 +252,7 @@ P3UmZrgNUptcoa0TSn++XeFchgdUJIsk+tQv7TWsa4/MANKfFGZKSq2NMHW685Aw
 uSI28VzZYavkITj+2D6tMys=
 -----END PKCS7-----"
 
-describe PuppetX::Binford2k::NodeEncrypt do
+describe PuppetX::NodeEncrypt do
   let(:node) { 'testhost.example.com' }
 
   it 'decrypts values which have been encrypted' do
