@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-Puppet::Parser::Functions.newfunction(:redact,
-                                      doc: <<~DOC,
+Puppet::Parser::Functions.newfunction(:redact, doc: <<~DOC
                                         This function will modify the catalog during compilation to remove the named
                                         parameter from the class from which it was called. For example, if you wrote a
                                         class named `foo` and called `redact('bar')` from within that class, then the
