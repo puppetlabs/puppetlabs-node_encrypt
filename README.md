@@ -302,10 +302,13 @@ functions:
 
 ## Limitations
 
-For an extensive list of supported operating systems, see metadata.json
+For an extensive list of supported operating systems, see [metadata.json](https://github.com/puppetlabs/puppetlabs-node_encrypt/blob/main/metadata.json)
 
 ## Disclaimer
 
 I take no liability for the use of this module. As this uses standard Ruby and
 OpenSSL libraries, it should work anywhere Puppet itself does. I have not yet
 validated on anything other than CentOS, though.
+
+Authors
+This module is based on work by [Ben Ford](https://github.com/binford2k). Thank you to all of our contributors.
