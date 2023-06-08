@@ -25,8 +25,8 @@
 #   `300` to ensure that it overrides the default.
 #
 class node_encrypt::certificates (
-  Optional[String] $ca_server   = undef,
-  Integer           $sort_order = 300,
+  Optional[String[1]] $ca_server   = undef,
+  Integer             $sort_order  = 300,
 ) {
   # Matches when the agent node is the CA itself.
   if $trusted['certname'] in [$ca_server, $settings::ca_server] {

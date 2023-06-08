@@ -16,9 +16,9 @@
 
 * [`node_decrypt`](#node_decrypt): Decrypt data with node_encrypt. This is intended to be used as a Deferred function on the _agent_ via the node_encrypted::secret wrapper.
 * [`node_encrypt`](#node_encrypt): Encrypt data with node_encrypt.
-* [`node_encrypt`](#node_encrypt): This function simply encrypts the String or Sensitive passed to it using the certificate belonging to the client the catalog is being compile
+* [`node_encrypt`](#node_encrypt)
 * [`node_encrypt::secret`](#node_encrypt--secret)
-* [`redact`](#redact): This function will modify the catalog during compilation to remove the named parameter from the class from which it was called. For example, 
+* [`redact`](#redact)
 
 ## Classes
 
@@ -59,7 +59,7 @@ The following parameters are available in the `node_encrypt::certificates` class
 
 ##### <a name="-node_encrypt--certificates--ca_server"></a>`ca_server`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -164,7 +164,7 @@ Default value: `'file'`
 
 ##### <a name="-node_encrypt--file--path"></a>`path`
 
-Data type: `String`
+Data type: `String[1]`
 
 
 
@@ -180,7 +180,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--checksum"></a>`checksum`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -188,7 +188,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--content"></a>`content`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -196,7 +196,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--encrypted_content"></a>`encrypted_content`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -212,7 +212,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--group"></a>`group`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -220,7 +220,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--owner"></a>`owner`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -252,7 +252,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--selrange"></a>`selrange`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -260,7 +260,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--selrole"></a>`selrole`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -268,7 +268,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--seltype"></a>`seltype`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -276,7 +276,7 @@ Default value: `undef`
 
 ##### <a name="-node_encrypt--file--seluser"></a>`seluser`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 
 
@@ -338,13 +338,11 @@ Data type: `Sensitive`
 
 Type: Ruby 3.x API
 
-This function simply encrypts the String or Sensitive passed to it using the certificate
-belonging to the client the catalog is being compiled for.
+The node_encrypt function.
 
 #### `node_encrypt()`
 
-This function simply encrypts the String or Sensitive passed to it using the certificate
-belonging to the client the catalog is being compiled for.
+The node_encrypt function.
 
 Returns: `Any`
 
@@ -370,61 +368,11 @@ Data type: `Variant[String, Sensitive[String]]`
 
 Type: Ruby 3.x API
 
-This function will modify the catalog during compilation to remove the named
-parameter from the class from which it was called. For example, if you wrote a
-class named `foo` and called `redact('bar')` from within that class, then the
-catalog would not record the value of `bar` that `foo` was called with.
-
-~~~ puppet
-class foo($bar) {
-  # this call will display the proper output, but because it's not a resource
-  # the string won't exist in the catalog.
-  notice("Class['foo'] was called with param ${bar}")
-
-  # but the catalog won't record what the passed in param was.
-  redact('bar')
-}
-
-class { 'foo':
-  bar => 'this will not appear in the catalog',
-}
-~~~
-
-**Warning**: If you use that parameter to declare other classes or resources,
-then you must take further action to remove the parameter from those declarations!
-
-This takes an optional second parameter of the value to replace the original
-parameter declaration with. This parameter is required if the class declares
-a type that is not `String` for the parameter you're redacting.
+The redact function.
 
 #### `redact()`
 
-This function will modify the catalog during compilation to remove the named
-parameter from the class from which it was called. For example, if you wrote a
-class named `foo` and called `redact('bar')` from within that class, then the
-catalog would not record the value of `bar` that `foo` was called with.
-
-~~~ puppet
-class foo($bar) {
-  # this call will display the proper output, but because it's not a resource
-  # the string won't exist in the catalog.
-  notice("Class['foo'] was called with param ${bar}")
-
-  # but the catalog won't record what the passed in param was.
-  redact('bar')
-}
-
-class { 'foo':
-  bar => 'this will not appear in the catalog',
-}
-~~~
-
-**Warning**: If you use that parameter to declare other classes or resources,
-then you must take further action to remove the parameter from those declarations!
-
-This takes an optional second parameter of the value to replace the original
-parameter declaration with. This parameter is required if the class declares
-a type that is not `String` for the parameter you're redacting.
+The redact function.
 
 Returns: `Any`
 

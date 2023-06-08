@@ -55,22 +55,22 @@
 #   (Optional) The SELinux user for the file.
 #
 define node_encrypt::file (
-  Enum['absent', 'present', 'file'] $ensure                 = 'file',
-  String                           $path                    = $title,
-  Optional[Boolean]                $backup                  = undef,
-  Optional[String]                 $checksum                = undef,
-  Optional[String]                 $content                 = undef,
-  Optional[String]                 $encrypted_content       = undef,
-  Optional[Boolean]                $force                   = undef,
-  Optional[String]                 $group                   = undef,
-  Optional[String]                 $owner                   = undef,
-  Optional[Stdlib::Filemode]       $mode                    = undef,
-  Optional[Boolean]                $replace                 = undef,
-  Optional[Boolean]                $selinux_ignore_defaults = undef,
-  Optional[String]                 $selrange                = undef,
-  Optional[String]                 $selrole                 = undef,
-  Optional[String]                 $seltype                 = undef,
-  Optional[String]                 $seluser                 = undef,
+  Enum['absent', 'present', 'file'] $ensure                  = 'file',
+  String[1]                         $path                    = $title,
+  Optional[Boolean]                 $backup                  = undef,
+  Optional[String[1]]               $checksum                = undef,
+  Optional[String[1]]               $content                 = undef,
+  Optional[String[1]]               $encrypted_content       = undef,
+  Optional[Boolean]                 $force                   = undef,
+  Optional[String[1]]               $group                   = undef,
+  Optional[String[1]]               $owner                   = undef,
+  Optional[Stdlib::Filemode]        $mode                    = undef,
+  Optional[Boolean]                 $replace                 = undef,
+  Optional[Boolean]                 $selinux_ignore_defaults = undef,
+  Optional[String[1]]               $selrange                = undef,
+  Optional[String[1]]               $selrole                 = undef,
+  Optional[String[1]]               $seltype                 = undef,
+  Optional[String[1]]               $seluser                 = undef,
 ) {
   warning('This defined type is deprecated and will be removed in the next major release. Use the node_encrypt::secret function instead.')
   notify { 'This defined type is deprecated and will be removed in the next major release.Use the node_encrypt::secret function instead.': }
