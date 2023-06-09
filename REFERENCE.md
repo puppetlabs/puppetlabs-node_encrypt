@@ -8,16 +8,12 @@
 
 * [`node_encrypt::certificates`](#node_encrypt--certificates): Class: node_encrypt::certificates  This class distributes public certificates from your CA node to all compile server configurations. It is r
 
-### Defined types
-
-* [`node_encrypt::file`](#node_encrypt--file): Notice: This defined type is deprecated and only used for backward code compatibility. This uses the modern deferred function under the hood 
-
 ### Functions
 
 * [`node_decrypt`](#node_decrypt): Decrypt data with node_encrypt. This is intended to be used as a Deferred function on the _agent_ via the node_encrypted::secret wrapper.
 * [`node_encrypt`](#node_encrypt): Encrypt data with node_encrypt.
 * [`node_encrypt`](#node_encrypt): This function simply encrypts the String or Sensitive passed to it using the certificate belonging to the client the catalog is being compile
-* [`node_encrypt::secret`](#node_encrypt--secret)
+* [`node_encrypt::secret`](#node_encrypt--secret): This function encrypts a string on the server, and then decrypts it on the agent during catalog application.
 * [`redact`](#redact): This function will modify the catalog during compilation to remove the named parameter from the class from which it was called. For example, 
 
 ## Classes
@@ -72,215 +68,6 @@ Data type: `Integer`
 
 
 Default value: `300`
-
-## Defined types
-
-### <a name="node_encrypt--file"></a>`node_encrypt::file`
-
-Notice:
-This defined type is deprecated and only used for backward code compatibility.
-This uses the modern deferred function under the hood and will be removed in
-the next major release. That means that this module now REQUIRES Puppet 6.x+.
-
-Parameters:
-[*ensure*]
-  Specifies the desired state of the file. Valid values are 'absent', 'present', or 'file'.
-
-[*path*]
-  The path to the file.
-
-[*backup*]
-  (Optional) Whether to create backups of the file when it changes.
-
-[*checksum*]
-  (Optional) The checksum type to use for file content validation.
-
-[*content*]
-  (Optional) The content of the file. This will be encrypted with node_encrypt() and passed to
-  an instance of the node_encrypted_file type, which will provide the content to the file.
-
-[*encrypted_content*]
-  (Optional) The encrypted content of the file. If specified, it will be decrypted and used as
-  the content of the file.
-
-[*force*]
-  (Optional) Whether to force file updates even if the file is managed by another system.
-
-[*group*]
-  (Optional) The group ownership of the file.
-
-[*owner*]
-  (Optional) The owner of the file.
-
-[*mode*]
-  (Optional) The file mode or permission settings.
-
-[*replace*]
-  (Optional) Whether to replace the file if it already exists.
-
-[*selinux_ignore_defaults*]
-  (Optional) Whether to ignore SELinux defaults when managing the file.
-
-[*selrange*]
-  (Optional) The SELinux range for the file.
-
-[*selrole*]
-  (Optional) The SELinux role for the file.
-
-[*seltype*]
-  (Optional) The SELinux type for the file.
-
-[*seluser*]
-  (Optional) The SELinux user for the file.
-
-#### Parameters
-
-The following parameters are available in the `node_encrypt::file` defined type:
-
-* [`ensure`](#-node_encrypt--file--ensure)
-* [`path`](#-node_encrypt--file--path)
-* [`backup`](#-node_encrypt--file--backup)
-* [`checksum`](#-node_encrypt--file--checksum)
-* [`content`](#-node_encrypt--file--content)
-* [`encrypted_content`](#-node_encrypt--file--encrypted_content)
-* [`force`](#-node_encrypt--file--force)
-* [`group`](#-node_encrypt--file--group)
-* [`owner`](#-node_encrypt--file--owner)
-* [`mode`](#-node_encrypt--file--mode)
-* [`replace`](#-node_encrypt--file--replace)
-* [`selinux_ignore_defaults`](#-node_encrypt--file--selinux_ignore_defaults)
-* [`selrange`](#-node_encrypt--file--selrange)
-* [`selrole`](#-node_encrypt--file--selrole)
-* [`seltype`](#-node_encrypt--file--seltype)
-* [`seluser`](#-node_encrypt--file--seluser)
-
-##### <a name="-node_encrypt--file--ensure"></a>`ensure`
-
-Data type: `Enum['absent', 'present', 'file']`
-
-
-
-Default value: `'file'`
-
-##### <a name="-node_encrypt--file--path"></a>`path`
-
-Data type: `String[1]`
-
-
-
-Default value: `$title`
-
-##### <a name="-node_encrypt--file--backup"></a>`backup`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--checksum"></a>`checksum`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--content"></a>`content`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--encrypted_content"></a>`encrypted_content`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--force"></a>`force`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--group"></a>`group`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--owner"></a>`owner`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--mode"></a>`mode`
-
-Data type: `Optional[Stdlib::Filemode]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--replace"></a>`replace`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--selinux_ignore_defaults"></a>`selinux_ignore_defaults`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--selrange"></a>`selrange`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--selrole"></a>`selrole`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--seltype"></a>`seltype`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
-
-##### <a name="-node_encrypt--file--seluser"></a>`seluser`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
 
 ## Functions
 
@@ -352,11 +139,11 @@ Returns: `Any`
 
 Type: Puppet Language
 
-The node_encrypt::secret function.
+This function encrypts a string on the server, and then decrypts it on the agent during catalog application.
 
 #### `node_encrypt::secret(Variant[String, Sensitive[String]] $data)`
 
-The node_encrypt::secret function.
+This function encrypts a string on the server, and then decrypts it on the agent during catalog application.
 
 Returns: `Deferred`
 
