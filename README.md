@@ -301,5 +301,6 @@ I take no liability for the use of this module. As this uses standard Ruby and
 OpenSSL libraries, it should work anywhere Puppet itself does. I have not yet
 validated on anything other than CentOS, though.
 
-Authors
-This module is based on work by [Ben Ford](https://github.com/binford2k). Thank you to all of our contributors.
+## Authors
+
+This module is a continuation of [binford2k/node_encrypt](https://forge.puppet.com/modules/binford2k/node_encrypt/readme) which was developed by [Ben Ford](https://github.com/binford2k). Thank you to all of our contributors.
