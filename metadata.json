@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-node_encrypt",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "puppetlabs",
   "summary": "Encrypts secrets in the catalog using the agent's certificate.",
   "license": "Apache-2.0",

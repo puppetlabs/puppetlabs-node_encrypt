@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v3.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v3.0.0) - 2023-06-15
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v2.0.0...v3.0.0)
+
+### Added
+
+- (CONT-1042) - Add Support for Ubuntu 22.04 [#97](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/97) ([jordanbreen28](https://github.com/jordanbreen28))
+- (CONT-88) - Add puppet module support [#93](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/93) ([jordanbreen28](https://github.com/jordanbreen28))
+
+### Changed
+- (CONT-1042) - Remove unsupported OS [#96](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/96) ([jordanbreen28](https://github.com/jordanbreen28))
+- (CONT-1041) - Add Puppet 8 Support/Drop Puppet 6 Support [#95](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/95) ([jordanbreen28](https://github.com/jordanbreen28))
+- (CONT-1048) - Removal of deprecated node_encrypt::file defined type [#94](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/94) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v2.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v2.0.0) - 2022-10-14
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v1.0.0...v2.0.0)
@@ -40,12 +54,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 
 - Use client certs from the CA if they exist [#48](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/48) ([binford2k](https://github.com/binford2k))
+- Add p6 Deferred function [#46](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/46) ([binford2k](https://github.com/binford2k))
 - Disable verification for Puppet 6 certificate chain [#41](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/41) ([binford2k](https://github.com/binford2k))
 - Try a different approach to determining what certs to use [#37](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/37) ([binford2k](https://github.com/binford2k))
+- Support Sensitive values to node_encrypt::file [#35](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/35) ([danielparks](https://github.com/danielparks))
 
 ### Fixed
 
 - Add alternate of sending clientcert as fact [#49](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/49) ([binford2k](https://github.com/binford2k))
+- delete the no longer relevant test [#47](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/47) ([binford2k](https://github.com/binford2k))
+- certificates: Do not purge cached ca.pem. [#45](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/45) ([olifre](https://github.com/olifre))
+- Purge stale certificates [#44](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/44) ([binford2k](https://github.com/binford2k))
+- Remove serialized class from transactionstore [#43](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/43) ([binford2k](https://github.com/binford2k))
 
 ## [v0.3.3](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v0.3.3) - 2018-06-27
 
@@ -83,6 +103,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [v0.2.6](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v0.2.6) - 2017-06-15
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v0.2.5...v0.2.6)
+
+### Fixed
+
+- Correctly Handle Namespace Capitalization [#15](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/15) ([JeremyEinfeld](https://github.com/JeremyEinfeld))
 
 ## [v0.2.5](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v0.2.5) - 2016-04-03
 
