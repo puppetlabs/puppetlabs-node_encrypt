@@ -14,7 +14,7 @@
     },
     {
       "name": "puppetlabs/puppet_authorization",
-      "version_requirement": ">= 0.4.0 < 1.0.0"
+      "version_requirement": ">= 1.0.0 < 2.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -112,6 +112,6 @@
     }
   ],
   "template-url": "https://github.com/puppetlabs/pdk-templates.git#main",
-  "pdk-version": "2.7.1",
-  "template-ref": "heads/main-0-g9675180"
+  "pdk-version": "3.0.0",
+  "template-ref": "heads/main-0-g79a2f93"
 }
