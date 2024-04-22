@@ -5,19 +5,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v3.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v3.0.0) - 2023-06-15
+## [v3.1.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v3.1.0) - 2024-04-22
 
-[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v2.0.0...v3.0.0)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v3.0.0...v3.1.0)
 
 ### Added
 
-- (CONT-1042) - Add Support for Ubuntu 22.04 [#97](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/97) ([jordanbreen28](https://github.com/jordanbreen28))
-- (CONT-88) - Add puppet module support [#93](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/93) ([jordanbreen28](https://github.com/jordanbreen28))
+- (MAINT) - Fixing dependency issue [#111](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/111) ([Ramesh7](https://github.com/Ramesh7))
+
+## [v3.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v3.0.0) - 2023-06-15
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v2.0.0...v3.0.0)
 
 ### Changed
 - (CONT-1042) - Remove unsupported OS [#96](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/96) ([jordanbreen28](https://github.com/jordanbreen28))
 - (CONT-1041) - Add Puppet 8 Support/Drop Puppet 6 Support [#95](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/95) ([jordanbreen28](https://github.com/jordanbreen28))
 - (CONT-1048) - Removal of deprecated node_encrypt::file defined type [#94](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/94) ([jordanbreen28](https://github.com/jordanbreen28))
+
+### Added
+
+- (CONT-1042) - Add Support for Ubuntu 22.04 [#97](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/97) ([jordanbreen28](https://github.com/jordanbreen28))
+- (CONT-88) - Add puppet module support [#93](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/93) ([jordanbreen28](https://github.com/jordanbreen28))
 
 ## [v2.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v2.0.0) - 2022-10-14
 
@@ -27,12 +35,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v0.4.1...v1.0.0)
 
+### Changed
+- Remove legacy support. This now requires Puppet 6.x+ [#82](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/82) ([binford2k](https://github.com/binford2k))
+
 ### Added
 
 - Add support for mocking (Onceover/rspec) [#70](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/70) ([alexjfisher](https://github.com/alexjfisher))
-
-### Changed
-- Remove legacy support. This now requires Puppet 6.x+ [#82](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/82) ([binford2k](https://github.com/binford2k))
 
 ### Fixed
 
