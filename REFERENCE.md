@@ -143,7 +143,7 @@ This function encrypts a string on the server, and then decrypts it on the agent
 
 #### `node_encrypt::secret(Variant[String, Sensitive[String]] $data)`
 
-This function encrypts a string on the server, and then decrypts it on the agent during catalog application.
+The node_encrypt::secret function.
 
 Returns: `Deferred`
 
