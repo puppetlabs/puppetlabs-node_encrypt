@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module PuppetX
-  class NodeEncrypt # rubocop:disable Style/Documentation
+  # Helper class for encrypting and decrypting data for nodes
+  class NodeEncrypt
     def self.encrypted?(data)
       raise ArgumentError, 'Only strings can be encrypted' unless data.instance_of?(String)
 

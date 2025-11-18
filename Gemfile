@@ -99,8 +99,6 @@ extra_gemfiles = [
 extra_gemfiles.each do |gemfile|
   next unless File.file?(gemfile) && File.readable?(gemfile)
 
-  # rubocop:disable Security/Eval
-  eval(File.read(gemfile), binding)
-  # rubocop:enable Security/Eval
+  eval(File.read(gemfile), binding) # rubocop:disable Security/Eval
 end
 # vim: syntax=ruby
