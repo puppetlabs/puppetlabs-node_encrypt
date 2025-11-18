@@ -4,6 +4,8 @@ require 'spec_helper'
 require 'puppet_x/node_encrypt'
 
 describe 'node_encrypt::certificates' do
+  subject(:node_encrypt_certificates) { catalogue }
+
   before(:each) do
     Puppet[:ca_server] = 'ca.example.com'
     Puppet[:confdir]   = '/etc/puppetlabs/puppet'
@@ -23,7 +25,7 @@ describe 'node_encrypt::certificates' do
     end
 
     it {
-      expect(subject).to contain_ini_setting('public certificates mountpoint path').with(
+      expect(node_encrypt_certificates).to contain_ini_setting('public certificates mountpoint path').with(
         {
           ensure: 'present',
           path: '/etc/puppetlabs/puppet/fileserver.conf',
@@ -33,7 +35,7 @@ describe 'node_encrypt::certificates' do
     }
 
     it {
-      expect(subject).to contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
+      expect(node_encrypt_certificates).to contain_puppet_authorization__rule('public certificates mountpoint whitelist').with(
         {
           match_request_path: '^/puppet/v3/file_(metadata|content)s?/public_certificates',
           match_request_type: 'regex',
@@ -60,7 +62,7 @@ describe 'node_encrypt::certificates' do
     it { is_expected.not_to contain_ini_setting('public certificates mountpoint whitelist') }
 
     it {
-      expect(subject).to contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
+      expect(node_encrypt_certificates).to contain_file('/etc/puppetlabs/puppet/ssl/certs').with(
         {
           ensure: 'directory',
           source: 'puppet://ca.example.com/public_certificates/'

@@ -8,7 +8,7 @@ Puppet::Parser::Functions.newfunction(:node_encrypt,
                                         This function simply encrypts the String or Sensitive passed to it using the certificate
                                         belonging to the client the catalog is being compiled for.
                                       DOC
-) do |args|
+                                     ) do |args|
   content = args.first
   content = content.unwrap if defined?(Puppet::Pops::Types::PSensitiveType::Sensitive) && content.is_a?(Puppet::Pops::Types::PSensitiveType::Sensitive)
 

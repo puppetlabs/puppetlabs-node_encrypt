@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 describe 'redact' do
+  subject(:function_redact) { catalogue }
+
   let(:node) { 'test.example.com' }
   let(:facts) do
     {
@@ -18,7 +20,7 @@ describe 'redact' do
   end
 
   it {
-    expect(subject).to contain_class('redact').with(
+    expect(function_redact).to contain_class('redact').with(
       {
         param: 'a param',
         redacted: '<<redacted>>',
@@ -28,7 +30,7 @@ describe 'redact' do
   }
 
   it {
-    expect(subject).to contain_redact__thing('one').with(
+    expect(function_redact).to contain_redact__thing('one').with(
       {
         param: 'a param',
         redacted: '<<redacted>>',
@@ -38,7 +40,7 @@ describe 'redact' do
   }
 
   it {
-    expect(subject).to contain_redact__thing('two').with(
+    expect(function_redact).to contain_redact__thing('two').with(
       {
         param: 'a param',
         redacted: '<<redacted>>',
@@ -48,7 +50,7 @@ describe 'redact' do
   }
 
   it {
-    expect(subject).to contain_redact__thing('three').with(
+    expect(function_redact).to contain_redact__thing('three').with(
       {
         param: 'a param',
         redacted: '<<redacted>>',
@@ -58,7 +60,7 @@ describe 'redact' do
   }
 
   it {
-    expect(subject).to contain_redact__thing('four').with(
+    expect(function_redact).to contain_redact__thing('four').with(
       {
         param: 'a param',
         redacted: '<<redacted>>',
