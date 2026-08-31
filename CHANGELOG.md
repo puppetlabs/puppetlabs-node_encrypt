@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v4.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v4.0.0) - 2026-08-31
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v3.2.0...v4.0.0)
+
+### Changed
+
+- (CAT-2382) Update for Puppetcore / Drop Support for Puppet 7 [#125](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/125) ([david22swan](https://github.com/david22swan))
+
+### Added
+
+- (MODULES-11724) Add Puppet 9 support [#126](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/126) ([imaqsood](https://github.com/imaqsood))
+
 ## [v3.2.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v3.2.0) - 2024-12-17
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v3.1.0...v3.2.0)
