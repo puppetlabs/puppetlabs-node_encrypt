@@ -21,3 +21,7 @@ Rakefile:
 .gitignore:
   paths:
     - '!/spec/fixtures/modules/redact/'
+Gemfile:
+  overrides:
+    - gem: 'puppet_litmus'
+      version: '~> 2.0'
