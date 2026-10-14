@@ -14,6 +14,7 @@ Rakefile:
   unmanaged: true
 .github/workflows/nightly.yml:
   unmanaged: true
+  cron: '35 3 * * *'
 .github/workflows/release.yml:
   unmanaged: false
 .github/workflows/release_prep.yml:
