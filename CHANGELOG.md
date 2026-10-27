@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v4.1.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v4.1.0) - 2026-10-27
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v4.0.0...v4.1.0)
+
+### Added
+
+- (MODULES-12063) Allow puppetlabs/puppet_authorization 2.x [#130](https://github.com/puppetlabs/puppetlabs-node_encrypt/pull/130) ([imaqsood](https://github.com/imaqsood))
+
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs-node_encrypt/tree/v4.0.0) - 2026-08-31
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-node_encrypt/compare/v3.2.0...v4.0.0)
